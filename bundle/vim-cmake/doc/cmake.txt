@@ -1,0 +1,19 @@
+*cmake.txt*  Vim plugin to make working with CMake a little nicer 
+
+Author:  Dirk Van Haerenborgh <http://vhdirk.github.com/>
+License: Same terms as Vim itself (see |license|)
+
+
+INTRODUCTION                                    *cmake*
+
+When working on a CMake project, this plugin provides a single command that 
+changes the makeprg make command's working directory to the closest 'build'
+directory upwards
+
+COMMANDS                                        *cmake-commands*
+
+:CMake [args]           Runs the cmake command as 'cmake ..', starting in
+                        first directory called 'build', found in an upwards
+                        search. All arguments are directly passed on to CMake.
+                        Also modifies the :make command to build in 
+                        that directory.
