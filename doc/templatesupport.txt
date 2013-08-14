@@ -1,0 +1,1054 @@
+*templatesupport.txt*         MM Template Support                July 18 2012
+
+MM Template Support                                        *template-support*
+
+                             Plugin version 0.9
+                        for Vim version 7.0 and above
+                   Wolfgang Mehner <wolfgang-mehner@web.de>
+
+
+     --- The Maps & Menus Template Support ... ---
+
+-- ... for Vim Users --
+
+This plug-in aims at providing extendible template libraries. A template
+library can assist in speeding up the writing of code, while at the same time
+ensuring a consistent style. The templates are written in an easy markup
+language, which enables the user to customize templates without much hassle.
+
+Menus and maps to access the templates are created automatically. While maps
+might or might not be the preferred way of inserting templates (as well as
+using Vim in general), the menus always provided an overview of the templates
+and the associated maps. This makes it quite easy to use the templates and
+learn their maps at the same time.
+
+-- ... for Plug-Ins --
+
+The template support is controlled by an API and thus can be integrated in
+another plug-in. A template library is essentially an object, several of which
+can exist in parallel. This makes it relatively easy to write a plug-in for
+the programming language of your choice.
+
+Here is a list of high profile plug-ins which use the template support:
+- Bash-Support (www.vim.org/scripts/script.php?script_id=365)
+- C-Support (www.vim.org/scripts/script.php?script_id=213)
+- Perl-Support (www.vim.org/scripts/script.php?script_id=556)
+
+==============================================================================
+0.  TABLE OF CONTENTS                              *template-support-contents*
+==============================================================================
+
+ 1.    Introduction                          |template-introduction|
+
+ 8.    Backwards Compatibility               |template-support-backwards|
+ 9.    API                                   |template-support-api|
+ 9.1    Basic Usage                          |template-support-api-basic|
+ 9.2    Creating Maps and Menus              |template-support-api-maps|
+ 9.3    Access                               |template-support-api-access|
+
+ A.    Syntax                                |template-support-syntax|
+ A.1    Command Section                      |template-support-syntax-cmd|
+ A.2    Templates                            |template-support-syntax-templ|
+ A.3    Lists                                |template-support-syntax-list|
+ B    Commands                               |template-support-commands|
+ B.1    Command Section                      |template-support-cmd-cmd-sct|
+ B.2    Templates                            |template-support-cmd-templates|
+ C    Options                                |template-support-options|
+ C.1    Templates                            |template-support-opt-templ|
+ C.2    List                                 |template-support-opt-list|
+
+==============================================================================
+1.  INTRODUCTION                                       *template-introduction*
+==============================================================================
+
+	*Todo	introduction
+
+==============================================================================
+8.  BACKWARDS COMPATIBILITY                       *template-support-backwards*
+==============================================================================
+
+The following behavior is not compatible with the old template systems of
+various plugins. This list does not include new features which are now
+supported.
+
+c-support:
+doxygen-support:
+perl-support:
+	-	No automatic uppercase for *|BASENAME|* .
+	-	The format for *|DATE|* , *|TIME|* and *|YEAR|* is now configured via the
+		template library. Plug-ins may provide other ways to do the configuration.
+
+perl-support:
+	-	The template head can not have the format >
+			== templatename == [ position == ] [ indentation == ]
+<		anymore, since the last part would be ignored. Use the list of template
+		options instead: >
+			== templatename == [ position, indentation == ]
+<		Both 'position' and 'indentation' are optional, of course.
+
+==============================================================================
+9.  API                                                 *template-support-api*
+==============================================================================
+
+This chapter is only relevant if you want to use the template system with your
+own plugin!
+
+The API enables other plugins to use the template system.
+
+Each template library is stored in a dictionary (|Dictionary|).
+	-	This dictionary must be a global variable, because it it used for purposes
+		such as callback functions for menu entries and maps.
+	-	Do not change the entries of the dictionary directly, since the internal
+		structure may change. The API provides access to the stored information.
+
+------------------------------------------------------------------------------
+9.1  BASIC USAGE                                  *template-support-api-basic*
+------------------------------------------------------------------------------
+
+These functions provide the basic functionality to load template libraries and
+insert templates into a buffer. A further function expands macros in a text.
+
+------------------------------------------------------------------------------
+                                              *mmtemplates#core#NewLibrary()*
+To create a new template library call:
+
+	library = mmtemplates#core#NewLibrary () ~
+
+No parameters.
+Returns:
+	library - The template library. (dict)
+
+Example: >
+
+	let g:My_C_Templates = mmtemplates#core#NewLibrary ()
+<
+Creates a new library and stores it in the variable 'g:My_C_Templates'.
+
+------------------------------------------------------------------------------
+                                            *mmtemplates#core#ReadTemplates()*
+Templates are loaded using the function:
+
+	mmtemplates#core#ReadTemplates ( library, ... ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+Options:
+	"load", file        - Load templates from 'file'. (string)
+	"reload", what      - Reload templates according to 'what', see below.
+	                      (string or integer)
+	"overwrite_warning" - Print a warning each time a template is overwritten.
+	"debug", level      - View debug information with the given level of detail.
+	                      (integer, default: show no debug information)
+No returns.
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+
+When loading a new file, it must be given with a path and filename. >
+	mmtemplates#core#ReadTemplates ( library, "load", "path/file.templates" )
+<
+The entire library can be reloaded by calling: >
+	mmtemplates#core#ReadTemplates ( library, "reload", "all" )
+A file can be reloaded, but only if it has been loaded before: >
+	mmtemplates#core#ReadTemplates ( library, "reload", "path/file.templates" )
+The i'th file which has been loaded can be reloaded via: >
+	mmtemplates#core#ReadTemplates ( library, "reload", i )
+<
+With the switch "overwrite_warning", a warning is displayed whenever a
+template is encountered which already has a text for the current style.
+
+Example 1: Load a file.
+>
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates,
+		\ "load", "$HOME/.vim/c-support/templates/lib.templates",
+		\ "debug", 1, "overwrite_warning" )
+<
+Load the templates in the given file and print very little debug information.
+Print a warning whenever a template is overwritten.
+
+Example 2.1: Load several files.
+>
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates,
+		\ "load", "/usr/share/vim/.../global.templates" )
+
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates,
+		\ "load", "$HOME/.vim/.../local.templates" )
+<
+Load the templates in the two files.
+
+Example 2.2: Reload specific templates.
+>
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates, "reload", -1 )
+<
+Reload the last template which has been loaded.
+(".../local.templates" from above)
+
+Example 2.3: Reload templates by name.
+>
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates,
+		\ "reload", "$HOME/.vim/.../local.templates" )
+<
+------------------------------------------------------------------------------
+                                           *mmtemplates#core#InsertTemplate()*
+To insert templates into the current buffer use:
+
+	mmtemplates#core#InsertTemplate ( library, name, ... ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+	name    - The name of the template or "!pick". (string)
+Options:
+	"v"      - > "visual"
+	"visual" - Visual mode, use the <SPLIT> tag.
+No returns.
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+It the template 'name' does not exist, an error message is displayed.
+
+If 'name' is "!pick", the user is presented with a list of all template, and
+can choose one to be included. (currently not implemented!)
+
+Examples:
+>
+	call mmtemplates#core#InsertTemplate ( g:My_C_Templates,
+		\ "Statement.If", "v" )
+<
+Include "Statement.If", surround the selected lines.
+>
+	call mmtemplates#core#InsertTemplate ( g:My_C_Templates, "!pick" )
+<
+The user is prompted for a template, which is then included.
+
+------------------------------------------------------------------------------
+                                               *mmtemplates#core#ExpandText()*
+To perform macro expansion in a text use:
+
+	rtext = mmtemplates#core#ExpandText ( library, text ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+	text    - A text. (string)
+Returns:
+	rtext   - The text after the macro expansion (string).
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+The expansion is done using all the settings in the library, as well as the
+global macro replacements such as *|AUTHOR|* .
+
+Examples:
+>
+	let text = mmtemplates#core#ExpandText ( g:My_C_Templates, "|DATE| |TIME|" )
+<
+Returns "29.2.2000 12:00", depending on the format set in the library.
+This can be used for special menu entries such as:
+>
+	exe 'amenu Comments.Special.Date\ Time '
+		\ .':exe "normal! a".mmtemplates#core#ExpandText ( '
+		\ .'g:My_C_Templates, "\|DATE\| \|TIME\|" )<CR>'
+<
+------------------------------------------------------------------------------
+                                        *mmtemplates#core#EditTemplateFiles()*
+The jump to the next tag is performed by:
+
+	mmtemplates#core#EditTemplateFiles ( library, file ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+	file  - A file. (string or integer)
+No returns.
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+
+The argument 'file' can be given as a filename, in which case it must have
+been loaded before via |mmtemplates#core#ReadTemplates()|.
+'file' can also be an integer i, which refers to the i'th file that has been
+loaded.
+
+A file browser is then opened for the directory containing the file.
+	*Todo		configuration of the file browser
+
+Example:
+>
+	" load the last template file:
+	call mmtemplates#core#ReadTemplates ( g:My_C_Templates,
+		\ "load", "$HOME/.vim/.../templates/local.templates" )
+
+	" ...
+
+	" edit the library
+	call mmtemplates#core#EditTemplateFiles ( g:My_C_Templates, -1 )
+<
+Opens a file browser in the directory "$HOME/.vim/.../templates/".
+
+------------------------------------------------------------------------------
+                                                *mmtemplates#core#JumpToTag()*
+The jump to the next tag is performed by:
+
+	e = mmtemplates#core#JumpToTag ( regex ) ~
+
+Parameters:
+	regex - The regex to jump to. (string)
+Returns:
+	e - An empty string.
+
+Jumps to the next occurrence of 'regex' and removes it from the buffer. Then
+the function returns an empty string.
+The regular expression can be obtained from the template library via the
+function |mmtemplates#core#Resource()|.
+
+Example:
+
+This function is best used in maps such as this:
+>
+	let regex = mmtemplates#core#Resource ( g:My_C_Templates, "jumptag" )
+
+	" ...
+
+	nnoremap <buffer> <C-j> i<C-R>=mmtemplates#core#JumpToTag ( regex )<CR>
+	inoremap <buffer> <C-j>  <C-R>=mmtemplates#core#JumpToTag ( regex )<CR>
+<
+This maps can be created automatically using |mmtemplates#core#CreateMaps()|.
+
+------------------------------------------------------------------------------
+9.2  CREATING MENUS AND MAPS                       *template-support-api-maps*
+------------------------------------------------------------------------------
+
+The automated generation of maps and menus is carried out by these functions.
+
+------------------------------------------------------------------------------
+                                               *mmtemplates#core#CreateMaps()*
+The automatic creation of maps is carried out by the function:
+
+	mmtemplates#core#CreateMaps ( library, localleader, ... ) ~
+
+Parameters:
+	library     - The name of the variable containing the library. (string)
+	localleader - The local mapleader. (string)
+Options:
+	"do_jump_map"     - Create a map for |mmtemplates#core#JumpToTag()|.
+	"do_special_maps" - Create maps for the special operations.
+No returns.
+
+If 'localleader' is an empty string, the standard mapleader is used.
+Otherwise >
+	let maplocalleader = localleader
+is executed before the maps are created. (see |mapleader|)
+
+The maps for the jump and the special operations (choose a template/style,
+reread/edit the library) are not created unless the corresponding options are
+given.
+
+This function creates maps which are local to the buffer, so it must be called
+in the appropriate filetype-plugin, or by an autocommand.
+An error message is displayed whenever a mapping already exists. The existing
+mapping is not overwritten.
+
+Example:
+>
+	call mmtemplates#core#CreateMaps ( "g:My_C_Templates", "", "do_jump_map" )
+<
+Creates maps using the standard mapleader. A map to jump to the next tag is
+also created.
+
+Technical Details:
+	-	The library must be given as the name of the global variable, since this
+		name is required to create the maps.
+	-	The function creates maps of the following types:
+			noremap, inoremap, vnoremap
+
+------------------------------------------------------------------------------
+                                              *mmtemplates#core#CreateMenus()*
+The automatic creation of menus is carried out by the function:
+
+	mmtemplates#core#CreateMenus ( library, rootmenu, ... ) ~
+
+Parameters:
+	library        - The name of the variable containing the library. (string)
+	rootmenu       - The name of the root menu. (string)
+Options:
+	"global_name", name    - The name used in the menu headers.
+	                         (string, default: the value of 'rootmenu')
+	"existing_menu", names - The menus which already exist.
+	                         (string or list of strings)
+	"sub_menu", names      - Additional sub-menus which should be created.
+	                         (string or list of strings)
+	"specials_menu", name  - The name of the menu containing the special
+	                         operations. (string, default: "Run")
+	"do_all"               - Action: Reset and create all menus.
+	"do_reset"             - Action: Reset.
+	"do_templates"         - Action: Create menus for all the templates.
+	"do_specials"          - Action: Create a menu with the special entries.
+	"do_styles"            - Action: Create a menu for selecting the style.
+No returns.
+
+"do_all", "do_templates", "do_specials" and "do_styles" starts the automatic
+creation of menu entries. Sub-menus are created automatically as needed.
+The special operations are: choose a template/style, reread/edit the library.
+The corresponding menu entries are put in the sub-menus given by the option
+"specials_menu".
+
+Each sub-menu looks like this, starting with a header:
+>
+	<menu name>     <global name>
+	--- <separator> -------------
+	<entry1>                <map>
+	<entry2>
+	...                       ...
+<
+The global name (option "global_name") helps to keep track of tear-off menus.
+"sub_menu" can be used to create additional menus, which have the same header.
+
+The library keeps track of all created sub-menus, to be able to add the
+headers correctly. "existing_menu" adds menus to this list.
+"do_reset" resets this list and allows for the menus to be created once more.
+"do_all" also reset the list before it carries out further operations.
+
+The "&" and the trailing points in 'rootmenu' and "existing_menus" are
+ignored. "sub_menus" and "specials_menu" also ignore trailing points, but use
+the "&" to create shortcuts. However, if a shortcut for the menu has been set
+in the library, that one is preferred.
+
+
+Example 1: Basic usage.
+
+Suppose your plugin creates the following menus:
+>
+	C-Support
+	>-+ Comments
+	|	>-- code->comment
+	|	>-- comment->code
+	|	>-+ Special
+	|	|	>--- ...
+	>-+ Run
+	|	>-- run
+	|	>-- ...
+<
+Then the call has to look like this:
+>
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "&C-Support",
+		\  "do_all", "existing_menu", [ "&Comments","Comments.&Special.","&Run." ] )
+<
+To create headers for each sub-menu, similar to those the template support
+creates, use code like this:
+>
+	let root_menu   = "&C-Support"
+	let global_name = "C/C++"
+	exe 'amenu '.root_menu.'.'.root_menu.'                <Nop>'
+	exe 'amenu '.root_menu.'.-Sep0-                       <Nop>'
+	exe 'amenu '.root_menu.'.&Run.Run<TAB>'.global_name.' <Nop>'
+	exe 'amenu '.root_menu.'.Run.-Sep00-                  <Nop>'
+<
+
+Example 2: Advanced usage.
+
+You can use this facility to create all the menu headers.
+It also gives you more control over the order of the menu entries.
+
+First, reset the list of created menus: >
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "C-Support",
+		\ "do_reset" )
+Then create a sub-menu (shortcut "c"): >
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "C-Support",
+		\ "sub_menu", "&Comments" )
+	" entries: comment/uncomment/... :
+	...
+Create entries for the templates: >
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "C-Support",
+		\ "do_templates" )
+Create a run menu (shortcut "r"): >
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "C-Support",
+		\ "sub_menu", "&Run" )
+	" entries: compile/run/test/... :
+	...
+Create the special entries at the end of the run menu: >
+	call mmtemplates#core#CreateMenus ( "g:My_C_Templates", "C-Support",
+		\ "do_specials", "specials_menu", "Run." )
+>
+
+Technical Details:
+	-	The library must be given as the name of the global variable, since this
+		name is required to create the menues.
+	-	The function creates menus of the following types:
+			amenu, vmenu (where appropriate)
+
+------------------------------------------------------------------------------
+9.3  ACCESS                                      *template-support-api-access*
+------------------------------------------------------------------------------
+
+The following functions are used to query and change the resources of a
+template library. For example, they are used to change the style or to change
+the format of the date and time.
+
+------------------------------------------------------------------------------
+                                              *mmtemplates#core#ChooseStyle()*
+The style is changed using the function:
+
+	mmtemplates#core#ChooseStyle ( library, style ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+	style   - The name of the style or "!pick". (string)
+No returns.
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+If 'style' is "!pick", the user is presented with a list of all styles, and
+can choose one.
+It the style 'style' does not exist, an error message is displayed and the
+style remains unchanged.
+
+Example:
+>
+	call mmtemplates#core#ChooseStyle ( g:My_C_Templates, "!pick" )
+<
+The user is prompted for a new style.
+
+------------------------------------------------------------------------------
+                                                 *mmtemplates#core#Resource()*
+Access to a number of resources is provided by:
+
+	[ rval, msg ] = mmtemplates#core#Resource ( library, mode, ... ) ~
+
+	[ rval, msg ] ~
+		= mmtemplates#core#Resource ( library, "get", resource, key ) ~
+	[ rval, msg ] ~
+		= mmtemplates#core#Resource ( library, "set", resource, key, val ) ~
+
+Parameters:
+	library - The template library. (string or dict)
+	mode    - The operation which should be executed. (string)
+Options:
+	... - Depending on 'mode'.
+Returns:
+	rval - Content and type depending on 'mode'.
+	msg  - In case of success: An empty string. (string)
+	       In case of failure: An error message. (string)
+
+The library can either be given directly, or as the name of the global
+variable containing the library.
+
+The following modes are supported:
+	-	"jumptag" : Return the regex used to find jump tags.
+	-	"style"   : Return the name of the current style.
+	-	"get"     : Return the resource with the given key or 0.
+	-	"set"     : Change the resource with the given key to val.
+		            ('rval' is undefined)
+
+The mode "get" supports the following resources:
+	-	"macro", "m": A macro as set by SetMacro( "m", ... )
+	-	"path",  "p": A path as set by SetPath( "p", ... )
+	-	"list",  "l": The list as generated by == List: l == ... ==
+It returns the integer 0, if the resource 'key' does not exist.
+The mode "set" can be used to overwrite these resources.
+The resource "list" is returned as a reference, use it responsibly.
+
+Setting the special macros "DATE", "TIME", and "YEAR" changes the format of
+the date and time. they use the same format as the function |strftime()|.
+Setting "basename", "FILENAME", "PATH" and "SUFFIX" has no effect.
+
+
+Example 1:
+
+The format of the macro *|TIME|* can be changed by calling:
+>
+	call mmtemplates#core#Resource ( g:My_C_Templates, "set", "macro",
+		\ "TIME", "%H:%M" )
+<
+
+Example 2:
+
+Suppose you have a template like this:
+>
+	== Include.project include == insert, pick-file ==
+	|Prompt( "project include directory" )|
+	|GetPath( "project_include" )|
+	#include "|PICK|"
+	== ENDTEMPLATE ==
+<
+Whenever you switch to a new project, you can execute:
+>
+	call mmtemplates#core#Resource ( g:My_C_Templates, "set", "path",
+		\ "project_include", project_include_dir )
+<
+The next time you insert the template "Include.project include", the file
+browser will already be set to the project include directory.
+
+
+Example 3:
+
+Get the current style:
+>
+	let current_style = mmtemplates#core#Resource ( g:My_C_Templates, "style" )
+<
+==============================================================================
+A.  SYNTAX                                           *template-support-syntax*
+==============================================================================
+
+The standards for the idioms are as follows, but may be changed via the API:
+
+Idiom						Changeable?		Standard
+
+CommentStart		yes						$
+BlockDelimiter	no						==
+
+MacroName				no						a-z, A-Z, 0-9 and _
+															starting with a letter or underscore
+StyleName				no						same as MacroName
+ResourceName		no						same as MacroName
+CommandName			no						same as MacroName
+TemplateName		no						a-z, A-Z, 0-9 and _ + - . , <Space>
+															starting with a letter or underscore,
+															not ending with a whitespace
+OptionName			no						same as MacroName
+Mapping					no						a-z, A-Z, 0-9 and _ + -
+
+The rules in the next sections use the following notation:
+
+- Syntax category: StartsWithCapitalLetters
+-	Keyword:         ALLCAPS
+- Various items:   -something-
+-	Square brackets [ ] mark an optional part of the rule.
+-	All other characters are as printed.
+-	Whitespaces are ignored, except where <start> marks the start of the line.
+	Whitespaces can not appear there.
+
+------------------------------------------------------------------------------
+A.1  COMMAND SECTION                             *template-support-syntax-cmd*
+------------------------------------------------------------------------------
+
+MacroAssignment:
+	-text-
+	' -text- '
+	" -text- "
+
+Note: Trailing whitespaces are ignored, even with the first rule.
+
+
+Statement (one of):
+	-empty line-
+	<start> CommentStart -anything-
+	<start> CommandName ( ParameterList )
+	<start> *|MacroName|* = MacroAssignment
+	StyleBlock1
+	StyleBlock2
+	Template
+	List
+	HelpTemplate
+
+
+StyleBlock1 (sequence):
+	<start> == IF *|STYLE|* IS MacroName ==
+	StatementList
+	<start> == ENDIF ==
+
+
+StyleBlock2 (sequence):
+	<start> == USE STYLES : MacroNameList ==
+	StatementList
+	<start> == ENDSTYLES ==
+
+
+Template (sequence):
+	<start> == [ TEMPLATE : ] TemplateName == [ OptionList == ]
+	-several lines-
+	<start> == ENDTEMPLATE ==
+
+Note: The " TEMPLATE : " in the first line is optional, as opposed to the
+structure of the next two rules.
+
+
+List (sequence):
+	<start> == LIST : MacroName == [ OptionList == ]
+	-several lines-
+	<start> == ENDLIST ==
+
+
+HelpTemplate (sequence):
+	<start> == HELP : TemplateName == [ OptionList == ]
+	-several lines-
+	<start> == ENDHELP ==
+
+
+MacroNameList (one of):
+	MacroName
+	MacroName , MacroNameList
+
+
+OptionList (one of):
+	-empty-
+	Option
+	Option , OptionList
+
+
+Option (one of):
+	OptionName
+	OptionName : MacroName
+	OptionName : Mapping
+
+------------------------------------------------------------------------------
+A.2  TEMPLATES                                 *template-support-syntax-templ*
+------------------------------------------------------------------------------
+
+	*Todo		syntax templates
+
+------------------------------------------------------------------------------
+A.3  LISTS                                      *template-support-syntax-list*
+------------------------------------------------------------------------------
+
+Lists can either be lists or dictionaries. (Corresponding to the types Vim
+uses: |List| and  |Dictionary|.)
+
+Lists are a comma separated list of strings:
+>
+	== LIST: Options == list ==
+		"tabstop", "shiftwidth",
+		"wrap", "nowrap",
+		"filetype"
+	== ENDLIST ==
+<
+Bare lists do not require quotes, each line is interpreted as an entry.
+Leading and trailing whitespaces are ignored:
+>
+	== LIST: Options == list, bare ==
+		tabstop
+		shiftwidth
+		wrap
+		nowrap
+		filetype
+	== ENDLIST ==
+<
+Dictionaries associate a key with a value. Key and value are separated by a
+colon, different entries by a comma.
+>
+	== LIST: FileEndings == dict ==
+		"C"         : ".c" ,
+		"C++"       : ".cc" ,
+		"Perl"      : ".pl" ,
+		"Shell"     : ".sh" ,
+		"Vimscript" : ".vim" ,
+	== ENDLIST ==
+<
+==============================================================================
+B  COMMANDS                                        *template-support-commands*
+==============================================================================
+
+This sections list the commands supported by the template system.
+
+------------------------------------------------------------------------------
+B.1  COMMAND SECTION                            *template-support-cmd-cmd-sct*
+------------------------------------------------------------------------------
+
+The following commands can be used outside of templates, in the so-called
+command section.
+
+------------------------------------------------------------------------------
+                                              *template-support-IncludeFile()*
+Include the file 'filename':
+
+	IncludeFile ( filename ) ~
+
+'filename' can contain a path which can be absolute or relative. Relative
+paths are interpreted in relation to the directory of the file containing the
+command.
+
+------------------------------------------------------------------------------
+                                                *template-support-SetFormat()*
+Set the format of 'item' to 'format':
+
+	SetFormat ( item, format ) ~
+
+This changes the way the macros "TIME", "DATE" and "YEAR" are replaced. It
+sets the format of the date and time. They use the same format as the function
+|strftime()|.
+
+Example: >
+	SetMacro ( "TIME", "%H:%M" )
+The macro *|TIME|* will now be replaced by something like 10:24.
+
+------------------------------------------------------------------------------
+                                                 *template-support-SetMacro()*
+Set the macro 'name' to 'text':
+
+	SetMacro ( name, text ) ~
+
+This is used to set replacements for macros.
+
+Setting the macros "TIME", "DATE", "YEAR", "BASENAME", "FILENAME" , "PATH" and
+"SUFFIX" is not allowed.  They are set to the appropriate values for insertion
+of a template.
+
+Example: >
+	SetMacro ( "AUTHOR", "My cat." )
+
+------------------------------------------------------------------------------
+                                                  *template-support-SetPath()*
+Set the resource 'name' to the given path.
+
+	SetPath ( name, path ) ~
+
+Subsequently the path can be used in templates.
+
+------------------------------------------------------------------------------
+                                                 *template-support-SetStyle()*
+Set the active style to 'name':
+
+	SetStyle ( name ) ~
+
+This style will be used after the library has been loaded.
+
+------------------------------------------------------------------------------
+                                             *template-support-MenuShortcut()*
+Set the shortcut for the submenu 'menu' to 'shortcut':
+
+	MenuShortcut ( menu, shortcut ) ~
+
+The shortcut is set for the menu named by the last component of 'menu', which
+can consist of several parts, separated by points. Trailing points are
+ignored.
+
+Example: >
+	MenuShortcut ( "Comments.Frames.", "r" )
+Sets the shortcut for the submenu "Frames", not "Comments".
+
+------------------------------------------------------------------------------
+B.2  TEMPLATES                                *template-support-cmd-templates*
+------------------------------------------------------------------------------
+
+Templates themselves support various commands, either in the command block at
+the beginning of the template, or in the text itself.
+
+------------------------------------------------------------------------------
+                                                 *template-support-PickFile()*
+Open a prompt and let the user select a file:
+
+	|PickFile ( prompt, path )| ~
+
+Displays 'prompt' and lets the user select a file. The file browser starts out
+in the directory named by 'path'. If 'path' matches an identifier, the path
+resource by this name severs as the path. Otherwise the string path is used as
+the path directly.
+
+After the user selected a file, several replacements for macros are created,
+which can be inserted in the template:
+-	*|PICK_COMPL|*	: the complete path and name of the selected file
+-	*|PATH_COMPL|*	: the complete path of the selected file
+-	*|PICK|*				: the selected path and file relative to the directory given
+									in 'path'
+-	*|PATH|*				: the path in *|PICK|*
+-	*|FILENAME|*		: the name of the file
+-	*|BASENAME|*		: the name of the file without the suffix
+-	*|SUFFIX|*			: the suffix of the file
+
+Example: >
+
+	SetPath ( "global", "/usr/include/" )
+
+	== global include == below ==
+	|PickFile( "select a file: ", "global" )|
+	#include <|PICK|>
+	== local include == below ==
+	|PickFile( "select a file: ", "global/" )|
+	#include "|PICK|"
+	== ENDTEMPLATE ==
+<
+The path in the first template is the resource "global", which in turn is
+"/usr/include/". The path in the second template will be "global/", since the
+string does not match an identifier.
+
+If the user inserts the template "global include", he will be asked to select
+a file, starting in the directory "/usr/include/". If we selects the file: >
+	/usr/include/QtGui/QPushButton
+the macro *|PICK|* will be set to "QtGui/QPushButton", and *|PATH|* to
+"QtGui".
+
+------------------------------------------------------------------------------
+                                                 *template-support-PickList()*
+Open a prompt and let the user select an entry from a list:
+
+	|PickList ( prompt, list )| ~
+
+Displays 'prompt' and lets the user select an entry from a list.  If 'list' is
+a string and matches an identifier, the list resource by this name is used.
+If 'list' is a list or a dictionary, it is used directly.
+
+In case of lists, the user has to choose an entry from the list. In case of
+dictionaries, the user has to choose one of the keys.
+
+After the user selected an entry, several replacements for macros are created,
+which can be inserted in the template:
+-	*|VALUE|*	: the selected entry from the list or dictionary
+-	*|KEY|*		: the selected key (dictionaries only)
+-	*|PICK|*	: same as *|VALUE|*
+
+Example:
+>
+	== LIST: headers == list ==
+		"stdlib",
+		"stdio",
+		"string",
+	== LIST: functions == hash ==
+		"strcpy"  : "{+DEST+}, {+SRC+}",
+		"strncpy" : "{+DEST+}, {+SRC+}, {+N+}",
+		"strcmp"  : "{+STR1+}, {+STR2+}",
+		"strncmp" : "{+STR1+}, {+STR2+}, {+N+}",
+		"strlen"  : "{+STR+}",
+	== ENDLIST ==
+
+	== header include == below ==
+	|PickList( "header file: ", "headers" )|
+  #include <|PICK|.h>
+	== function call == insert ==
+	|PickList( "function: ", "functions" )|
+	|KEY| ( |VALUE| )
+	== ENDTEMPLATE ==
+<
+The first template is straight ahead. The user selects a header from the list,
+then the preprocessor directive is inserted.
+
+The second template uses a dictionary. The user has to pick an entry from the
+list of function names. The template is inserted using both the selected key
+and value. Each value is a list of jump tags, named for the arguments of the
+corresponding function.
+
+------------------------------------------------------------------------------
+                                                   *template-support-Prompt()*
+Prompt the for a replacement of the macro:
+
+	|Prompt ( macro, flag )| ~
+
+The user is prompted for a replacement of 'macro'. After the user has entered
+a text, the flag is applied. The replacement is saved to be reused later.
+
+Flags:
+- ""  : no change to the text
+-	"l" : change text to lowercase
+-	"u" : change text to uppercase
+-	"c" : capitalize text
+-	"L" : legalize name
+
+Example:
+>
+	== chapter, alt1 == below ==
+	============================================================================
+	|?NUMBER|  |?NAME:u|
+	============================================================================
+
+	<CURSOR>
+
+	== chapter, alt2 == below ==
+	|Prompt( 'NAME', '' )|
+	|Prompt( 'NUMBER', '' )|
+	============================================================================
+	|NUMBER|  |NAME:u|
+	============================================================================
+
+	<CURSOR>
+
+	== chapter, toc == below ==
+	|NUMBER|    |NAME:c|
+	== ENDTEMPLATE ==
+<
+This inserts captions for chapters as used in this document. With the first
+alternative, the user is first prompted for a replacement of *|NUMBER|* ,
+because of the order both macros appear in the text. The name is saved in
+uppercase.
+Using the second alternative, the user is prompted for the name first. The
+name is saved as entered and only inserted in uppercase. Now it can be
+inserted into the table of contents as entered by the user.
+
+==============================================================================
+C  OPTIONS                                          *template-support-options*
+==============================================================================
+
+The following sections list the options for templates and lists.
+
+------------------------------------------------------------------------------
+C.1  TEMPLATES                                    *template-support-opt-templ*
+------------------------------------------------------------------------------
+
+The template options appear in the head of the template:
+	== <name> == <options> == ~
+
+It is not required to specify any options. The defaults are given below.
+Help templates use the same options as normal templates.
+
+------------------------------------------------------------------------------
+                  *template-support-start*      *template-support-append*
+                  *template-support-above*      *template-support-insert*
+                  *template-support-below*
+Placement:
+
+	start  - The text is placed above the first line.
+	above  - The text is placed above the first line.
+	below  - The text is placed below the first line (default).
+	append - The text is appended to the current line.
+	insert - The text is inserted at the cursor position.
+
+Note: "below" and "insert" support split tag in visual mode.
+
+------------------------------------------------------------------------------
+                  *template-support-visual*     *template-support-indent*
+                  *template-support-novisual*   *template-support-noindent*
+Insertion:
+
+	visual   - Use the split tag in visual mode (default?).
+	novisual - No special behavior in visual mode (default?).
+
+	indent   - The inserted text is indented (default).
+	noindent - No automatic indentation.
+
+Note: "visual" is the default for templates containing the split tag,
+"novisual" for templates without the split tag.
+
+------------------------------------------------------------------------------
+                  *template-support-sc*         *template-support-nomenu*
+                  *template-support-shortcut*   *template-support-expandmenu*
+                  *template-support-map*
+Menus and Maps:
+
+	nomenu        - No menu entry is created.
+	expandmenu    - A submenu is created for this template with entries matching
+	                those of a given list.
+	sc:<sc>       - A shortcut is created for the menu entry of this template.
+	shortcut:<sc> - Long version of sc:<sc>.
+	map:<map>     - A map is created for this template.
+
+Note: The default is for a menu entry to be created.
+Note: A shortcut can only be one character long. A map can be several
+characters long. It is always preceded by the local mapleader.
+
+------------------------------------------------------------------------------
+C.2  LISTS                                         *template-support-opt-list*
+------------------------------------------------------------------------------
+
+The list options appear in the head of the list:
+	== List: OutputModifiers == <options> == ~
+
+It is not required to specify any options. The defaults are given below.
+
+------------------------------------------------------------------------------
+                  *template-support-list*       *template-support-dict*
+                  *template-support-hash*       *template-support-dictionary*
+Type:
+
+	list       - The object is given as a list. (default)
+	hash       - The object is a hash, or dictionary.
+	dict       - Same as hash.
+	dictionary - Same as hash.
+
+For a description see |template-support-syntax-list|.
+
+------------------------------------------------------------------------------
+                  *template-support-bare*
+Interpretation:
+
+	bare - The list is interpreted as a bare list. Each line is considered to be
+	       a new entry.
+
+Note: Bare list are not the default.
+
+==============================================================================
+vim:tw=78:noet:ts=2:ft=help:norl:

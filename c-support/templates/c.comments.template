@@ -1,0 +1,131 @@
+== Comments.end-of-line-comment == append, nomenu ==
+/* <CURSOR> */
+== Comments.frame == map:cfr, shortcut:f  ==
+/*-----------------------------------------------------------------------------
+ *  <CURSOR>
+ *-----------------------------------------------------------------------------*/
+== Comments.function == map:cfu, shortcut:f  ==
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  |?FUNCTION_NAME|
+ *  Description:  <CURSOR>
+ * =====================================================================================
+ */
+== Comments.method == map:cme, shortcut:m  ==
+/*
+ *--------------------------------------------------------------------------------------
+ *       Class:  |?CLASSNAME|
+ *      Method:  |?CLASSNAME| :: |?METHODNAME|
+ * Description:  <CURSOR>
+ *--------------------------------------------------------------------------------------
+ */
+== Comments.class == map:ccl, shortcut:c  ==
+/*
+ * =====================================================================================
+ *        Class:  |?CLASSNAME|
+ *  Description:  <CURSOR>
+ * =====================================================================================
+ */
+== Comments.file description impl == map:cfdi, shortcut:c, start, noindent ==
+/*
+ * =====================================================================================
+ *
+ *       Filename:  |FILENAME|
+ *
+ *    Description:  <CURSOR>
+ *
+ *        Version:  1.0
+ *        Created:  |DATE| |TIME|
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
+ *   Organization:  |ORGANIZATION|
+ *
+ * =====================================================================================
+ */
+
+== Comments.file description header == map:cfdh, shortcut:h, start, noindent ==
+/*
+ * =====================================================================================
+ *
+ *       Filename:  |FILENAME|
+ *
+ *    Description:  <CURSOR>
+ *
+ *        Version:  1.0
+ *        Created:  |DATE| |TIME|
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
+ *   Organization:  |ORGANIZATION|
+ *
+ * =====================================================================================
+ */
+== ENDTEMPLATE ==
+
+== LIST: comments_c_sections == hash ==
+  'HEADER FILE INCLUDES'        : 'HEADER FILE INCLUDES   ###############################', 
+  'LOCAL MACROS'                : 'MACROS  -  LOCAL TO THIS SOURCE FILE   ###############', 
+  'LOCAL TYPE DEFINITIONS'      : 'TYPE DEFINITIONS  -  LOCAL TO THIS SOURCE FILE   #####', 
+  'LOCAL DATA TYPES'            : 'DATA TYPES  -  LOCAL TO THIS SOURCE FILE   ###########', 
+  'LOCAL VARIABLES'             : 'VARIABLES  -  LOCAL TO THIS SOURCE FILE   ############', 
+  'LOCAL PROTOTYPES'            : 'PROTOTYPES  -  LOCAL TO THIS SOURCE FILE   ###########', 
+  'EXP.  FUNCTION DEFINITIONS'  : 'FUNCTION DEFINITIONS  -  EXPORTED FUNCTIONS   ########', 
+  'LOCAL FUNCTION DEFINITIONS'  : 'FUNCTION DEFINITIONS  -  LOCAL TO THIS SOURCE FILE   #', 
+  'LOCAL CLASS DEFINITIONS'     : 'CLASS DEFINITIONS  -  LOCAL TO THIS SOURCE FILE   ####', 
+  'EXP.  CLASS IMPLEMENTATIONS' : 'CLASS IMPLEMENTATIONS  -  EXPORTED CLASSES   #########', 
+  'LOCAL CLASS IMPLEMENTATIONS' : 'CLASS IMPLEMENTATIONS  -  LOCAL CLASSES   ############', 
+== LIST: comments_h_sections == hash ==
+  'HEADER FILE INCLUDES'           : 'HEADER FILE INCLUDES   ###########', 
+  'EXPORTED MACROS'                : 'EXPORTED MACROS   ################', 
+  'EXPORTED TYPE DEFINITIONS'      : 'EXPORTED TYPE DEFINITIONS   ######', 
+  'EXPORTED DATA TYPES'            : 'EXPORTED DATA TYPES   ############', 
+  'EXPORTED CLASS DEFINITIONS'     : 'EXPORTED CLASS DEFINITIONS   #####', 
+  'EXPORTED VARIABLES'             : 'EXPORTED VARIABLES   #############', 
+  'EXPORTED FUNCTION DECLARATIONS' : 'EXPORTED FUNCTION DECLARATIONS   #', 
+== LIST: comments_keywords == hash ==
+  'BUG'         : ':BUG:|DATE| |TIME|:|AUTHORREF|:',
+  'COMPILER'    : ':COMPILER:|DATE| |TIME|:|AUTHORREF|:',
+  'REMARK'      : ':REMARK:|DATE| |TIME|:|AUTHORREF|:',
+  'TODO'        : ':TODO:|DATE| |TIME|:|AUTHORREF|:',
+  'WARNING'     : ':WARNING:|DATE| |TIME|:|AUTHORREF|:',
+  'WORKAROUND'  : ':WORKAROUND:|DATE| |TIME|:|AUTHORREF|:',
+  'new keyword' : ':<CURSOR>:|DATE| |TIME|:|AUTHORREF|: {+COMMENT+}',
+== LIST: comments_special == list ==
+  'EMPTY'                         , 
+  'FALL THROUGH'                  , 
+  'IMPLICIT TYPE CONVERSION'      , 
+  'NO RETURN'                     , 
+  'NOT REACHED'                   , 
+  'TO BE IMPLEMENTED'             , 
+  'constant type is long'         , 
+  'constant type is unsigned'     , 
+  'constant type is unsigned long', 
+== LIST: comments_macros == list ==
+  'AUTHOR'      , 
+  'AUTHORREF'   , 
+  'COMPANY'     , 
+  'COPYRIGHT'   , 
+  'EMAIL'       , 
+  'ORGANIZATION', 
+== ENDLIST ==
+
+== Comments.C file sections  == expandmenu, append, map:ccs, shortcut:s ==
+|PickList( 'C file sections', 'comments_c_sections' )|
+/* #####   |PICK|#################### */<CURSOR>
+== Comments.H file sections  == expandmenu, append, map:chs, shortcut:s ==
+|PickList( 'H file sections', 'comments_h_sections' )|
+/* #####   |PICK|######################################## */<CURSOR>
+== Comments.keyword comments == expandmenu, append, map:ckc, shortcut:k ==
+|PickList( 'keyword comments', 'comments_keywords' )|
+ /* |PICK| <CURSOR> */
+== Comments.special comments == expandmenu, append, map:csc, shortcut:s ==
+|PickList( 'special comments', 'comments_special' )|
+ /* |PICK| */<CURSOR>
+== Comments.macros == expandmenu, insert, map:cma, shortcut:m ==
+|PickList( 'macro', 'comments_macros' )|
+||PICK||<CURSOR>
+== ENDTEMPLATE ==
+

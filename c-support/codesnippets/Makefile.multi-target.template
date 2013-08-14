@@ -1,0 +1,65 @@
+#===============================================================================
+#
+#         File: Makefile
+#  Description: 
+#
+#        Usage: make              (generate executable(s)      )
+#               make clean        (remove objects, executables )
+#               make tarball      (generate compressed archive )
+#               make zip          (generate compressed archive )
+#                                  
+#       Author: Dr.-Ing. Fritz Mehner
+#        Email: mehner@mfh-iserlohn.de
+#      Created: 03.04.2012
+#
+#===============================================================================
+
+TARGETS	= target1 target2
+
+CC              = gcc
+CCP             = g++
+CFLAGS          = -c -g -Wall
+LFLAGS          = -g
+SYS_LIBS        = -lm
+TARBALL_INCLUDE = *.{c,h,cc,hh} Makefile
+ZIP_INCLUDE     = $(TARBALL_INCLUDE)
+
+
+#---------- targets --------------------------------------
+all:	$(TARGETS)
+
+%.o:	%.c
+			$(CC) $(CFLAGS) $*.c
+
+%.o:	%.cc
+			$(CCP) $(CFLAGS) $*.cc
+ 
+#---------- target 1 -------------------------------------
+# ----- C target
+target1:	target1.o
+					$(CC) $(LFLAGS) -o $@ $@.o  $(SYS_LIBS)
+
+#---------- target 2 -------------------------------------
+# ----- C++ target
+target2:	target2.o
+					$(CCP) $(LFLAGS) -o $@ $@.o  $(SYS_LIBS)
+
+#---------- tarball --------------------------------------
+tarball:
+					@lokaldir=`pwd`; lokaldir=$${lokaldir##*/};\
+					rm --force $$lokaldir.tar.gz;              \
+					tar --create                               \
+					    --gzip                                 \
+					    --verbose                              \
+					    --file  $$lokaldir.tar.gz              \
+							$(TARBALL_INCLUDE)
+
+#---------- zip ------------------------------------------
+zip:
+					@lokaldir=`pwd`; lokaldir=$${lokaldir##*/};\
+					zip -r  $$lokaldir.zip $(ZIP_INCLUDE)
+
+#---------- clear up -------------------------------------
+clean:
+				rm  --force  $(TARGETS) *.o
+ 
