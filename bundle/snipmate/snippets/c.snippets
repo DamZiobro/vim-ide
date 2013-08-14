@@ -1,11 +1,21 @@
 # main()
 snippet main
+	/* ======= Function ==================================================
+	 *   Name: main
+	 *   Description: main entry Function
+	 * =================================================================== 
+	 */
 	int main(int argc, const char *argv[])
 	{
 		${1}
 		return 0;
 	}
 snippet mainn
+	/* ======= Function ==================================================
+	 *   Name: main
+	 *   Description: main entry Function
+	 * =================================================================== 
+	 */
 	int main(void)
 	{
 		${1}
@@ -75,9 +85,14 @@ snippet forr
 	}
 # Function
 snippet fun
+	/* ======= Function ==================================================
+	 *   Name: $2
+	 *   Description: ${4}
+	 * =================================================================== 
+	 */
 	${1:void} ${2:function_name}(${3})
 	{
-		${4:/* code */}
+		${5:/* code */}
 	}
 # Function Declaration
 snippet fund
