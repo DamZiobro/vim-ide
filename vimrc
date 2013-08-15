@@ -264,11 +264,11 @@ nmap <C-y> <C-r>
 imap <C-y> <ESC><C-r>i
 
 " Replace command 
-nmap <C-h> :call MyReplaceText()<cr>
-imap <C-h> <ESC>:call MyReplaceText()<cr>i
+nmap <C-h> :execute "call MyReplaceText()"<cr>
+imap <C-h> <ESC>:execute "call MyReplaceText()"<cr>
 
 nmap <C-h><C-h> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
-imap <C-h><C-h> <ESC>:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>i
+imap <C-h><C-h> <ESC>:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
 
 
 " Indentation (got to opening bracket and indent section) 
