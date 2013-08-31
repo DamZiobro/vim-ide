@@ -1,0 +1,15 @@
+# this Makefile is a flat-out guess.  I don't have a Mac -- can anybody test&correct this?
+# Please let me know:  NdrOchip@ScampbellPfamily.AbizM  - NOSPAM
+SRC = gdbmgr.c
+OBJ = gdbmgr.o
+
+gdbmgr.so : gdbmgr.o gdbmgr.h
+	/bin/rm -f tmp*
+	cc -dynamiclib -install_name gdbmgr.so -o gdbmgr.so gdbmgr.o
+	@echo "*** Don't forget to adjust your LD_LIBRARY_PATH env-var ***"
+
+%.o: %.c
+	cc ${CFLAGS} -flat_namespace -bundle -undefined suppress -c -o $@ $<
+
+clean :
+	rm tmp* core* gdbmgr.o gdbmgr.so

@@ -1,0 +1,1181 @@
+*gdbmgr.txt*	Gnu Debugger Manager for Vim			Jun 18, 2012
+
+Author:    Charles E. Campbell, Jr.  <NdrOchip@ScampbellPfamily.AbizM>
+           (remove NOSPAM from Campbell's email first)
+Copyright: (c) 2008-2012 by Charles E. Campbell, Jr.	*gdbmgr-copyright*
+           The VIM LICENSE applies to gdbmgr.vim and gdbmgr.txt
+           (see |copyright|) except use "gdbmgr" instead of "Vim"
+           NO WARRANTY, EXPRESS OR IMPLIED.  USE AT-YOUR-OWN-RISK.
+	   NO MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+==============================================================================
+1. Contents					*gdbmgr* *gdbmgr-contents* {{{1
+
+  1. Contents................................................: |gdbmgr-contents|
+  3. Tutorial................................................: |gdbmgr-tutorial|
+      Example 1: Initializing gdbmgr.........................: |gdbmgr-ex1|
+      Example 2: Using breakpoints and expressions...........: |gdbmgr-ex2|
+      Example 3: The function stack and temporary breakpoints: |gdbmgr-ex3|
+      Example 4: Watchpoints.................................: |gdbmgr-ex4|
+      Example 5: Interacting with a Program..................: |gdbmgr-ex5|
+      Suggestion.............................................: |gdbmgr-suggest|
+  4. Manual..................................................: |gdbmgr-manual|
+      Gdbmgr commands........................................: |gdbmgr-cmd|
+      Gdbmgr maps............................................: |gdbmgr-maps|
+      Window Control....................................Code.: |gdbmgr-winctrl|
+      Assembly Window.....................................A..: |gdbmgr-assembly|
+      Breakpt Window.......(non-writable).................B..: |gdbmgr-breakpt|
+      Checkpoint Window....(non-writable).................H..: |gdbmgr-checkpt|
+      Command Window.......(writable).....................C..: |gdbmgr-cmdwin|
+      Expressions Window...(writable).....................E..: |gdbmgr-expr|
+      Messages Window......(non-writable).................M..: |gdbmgr-mesg|
+      Source Window........(varies).......................S..: |gdbmgr-source|
+      Threads Window.......(non-writable).................T..: |gdbmgr-threads|
+      Watchpoint Window....(writable).....................W..: |gdbmgr-watchpt|
+      Foreign Apps...........................................: |gdbmgr-foreignapp|
+       Bufexplorer Window..(non-writable).................b..: |gdbmgr-bufexplorer|
+       Netrw Window........(non-writable).................N..: |gdbmgr-netrw|
+       Tags Window.........(non-writable)................h/t.: |gdbmgr-tags|
+      Gdbmgr Options.........................................: |gdbmgr-options|
+  5. History.................................................: |gdbmgr-history|
+
+==============================================================================
+2. Installing gdbmgr					*gdbmgr-install* {{{1
+
+Gdbmgr needs linux; it definitely won't work under Windows, and needs some
+dynamic library loading help with the Makefile before it will work with a
+Mac (as I don't have a Mac, it is difficult for me to do this).
+
+1. To run gdbmgr, you need to have a vim compiled with huge and which supports
+   the forkpty() function.  To get this support, you may
+
+   * Configure with: >
+	configure --with-features=huge  --enable-perlinterp
+<  * Configure with: >
+	configure --with-features=huge  --enable-pythoninterp
+<  * Configure with: >
+	configure --with-features=huge
+<    and modify vim's Makefile to include the line >
+	EXTRA_LIBS = -lutil
+<
+  GdbMgr does not use perl or python (or ruby, mzscheme, tcl, ...).  The
+  "-lutil" supports a function (forkpty, for those who are curious) that
+  is used by gdbmgr.so (shared object library) to interface with gdb.
+
+  For the last method, that using EXTRA_LIBS, use vim on src/Makefile,
+  search for libefence.a, and append the line >
+	EXTRA_LIBS = -lutil
+<
+2. Get the following file: >
+	gdbmgr.tar.gz
+<
+3. Install the plugin: >
+	cd ~/.vim
+	tar -xf gdbmgr.tar.gz
+<  The "progs" subdirectory extracted by this command is only needed for the
+   tutorial.
+
+5. Compile the shared library code: >
+	cd ~/.vim/gdbmgr/src
+	make
+<
+  The shared library "gdbmgr.so" needs to be made available for vim
+  to find it.  One way to do this: (ksh,bash,sh) >
+	export LD_LIBRARY_PATH="$HOME/.vim/gdbmgr/src:default"
+< Of course, if you already have a LD_LIBRARY_PATH set up and a
+  directory devoted to shared libraries, you may wish instead simply
+  to move the gdbmgr.so file there.
+
+One should also note that there are similar plugins available at
+http://pyclewn.wiki.sourceforge.net/ (clewn, pyclewn, and vimgdb).
+They require a patch to vim, python, and/or the netbeans interface.
+
+
+==============================================================================
+3. gdbmgr Tutorial					*gdbmgr-tutorial* {{{1
+
+This tutorial assumes that you've already successfully installed gdbmgr as
+described in |gdbmgr-install| above.
+
+The gdbmgr example programs (none of which, I'm afraid, do anything at all
+useful) are in >
+
+	cd ~/.vim/gdbmgr/progs
+
+Move them, if you wish, to any directory of your choice. >
+<
+(I'll be using "vi" to mean either "vim" or "gvim", your choice, in the text
+below)
+
+EXAMPLE 1: Initializing gdbmgr				*gdbmgr-ex1* {{{2
+
+  Compile the first example program: >
+	cc -g prog1.c -o prog1
+	vi prog1.c
+	:DI
+< This initializes the program in a new tab (DI means Debug Initialize).  You
+  should see a display resembling: >
+
+		+----------+------------+-----------------+
+		| Netrw Dir| Messages   | Function Stack  |
+		|          |            |                 |
+		| ( a      +------------+-----------------+
+		|  netrw   | Source Window                |
+		|  listing |  (prog1.c listing)           |
+		| )        |                              |
+		|          +-------+---------+------------+
+		|          | Expr  | Breakpt | Watchpoint |
+		|          |       |         |            |
+		+----------+-------+---------+------------+
+<
+  with the cursor in the Source Window.  Type: >
+	:DR
+< This command runs the prog1 program, generating a SIGSEGV fault.  The
+  current line in the Source window should be on the line which caused
+  the problem.
+
+  To further investigate what the cause of the crash was, find out what values
+  the variables on that line are (in this case, there's only px).
+
+  You may do this several ways with gdbmgr:
+
+    - Using the mouse and hovering:
+      Place the mouse over "px" and let it "hover" (stay still) for a moment.
+      Assuming your vim has balloon evaluation enabled, a balloon will appear
+      giving the value of px.
+
+    - Using the Expressions window: >
+	<c-w>j
+	ipx=<esc>
+<     (ie. insert "px=" into the Expressions window)
+      Expressions in the Expressions window are updated every time a breakpoint
+      or other stoppage occurs.  The "=" is then followed by the current value
+      of the expression.
+
+    - Using the Messages window: >
+	:D p px
+<     The Messages window contains output messages from gdb.  The command >
+	:D gdbcmd [args]
+<     sends the gdb command "gdbcmd" (and any arguments) along to gdb and
+      displays its output in the Messages window.
+
+EXAMPLE 2: Using breakpoints and expressions		*gdbmgr-ex2* {{{2
+
+  Compile the first example program if you haven't done so already: >
+	cc -g prog1.c -o prog1
+	vi prog1.c
+	:DI
+< This initializes the program in a new tab.  You should see a display
+  resembling: >
+
+		+----------+------------+-----------------+
+		| Netrw Dir| Messages   | Function Stack  |
+		|          |            |                 |
+		| ( a      +------------+-----------------+
+		|  netrw   | Source Window                |
+		|  listing |  (prog1.c listing)           |
+		| )        |                              |
+		|          +-------+---------+------------+
+		|          | Expr  | Breakpt | Watchpoint |
+		|          |       |         |            |
+		+----------+-------+---------+------------+
+<
+  with the cursor in the Source Window.  Move the cursor to line 52: >
+	52G
+< Press >
+	<F6>
+< This will place a breakpoint at <prog1.c:52>.  You should see an orange
+  disk on a white background show up in the signs column next to line#52
+  and a line appearing in the Breakpoints window.  The "=>" arrow in the
+  signs column will still be pointing to the next line to be executed.
+
+  Begin running the program by typing >
+	:DR
+< The current line should now be line#52.  Note that the Function Stack window
+  is automatically updated, and "Breakpoint 1, main... at prog1.c:52" appears
+  in the Messages window.
+
+  Switch to the Expressions window and insert the following: >
+	i=
+< You'll see "i = 0" show up; the Expressions window shows the result of the
+  expressions in its window as soon as you type the "=".  It will also update
+  that window; to see this, return to the Source window and type >
+	s
+< to single step the program counter.  You'll see that the Expression window
+  is now showing "i = 1".  Repeat the single step and you'll see "i = 2"
+  appear in the Expressions window, automatically.
+
+
+EXAMPLE 3: The function stack and temporary breakpoints	*gdbmgr-ex3* {{{2
+
+  Compile the second example program if you haven't done so already: >
+	cc -g prog2.c -o prog2
+	vi prog2.c
+	:DI
+< This initializes the program in a new tab.  You should see a display
+  like that for Examples 1 and 2 but with the prog2.c source.  The
+  current line should be line#53.  Press >
+	<s-F6>
+< and you'll see a small orange disk inside an orange circle.  This icon
+  signifies the presence of a temporary break.  Begin running the program
+  by typing: >
+	:DR
+< The current line should not change ("int ret= 0;").  Begin stepping; as
+  a further example, you may do multiple steps by preceding the command
+  with a count: >
+	2s
+< This should cause the current line to become #64 (int ret= 0;) inside the
+  func1() function.  Note that the Function Stack window shows the current
+  set of frames.  Continuing to press >
+	s
+< will eventually advance the program counter into the func3() function, and
+  then begin returning.  In func3() there's a division-by-zero (a SIGFPE
+  results); if you fix it, re-compile, and re-run gdbmgr, eventually the
+  program will return from main.
+
+  While gdbmgr:gdb is running your program, the signs column shows your current
+  program counter location with >> and where your breakpoints are.  You may
+  not edit the file during this time.  However, when the program exits, gdbmgr
+  will remove the signs column and remove the no-editing restriction.
+
+EXAMPLE 4: Watchpoints					*gdbmgr-ex4* {{{2
+
+  Compile the third example program if you haven't done so already: >
+	cc -g prog3.c -o prog3
+	vi prog3.c
+	:DI
+< This initializes the program in a new tab.  You should see a display
+  like that for the previous Examples but with the prog3.c source.  The
+  current line should be line#51.  Enter a temporary breakpoint and
+  run gdb: >
+	<s-F6>
+	:DR
+< Then enter the Watchpoints window, and insert: >
+	x[3]=
+< You'll see the line change from "x[3]=" to >
+	w x[3] = 0
+< which means that x[3] is a write-watchpoint; the current value of x[3]
+  is 0.  A write watchpoint will stop the program from executing immediately
+  after the variable in question has changed value.  You could have explicitly
+  written >
+	w x[3]=
+< instead.  There are two other choices: "r varname=" for read-watchpoint (when
+  the variable is read from) or "a varname=", for all-watchpoint (which does
+  both read and write watchpointing).
+
+  To see this work, I suggest first putting >
+	i=
+< in the Expressions window, returning to the Source window, and typing >
+	c
+< which tells gdb to continue running the program.  The current line becomes
+  line#56, >
+	if(i == 3) y= x[i];
+< which is immediately after "x[i]= z[i]" with i=3; x[3] had just changed
+  value.  You'll note that the Watchpoint window shows x[3] being equal to 40.
+
+EXAMPLE 5: Interacting with a Program			*gdbmgr-ex5* {{{2
+
+  Compile the fourth and fifth example programs if you haven't done so already: >
+	cc -g prog4.c -o prog4
+	vi prog4.c
+	:DI
+< This initializes the program in a new tab.  You should see a display
+  like that for the previous Examples but with the prog4.c source.  When you
+  run this program: >
+	:DR
+< you'll see the the Commands window the string: >
+	"What happens to this string?"
+< The commands window is where one may interact with the program and see its
+  output.
+
+  The fifth example program, compiled with: >
+	cc -g prog5.c -o prog5
+	vi prog5.c
+	:DI
+< shows a prompt, "Enter something: ".  Type >
+	aok<cr>
+< where the <cr> is a carriage return.  You'll see the program respond with >
+	Entered buf<ok
+	>
+< (since you entered the string ok<cr>, the carriage return also shows up in
+  the output).
+
+EXAMPLE 6: Working with Core Dumps		*gdbmgr-ex6* *gdbmgr-core* {{{2
+
+  There are several ways to work with core dumps.  Try running prog1: >
+	prog1
+< This operation should result in a core dump.  If you're not getting core
+  dumps, try typing >
+    ulimit -c unlimited
+< and then re-run prog1.
+
+  The following ways get gdbmgr working with core dumps:
+  (assuming that the core dump is named  "core.946")
+
+  1. Method 1: >
+	:GdbMgr prog1 core.946
+< This method creates a new tab, reads the core dump, and initializes the
+  gdbmgr windows.
+
+  2. Method 2: >
+	:GdbMgr prog1
+	:D core core.946
+< This method starts the gdbmgr session with prog1, and then reads the symbol
+  table and stack information from the core dump.
+
+  3. Method 3: >
+	:GdbMgr prog1
+	:D target core core.946
+< This method starts the gdbmgr session with prog1, and then reads the symbol
+  table and stack information from the core dump.
+
+  4. Method 4:
+
+  Assuming that you've implemented |gdbmgr-suggest|, then >
+	vi prog1
+	:D core core.946
+< or >
+	vi prog1
+	:D target core core.946
+< will use the core dump and prog1 programs.
+
+  5. Method 5:
+
+  This method uses the netrw window: >
+	vi prog1
+	(switch to Netrw window)
+	(place cursor atop core.* file)
+	x
+< The "x" key uses the |g:Netrw_corehandler| function reference to interface
+  with gdbmgr.  It updates the message, expression, function stack, and
+  source windows.
+
+EXAMPLE 7: Working with Assembly and Window Stacking	*gdbmgr-ex7* {{{2
+
+  Compile the seventh example program if you haven't done so already: >
+	cc -g prog7.c -o prog7
+	vi prog7.c
+	:DI
+< As before, this will initialize the program in a new tab.  The default
+  window control string (see |gdbmgr-winctrl|) does not include the assembly
+  window (code "A"; see |gdbmgr-assembly|).  So, usually one will need to
+  get an assembly window available.  Choose a currently existing window
+  where the Assembly window will be stacked: this tutorial will use the
+  Source code window.  So, type >
+	CA
+< and you will see a message "***note*** choose a window and use :Dstack A".
+  Type >
+	CS
+	:Dstack A
+< and you will see the Assembly window instead of the window holding the
+  Source buffer.  Not to worry -- typing <c-F6> will cycle through the
+  buffers in the same window, so you normally will see the window toggle
+  between the Source buffer and the Assembly buffer.
+
+  At this point you'll get "No frame selected." showing in the Assembly
+  window; assembly won't show up until the program is running (and so
+  a frame will then be selected).  Type >
+	<c-F6>
+	35G
+	<F6>
+	:DR
+< which will switch you to the Source buffer, go to line 35, install
+  a breakpoint there, and then run the program.  The end result is
+  the cursor on line 35 in the Source buffer.  Switch to the Assembly
+  buffer with: >
+	<c-F6>
+< and you will see the associated assembly source obtained by gdb's
+  disassembly command.
+
+SUGGESTION:				*gdbmgr-suggest* *gdbmgr-auto* {{{2
+
+  If you'd like to "edit" an executable and have GdbMgr come up automatically,
+  then, assuming it doesn't yet exist, create a file called >
+
+	$HOME/.vim/scripts.vim
+<
+  The scripts.vim file is used when extension-based filetype recognition
+  doesn't find an associated filetype.
+
+  Install therein the following code snippet: >
+
+      " Automatic GdbMgr Invocation:
+      if has("unix") && executable("file") && !&l:binary
+	  if executable(expand("<afile>"))
+	    let file_type= system("file ".expand("<afile>"))
+	    if file_type =~ '\<executable\>' && file_type !~ '\<shell\>' && file_type !~ '\<script\>'
+	      call gdbmgr#GdbMgrInit(expand("<afile>"))
+	    endif
+	    unlet file_type
+	  endif
+      endif
+<
+  What this does:
+
+   * if you're using Unix/Linux, and
+   * the "file" command is available on your system and, furthermore,
+   * the binary option is not set (which might imply that you really want to
+     edit the file, perhaps with xxd; see |using-xxd|),
+
+  then the "file" system command is used to examine the file being edited.
+  If the "file" command finds that the file is an executable and you have
+  execution privileges, then the equivalent of :GdbMgr [executable-filename]
+  is issued.
+
+  With this code in ~/.vim/scripts.vim, one could then type >
+
+	vi pgmname
+<
+  and GdbMgr will then be automatically invoked.
+
+==============================================================================
+4. gdbmgr Manual					*gdbmgr-manual* {{{1
+
+GDBMGR COMMANDS						*gdbmgr-cmd* {{{2
+
+							*gdbmgr-gdbmgr*
+	GdbMgr			initializes gdbmgr with the program executable
+	GdbMgr pgmname		named pgmname.  If not present, the current
+	GdbMgr pgmname core	source file's name less its suffix will be
+	GdbMgr winctrl		used, if an executable by that name exists.
+	GdbMgr winctrl pgmname		Currently, all insert-mode abbreviations
+	GdbMgr winctrl pgmname core	are cleared during initialization as
+				they can interfere with the operation of the
+				Commands window.
+
+							*gdbmgr-D*
+	D gdbcmd [args]		Sends the gdbcmd and any optional arguments
+				along to gdb.  Any command supported by gdb
+				may be sent this way.
+				(Debug ...)
+
+							*gdbmgr-DA*
+	DA pgmname		Initialize GdbMgr by attaching to a process
+	DA pid			given its name or its pid
+
+							*gdbmgr-DC*
+	DC			Set the Source window to display what gdb has
+				as the current file and line.
+				(Debug Current)
+
+							*gdbmgr-DF*
+	DF pgmname		Set the program name to progname.  Same as
+				:D file progname
+
+							*gdbmgr-DI*
+	DI [progname]		same as :GdbMgr
+	DI pgmname		(Debug Initialize)
+        DI pgmname core
+        DI winctrl
+	DI winctrl pgmname
+	DI winctrl pgmname core
+
+							*gdbmgr-DK*
+	DK			kill program being debugged (gdb's "kill")
+				(Debug Kill)
+
+							*gdbmgr-DR*
+	DR [args]		Run the program with optional arguments.
+				Like gdb's   run "args"  command.
+				(Debug Run)
+
+							*gdbmgr-Dstack*
+	Dstack [code]		Stack the requested coded buffer in the current
+				window.  If the coded buffer currently resides
+				in a different window/stack, it will be moved
+				to the current window.
+
+							*gdbmgr-Dunstack*
+	Dunstack		Unstack the currently displayed coded buffer
+				from the current window.
+
+							*gdbmgr-DQ*
+	DQ			Quit gdbmgr and most of its tab, but leaves vim
+				running and the Source window showing.
+				(Debug Quit)
+
+
+GDBMGR MAPS						*gdbmgr-maps* {{{2
+
+	Most maps that Gdbmgr installs are associated with specific coded
+	windows and will be discussed for each such coded window (ie.
+	|gdbmgr-breakpt|, |gdbmgr-expressions|, |gdbmgr-source|, etc).  The
+	mappings mentioned below are available from any window in the
+	Gdbmgr tab: >
+
+		CA     Go to Assembly
+		CB     Go to Breakpoints
+		CH     Go to Checkpoints
+		CC     Go to Commands
+		CE     Go to Expressions
+		CF     Go to Funcstack
+		CM     Go to Messages
+		CN     Go to Netrw
+		CS     Go to Source
+		CW     Go to Watchpoints
+<
+	In addition, similar mappings are supported for "foreign app" coded
+	windows.
+
+
+WINDOW CONTROL						*gdbmgr-winctrl* {{{2
+
+  gdbmgr's display may be customized using window control lists.  One may set
+  the window control list in three ways; in the order of precedence: >
+
+	:DI [winctrl list]
+	(.vimrc)  let g:gdbmgr_winctrl = ...
+	(default) [['c25','r-,N-'],['c-','r5,M-,F-','r-,SC-','r5,E-,B-,W-']]
+<
+  I will explain window control lists from the bottom up.  First, a dictionary
+  of abbreviations:
+
+  Dictionary: ~
+    WP   window primitive  |gdbmgr-WP|
+    RS   row string        |gdbmgr-RS|
+    CL   column list       |gdbmgr-CL|
+    RL   row list          |gdbmgr-RL|
+
+  *gdbmgr-WP*
+  (WP) gdbmgr window primitives have an application code letter and a sizing
+  specification: >
+
+     c#cols  specifies qty of columns in a RL
+     r#rows  specifies qty of rows in a CL
+     A#cols  Assembly window
+     B#cols  Breakpoint window
+     C#cols  Command window
+     E#cols  Expression window
+     F#cols  Function Stack window
+     M#cols  Messages window
+     N#cols  Netrw window
+     S#cols  Source code window
+     W#cols  Watchpoint window
+<
+  Additionally there are several |gdbmgr-foreignapp| windows available: >
+
+     b#cols  Bufexplorer window (for exploring via buffers)
+     c#cols  CtagsExpl window (for exploring with ctags)
+     h#cols  Hdrtag    window (for exploring with hdrtags)
+<
+  A "-" for #cols or #rows is a wildcard; it'll grow to whatever is needed
+  to fit the display, equally split up amongst co-equal "-" specifications.
+
+  Example: >
+	B#15
+< This window will support breakpoints and be 15 columns wide.
+
+  Overlaying Windows:~
+
+  Multiple windows can be overlaid atop one another by placing multiple
+  window codes next to one another.
+  Example: >
+	SC#10
+< So the Source and Command windows will take up the same physical space on
+  the screen (with 10 columns).  One may switch between them by typing >
+	<c-F6>
+<
+  *gdbmgr-RS*
+  (RS)	A comma-delimited set of WPs in a string comprises a Row String.
+  Example: >
+	'r8,M10,F-'
+<	which means that the row of windows for this RS will have a Messages
+	window 10 columns wide, with a Function Stack window taking up the
+	rest of the width.  A RS normally begins with a "r#rows" WP which
+	specifies the quantity of rows for all windows in the RS; in this
+	example, all the windows specified by this RS will have 8 rows.
+
+  *gdbmgr-CL*
+  (CL)	A list of Row Strings specifies a Column List.  Each RS in a CL must
+	begin with its own "r#rows" specification.
+
+  Example: >
+	['r5,M10,F-','r-,S-']
+<	which means that this column list has a row with two windows (Message,
+	Function Stack) atop another row containing one window
+	(the Source Window).  The two rows are vertically arranged in a
+	column, hence the name "column list".
+
+	The Message&Function Stack windows are 5 rows high; the Source window
+	will take the rest of the rows available (and be a full-width window
+	due to the wildcard column's "-" specifier).
+
+  *gdbmgr-RL*
+  (RL)	A Row List is composed of one or more CLs; it is a list of lists.
+	Each CL in a RL must begin with a "c#cols" specification.  There may
+	only be one RL in a window control specification.
+
+  Consider the default window control list: >
+	[['c25','r-,N-'],['c-','r5,M-,F-','r-,SC-','r5,E-,B-,W-']]
+	   WP  , WP,WP     WP , WP,WP,WP , WP,WP  , WP,WP,WP,WP      <- Window Primitives
+	        '.RS₁.'        '...RS₂..' '..RS₃.' '....RS₄....'     <- Row Strings
+	 [.....CL₁.....] [...............CL₂...................]     <- Column Lists
+	[.......................RL...............................]   <- Row List
+<
+                 ..CL#1.... ...........CL#2...............
+		+----------+------------+-----------------+
+	    .   | Netrw Dir| Messages   | Function Stack  | .
+	    .   |          |            |                 | RS#2  (5 rows)
+	    .   | (  a     +------------+-----------------+
+	    .   |   netrw  | Source Window                | .
+	   RL   |  listing |  (prog1.c listing)           | RS#3  (wild rows)
+	    .   | )        |                              | .
+	    .   |          +-------+---------+------------+
+	    .   |          | Expr  | Breakpt | Watchpoint | .
+	    .   |          |       |         |            | RS#4  (5 rows)
+		+----------+-------+---------+------------+
+		(25 columns)(.....  wild columns .........)
+
+  There is one WP specifying two windows overlying one another (the "SC-").
+
+
+ASSEMBLY WINDOW:	non-writable		*gdbmgr-assembly* {{{2
+						CODE: A
+
+  This window shows a disassembly version of the source code surrounding the
+  pc of the selected frame, interleaved with associated source code lines.
+  This window utilizes gdb's "disassemble \m" command.
+
+  As the default window control (see |gdbmgr-winctrl|) normally does not
+  include the assembly window, one may wish to include it as gdbmgr is
+  running.  See |gdbmgr-Dstack| on how to include an assembly window in a
+  running gdbmgr session.
+
+  Active Keys: >
+	<F1>          help for assembly window
+	<c-F6>        switch to overlaid window (if any)
+	[#]<c-up>     go up   frame stack (by # frames)
+	[#]<c-down>   go down frame stack (by # frames)
+	c             continue running program (gdb's c  command)
+	[#]n          step to next instruction (gdb's ni command)
+	[#]s          step to next instruction (gdb's si command)
+<
+
+BREAKPT WINDOW:	non-writable			*gdbmgr-breakpt* {{{2
+						CODE: B
+
+  One may not write breakpoints directly into the Breakpoints window; its for
+  display only.  To enter breakpoints, one presses <F6> or <s-F6> while in the
+  Source window.  The current line will then be made into a breakpoint or a
+  temporary breakpoint, respectively.
+
+  Active Keys: >
+	<F1>                       help for breakpt window
+	<F6>                       disable/enable a breakpoint
+	:D b breakpoint-spec       enters a breakpoint at the breakpoint-spec
+	:D tbreak breakpoint-spec  enters a temporary breakpoint at the
+	                           breakpoint-spec
+	c                          open commands gvim for current breakpoint
+
+< The breakpoint-spec is the same set of file/line specifications that one may
+  use directly with gdb.
+
+					*gdbmgr-breakpt-c*  *gdbmgr-breakpt-cmd*
+
+  When the "c" key is pressed while atop a breakpoint in the Breakpoints
+  window a remote server gvim will be opened (see |clientserver|).  One may
+  then place gdb commands (after the 3-line header) that, subsequently, will
+  be executed by gdb when the selected breakpoint is reached.
+
+CHECKPOINT WINDOW: non-writable			*gdbmgr-checkpt* {{{2
+						CODE: H
+
+  The checkpoint window shows all available checkpoints.  A checkpoint is
+  gdb's way of supporting "undo"; one may return the program and gdb to the
+  state prevailing when a checkpoint was made; much is restored, including
+  changes in memory, registers, and even (within some limits) system state.
+  Things not restored include bytes sent out over ports, bytes written to
+  files, etc.
+
+  As the default window control (see |gdbmgr-winctrl|) normally does not
+  include the checkpoint window, one may wish to include it as gdbmgr is
+  running.  See |gdbmgr-Dstack| on how to include a checkpoint window in a
+  running gdbmgr session.
+
+  Active Keys: >
+	<F1>   help for command window
+	<c-F6> switch to overlaid window (if any)
+	<s-F7> generate a new checkpoint
+	<cr>   restart with checkpoint under cursor
+	<del>  delete checkpoint under cursor
+<
+
+COMMAND WINDOW:	writable		*gdbmgr-cmdwin*	*gdbmgr-command* {{{2
+					CODE: C
+
+  By default, the Commands window is overlaid under the Source window.  One may
+  switch to the Commands window using the default window setup by typing >
+	<c-F6>
+< when the Source window is active.  Press <c-F6> again to return to the
+  Source window (ie. when the Commands window is active).
+
+  One may write commands directly into the Commands window; when one presses
+  a <cr>, the current line will be sent as a command to gdb.  This action
+  occurs in either normal or insert modes.
+
+  Many commands are recorded in the Commands window.  One may re-execute them
+  by copying such a line to the last line and pressing a <cr>.  Of course, one
+  may edit the Commands window and send new or modified commands, too.
+
+  The Commands window is most often used when running a program via gdb.
+  The program's output is displayed on the Commands window.  In order to
+  allow access to both vim and gdb, one normally would multiplex -- but
+  that would require patching vim.  So, there are two alternatives:
+
+    1. (default) gdbmgr will poll for updates at a 10Hz rate
+                 (ie. every 0.1 seconds)
+
+    2. Manual Polling: press <s-F6> with the Commands window active
+       whenever you feel that the program's output may have been updated but
+       not yet displayed.  To use this, put >
+	let g:gdbmgr_poll= 0
+<      into your .vimrc.
+
+  Active Keys: >
+	<F1>   help for command window
+	<c-F6> switch to overlaid window (if any)
+	<s-F6> manual polling -- query gdb for recent output
+	<cr>   execute current line (normal or insert modes)
+	<s-F7> generate a checkpoint
+
+
+EXPRESSIONS WINDOW: writable		*gdbmgr-expr* *gdbmgr-expressions* {{{2
+					CODE: E
+
+  Each line in the Expressions window is an expression which will occasionally
+  be sent on to gdb to find out what its current value is.  It will be updated
+  at stoppages (breakpoints, watchpoints, stepping).
+
+  Simply enter an expression followed by an "=" sign into the Expressions
+  window.  That "=" will cause the Expressions window to be updated with the
+  current values.
+
+  Active Keys: >
+	<F1>    help for expressions window
+	<F6>	refresh Expressions window (normal mode)
+	<c-F6>	switch to overlaid window (if any)
+	=	refresh Expressions window (insert mode)
+<
+  Example:  (include the "=" to indicate end of expression) >
+	x =
+<
+  As an additional way to display variable values: for those whose vim has
+  +balloon_eval (see |balloon-eval|): letting the mouse cursor hover over a
+  variable name in the source window will result in a balloon holding
+  that variable's value.
+
+FUNCTION STACK WINDOW: non-writable	*gdbmgr-funcstack* *gdbmgr-stack* {{{2
+					CODE: F
+
+  This window isn't writable; instead, it is automatically updated with gdb's
+  "where" command at stoppages (such as at prompts and breakpoints).
+
+  Active keys: >
+	<F1>    help for the funcstack window
+	<c-F6>	switch to overlaid window (if any)
+	<up>	go up frame stack
+	<down>	go down frame stack
+<
+  When the cursor is in the Source or Breakpt windows, one may use >
+	[#]<c-up>	go up frame stack
+	[#]<c-down>	go down frame stack
+< to go up and down the frame stack.  Note that the Source window will change
+  the current line (and file) to reflect the current frame stack line.
+
+
+MESSAGES WINDOW: non-writable		*gdbmgr-mesg* *gdbmgr-messages* {{{2
+					CODE: M
+
+  This window shows various messages from gdb.
+
+  Active keys: >
+	<F1>	help for messages window
+	<c-F6>	switch to overlaid window (if any)
+<
+
+SOURCE WINDOW: varies				*gdbmgr-source* {{{2
+						CODE: S
+
+  The source window is used to display various source code files.  As one
+  steps through a program, the window is updated.  When the program stops
+  running due to a breakpoint, watchpoint, an "until", or otherwise, the
+  source window will be updated to reflect the current file and line.
+
+  Using the default window configuration, the source window and the command
+  window will be alternately displayed (the source window at stoppages and
+  the command window during program execution).
+
+  As an additional way to display variable values: for those whose vim has
+  +balloon_eval (see |balloon-eval|): letting the mouse cursor hover over a
+  variable name in the source window will result in a balloon holding
+  that variable's value.
+
+  Active Keys: >
+	<F1>            help for the source window
+	<F6>            place/remove breakpoint from current line
+	<s-F6>          place/remove temporary-breakpoint from current line
+	<c-F6>          switch to overlaid window (if any)
+	<s-F7>          generate a checkpoint
+	<F7>		toggle editability/gdb mode for source window
+	[#]<c-up>       go up   frame stack (by # frames)
+	[#]<c-down>     go down frame stack (by # frames)
+	c               continue running program (gdb's c command)
+	f		finish to end of frame   (gdb's f command)
+	[#]n            step to next instruction (gdb's n command)
+	[#]s            step to next instruction (gdb's s command)
+	[#]S            step to next instruction (gdb's S command)
+	[#]u            execute until the program reaches a source line
+	                greater than the current location (gdb's u command)
+<
+  When the gdb is active and the program has stopped, and if your vim has
+  +balloon_eval (see |+balloon_eval|), then when the cursor hovers over a
+  variable that variable's value will be displayed in a "balloon".
+
+  The <F7> key can be used to toggle editability/gdb mode; the <F7> is the
+  only gdbmgr source-window map retained when entering editing mode.  However,
+  if one edits the source, then the binary no longer matches the source.
+  Hence, line numbers, etc, may be mismatched for the edited source file (at
+  the least).
+
+  For <s-F7>: see |gdbmgr-checkpt| for more about checkpoints.
+
+
+THREADS WINDOW: non-writable			*gdbmgr-threads* {{{2
+						CODE: T
+
+  The threads window shows the results of gdb's "info threads" command.
+
+  As the default window control (see |gdbmgr-winctrl|) normally does not
+  include the threads window, one may wish to include it as gdbmgr is running.
+  See |gdbmgr-Dstack| on how to include a threads window in a running gdbmgr
+  session.
+
+
+  Active Keys: >
+	<F1>    help for Watchpoint window
+	<F6>	refresh Watchpoint window (normal mode)
+	<cr>	selects a thread to become the active thread
+<
+  Activation of a thread uses gdb's "thread #", where # is the gdb-issued
+  number of a thread.
+
+
+WATCHPOINT WINDOW: writable		*gdbmgr-watchpt* *gdbmgr-watchpoints* {{{2
+					CODE: W
+
+  Each line in the Watchpt window is an expression which will stop the
+  program's execution whenever its value changes.  The expressions may
+  optionally be preceded by a letter: >
+
+	w (write) watchpoint expression follows (default)
+	r read-watchpoint expression follows
+	a both read and write watchpoint expression follows
+
+< A "write" watchpoint expression will stop the program when the expression
+  changes value.  A read-watchpoint changes when the expression (ie. a
+  variable) is read from.  An "a" watchpoint variable acts simultaneously as
+  both a read and write watchpoint.
+
+  Active Keys: >
+	<F1>    help for Watchpoint window
+	<F6>	refresh Watchpoint window (normal mode)
+	<c-F6>	switch to overlaid window (if any)
+	=	refresh Watchpoint window (insert mode)
+<
+  Example:  (include the "=" to indicate end of expression) >
+	x =
+	r y =
+<
+  In order to permit expressions containing "="s (such as ==, >=, etc):
+  the expression is considered "finished" when a " =" is encountered,
+  not simply a "=".
+
+
+FOREIGN APPS						*gdbmgr-foreignapp* {{{2
+
+Foreign "apps" are applications/vimscripts that are external to gdbmgr itself.
+Gdbmgr provides interfaces for four such apps:
+
+      bufexplorer (interface: gdbmgrb.vim)
+      CtagExpl    (interface: gdbmgrt.vim).
+      Hdrtag      (interface: gdbmgrh.vim),
+ and  netrw       (the interface is built-in),
+
+We'll consider gdbmgrh.vim as an example in what follows.
+
+    Foreign App Key~
+
+	The foreign app key is a letter which designates the application.
+	These letters are used in window primitives (see |gdbmgr-WP|).
+	For gdbmgrh.vim, that key is "h".
+
+    Foreign App Initialization:~
+
+	Assume that the foreign app key is "h": then, upon initialization, a
+	dictionary function (see |E124| and look for [dict]) >
+		gdbmgrh#Init()
+<       will be called.  It should, minimally:
+
+          * open a new unnamed buffer (|:enew|) and name that buffer
+          * set up <c-f6> to support buffer switching
+          * set up its dictionary entry's bufnum member to bufnr("%")
+
+	Note that this initialization does not need to actually call the
+	foreign application to initialize the contents of the window; see
+	Foreign App Updates below for that.
+
+    Foreign App Updates:~
+
+	Upon updates, a dictionary function >
+		gdbmgrh#Update(srcbufnum)
+<	is called.  Updates occur when ctrl-f6 is used to bring the
+	application to the fore, and is used to initialize the Foreign
+	App window's contents.
+
+	Foreign applications often need to modify and/or select the source;
+	thus the foreign app update function is passed the source's buffer
+	number.  One may use this with: >
+
+	let Hwin= bufwinnr(a:srcbufnum)   : get window associated with the source buffer
+	self.bufnum                       : the buffer number associated with the foreign app
+	exe Hwin."wincmd w"               : switch to the foreign app "H"'s window
+<
+    Foreign App Function Reference:~
+
+	The foreign app may change the file and/or line number in the Source
+	window; however, Source windows are expected to support various maps
+	under gdbmgr.  The foreign application also needs to register the (new)
+	source buffer with gdbmgr's window registry (dictionary).  The easiest
+	way for a foreign app to do this is for it to support the use of function
+	references when it makes a source file change; then the foreign app
+	initialization function can set up the function reference to have the
+	foreign app call gdbmgr#ForeignAppFuncRef().
+
+	CtagExpl: g:CtagExpl_funcref (called after CtagExpl opens a file for editing)
+	Hdrtag  : g:Hdrtag_funcref   (called after Hdrtag opens a file for editing)
+	Netrw   : |g:Netrw_funcref|    (called after netrw opens a file for editing)
+
+	For example, the Hdrtag explorer contains in its initialization
+	function: >
+		let g:Hdrtag_funcref= function("gdbmgr#ForeignAppFuncref")
+<	to do this.
+
+	You may get CtagExpl from
+		http://mysite.verizon.net/astronaut/vim/index.html#CTAGEXPL
+	It works with plain ctags and exuberant ctags (see |Exuberant_ctags|).
+
+	You may get Hdrtag from
+		http://mysite.verizon.net/astronaut/vim/index.html#HDRTAGEXPLORER
+
+	The Hdrtag plugin uses the hdrtag program, available from
+		http://mysite.verizon.net/astronaut/src/index.html#HDRTAG
+	You'll need to compile it.
+
+
+BUFEXPLORER WINDOW: non-writable		*gdbmgr-bufexplorer* {{{2
+						CODE: b
+
+  Jeff Lanzarotta's bufexplorer is supported by gdbmgr as a "foreign app". >
+	( http://www.vim.org/scripts/script.php?script_id=42 )
+< As of bufexplorer version 7.2.8, bufexplorer and gdbmgr work together with
+  no patches required.  Gdbmgr and bufexplorer cooperate by gdbmgr's setting
+  up a function reference (|Funcref|) (|g:BufExplorerFuncRef|) and a variable
+  (|g:bufExplorerFindActive|); normal operation of bufexplorer is unaffected
+  when these variables are left unset.  (the latter two links should work
+  if you have bufexplorer)
+
+  To use JL's bufexplorer with gdbmgr, use the window control string with the
+  "b" code (see |gdbmgr-winctrl|), or one may wish to include it as gdbmgr is
+  running.  See |gdbmgr-Dstack|  on how to include a bufexplorer window in a
+  running gdbmgr session.
+
+
+  bufexplorer code b   uses gdbmgrb.vim~
+
+  For example, the following window control list makes use of a bufexplorer
+  window: (see |gdbmgr-winctrl|) >
+	[['c25','r-,Nb-'],['c-','r5,M-,F-','r-,SC-','r5,E-,B-,W-']]
+< Upon startup, gdbmgr will be showing a netrw window on the far left of
+  display; to see the bufexplorer there, make that window active and then
+  press the <ctrl-f6> key.
+
+
+NETRW WINDOW: non-writable			*gdbmgr-netrw* {{{2
+						CODE: N
+
+  The netrw window holds directory listings as provided by the netrw plugin.
+  Selection of a file will display it in the Source window (|gdbmgr-source|).
+  There are a large number of active keys in this window, but they're nearly
+  all provided by netrw, not gdbmgr, except for one.
+
+  The netrw is internally coded as a "foreign app".
+
+  Additional Active Key: >
+	<c-F6>	switch to overlaid window (if any)
+<
+
+
+TAGS WINDOW: non-writable				*gdbmgr-tags* {{{2
+							CODE: h  (hdrtags)
+							CODE: t  (ctags)
+
+  There are actually two types of tags windows; one is for hdrtag, and the
+  other is for ctags.  These are "foreign app" windows; ie. they are supported
+  by code outside the main gdbmgr.vim plugin.  Use the window control string
+  to set them up.
+
+  As the default window control (see |gdbmgr-winctrl|) normally does not
+  include either of the tags windows, one may wish to include a tags window as
+  gdbmgr is running.  See |gdbmgr-Dstack| on how to include a new window in a
+  running gdbmgr session.
+
+
+  ctags: code t   uses gdbmgrt.vim {{{3 ~
+
+  A sample window control list making a t-style tags window available: >
+	[['c25','r-,Nt-'],['c-','r5,M-,F-','r-,SC-','r5,E-,B-,W-']]
+< This list will overlay the netrw and tags buffers in one window on the left,
+  with netrw showing on top at startup.  Use <c-f6> to switch with the cursor
+  in the netrw/ctags window.
+
+  The window uses the CtagExpl.vim plugin (see |CtagExpl|).  The CtagExpl
+  plugin preferentially uses a pre-existing tags file, so one may run ctags
+  over all the files in a project.  To use CtagExpl, you need:
+
+	CtagExpl.vim : http://mysite.verizon.net/astronaut/vim/index.html#CTAGEXPL
+	gdbmgrt.vim  : comes with the gdbmgr plugin package
+
+
+  hdrtag: code h   uses gdbmgrh.vim {{{3 ~
+
+  Sample window control list making a h-style tags window available: >
+	[['c25','r-,Nh-'],['c-','r5,M-,F-','r-,SC-','r5,E-,B-,W-']]
+< This list will overlay the netrw and tags buffers in one window on the left,
+  with netrw showing on top at startup.  Use <c-f6> to switch with the cursor
+  in the netrw/hdrtag window.
+
+  The window uses the Hdrtag.vim plugin (see |hdrtag|).  Like CtagExpl,
+  the Hdrtag plugin preferentially uses a pre-existing tags file, so one
+  may run hdrtag over all the files in a project.  You can get hdrtag from:
+
+	http://mysite.verizon.net/astronaut/src/index.html and clicking on >
+	hdrtag.tar.gz
+<
+  To use Hdrtag, you need:
+	hdrtag       : see website just above
+	Hdrtag.vim   : http://mysite.verizon.net/astronaut/vim/index.html#HDRTAG
+	gdbmgrh.vim  : comes with the gdbmgr plugin package
+
+
+GDBMGR OPTIONS						*gdbmgr-options* {{{2
+
+	*g:gdbmgr_clearansi*	(default=1) By default, gdbmgr will remove
+				Ansi colorizing sequences from the Commands
+				window.  They're popular for prompts, but
+				make a mess on the Commands window.
+
+				Future work: to test if the currently running
+				vim supports conceal mode (has("conceal") is
+				true).  In that case the colorizing and
+				spacing can be made correct.
+				(see the AnsiEsc plugin at
+				http://mysite.verizon.net/astronaut/vim/index.html#ANSIESC
+				)
+
+	*g:gdbmgr_poll*		(default=1) polling is enabled if true.
+				If you'd rather do manual polling, set
+				this variable to 0 and use <s-F6> when
+				in the Commands window.
+
+	*g:gdbmgr_srcpath*	a comma-delimited sequence of directories
+				which hold source code files.  This path is
+				also given to gdb via its "directory" command
+				so it too can search for source files.
+
+	*g:gdbmgr_nobeval*	(default: doesn't exist, balloon evaluation is enabled)
+				By letting this variable exist, gdbmgr will
+				not use balloon evaluation.  (see |'beval'|)
+
+KNOWN LIMITATIONS				*gdbmgr-limitations* {{{2
+
+* One known limitation: gdbmgr supports resizing by using the window control string;
+  however, if one had changed the window layout (via :q, :split, etc) then the
+  window control string is unlikely to be correct.  Subsequently resizing the
+  vim window is then unlikely to work nicely.
+
+* Editing a source file when using gdbmgr invalidates the associated
+  executable binary which gdbmgr and gdb are using.  As a result, line
+  numbers, breakpoints, assembly, etc are problematic.
+
+* Issuing the following commands to gdb will undoubtedly cause difficulties:
+
+  D set annotate  -- gdbmgr sets the annotation level to 3; changing it will
+                     invalidate the finite state automata in gdbmgr.c
+
+  D set height    -- gdbmgr sets height to 0 so that gdb won't be inserting
+                     unwanted newlines and prompts.  Changing height to
+                     non-zero is likely to cause "unexpected behavior"
+                     messages from gdbmgr.
+
+  D set width     -- gdbmgr sets width to 0 so that gdb won't be inserting
+                     unwanted newlines and prompts.  Changing width to
+                     non-zero is likely to cause "unexpected behavior"
+                     messages from gdbmgr.
+
+==============================================================================
+5. gdbmgr History					*gdbmgr-history* {{{1
+   v1	Jan 16, 2009	* initial alpha release
+	Mar 30, 2010	* Given :DI with no arguments, will look for an
+			  executable in the current directory
+	Jul 08, 2010	* added balloon display
+	Aug 09, 2010	* included cecutil as part of the distribution
+	Sep 22, 2010	* prevented a hang-up when trying to set a breakpoint
+			  in a source file not compiled for debugging.  Also
+			  included a note about how to automate having GdbMgr
+			  handle executable files (|gdbmgr-suggest|)
+	Oct 14, 2010	* Command window works better
+			* Netrw+Source+breakpoints work better
+			* GdbMgrForeground was only handling two overlays; a
+			  third was causing an infinite loop.  Fixed.
+	Oct 18, 2010	* Included a core dump example, plus some improved
+			  initialization when working with core dumps.
+	Oct 19, 2010	* Improved :DA (for attaching to external processes)
+			  (rejection of plain newlines from gdb as responses,
+			  confirm()-based selection of multiple programs,
+			  confirm()-based selection of same-name files in
+			  various libraries, etc)
+	Oct 20, 2010	* Using s:GdbMgr[Open|Closed]CodedBuf more often
+	Oct 26, 2010	* Implemented Threads window.
+			* Debugged problem with text disappearing from currently
+			  hidden windows (due to s:GdbMgrCloseCodedBuf using
+			  "sil q!" instead of "sil! q")
+			* Moved "foreign apps"' codes (hdrtag, ctagexpl, bufexplorer)
+			  to lower case letters (h, t, and b, respectively).
+	Oct 27, 2010	* Wrote a number of syntax highlighting files for
+			  several of the windows.
+	Oct 28, 2010	* Annoyance: SourceInitFile would ask "Select
+			  which <file>" given multiple choices,more than once
+			  per function.  Installed a dictionary so that gdbmgr
+			  would remember which file a function came from.
+	Nov 09, 2010	* Numerous changes to gdbmgr.c to regularize the
+			  finite state automaton, and corresponding changes
+			  to gdbmgr.vim.  Gdbmgr.c now initializes gdb with
+			  set width 0 to avoid unwanted wrapping of output.
+	Nov 17, 2010	* Dstack and Dunstack commands implemented
+			  (see |gdbmgr-Dstack| and |gdbmgr-Dunstack|)
+			* (dis)Assembly coded buffer included (code A)
+			* s:GdbMgrVimResized() ends with the cursor in the S
+			  buffer; the menu now reflects that
+	Nov 18, 2010	* Fixed some stacking/unstacking bugs associated with
+			  foreign app buffers
+			* Bufexplorer window wasn't updating properly when a
+			  new source buffer was edited
+	Nov 23, 2010	* Included capability to enable/disable breakpoints
+	Dec 15, 2010	* D commands ... D end now works
+			* Included CA, CB, CH, ... CW go-to-code commands and
+			  menu entries
+	Dec 20, 2010	* Remote gvim support for breakpoint commands included
+			  (see |gdbmgr-breakpt-c|)
+	Jun 02, 2011	* Bypassed |'spr'| and |'sb'| options during WinCtrl()
+
+vim: fdm=marker
