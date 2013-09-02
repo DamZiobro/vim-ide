@@ -5,8 +5,9 @@
 SetMacro( 'AUTHOR',      'Damian Ziobro' )
 SetMacro( 'AUTHORREF',   '' )
 SetMacro( 'COMPANY',     'XMementoIT Limited' )
+SetMacro( 'COMPANY_EMAIL', 'info@xmementoit.com')
 SetMacro( 'COPYRIGHT',   'Copyright (c) |YEAR|, |AUTHOR|' )
-SetMacro( 'EMAIL',       'info@xmementoit.com' )
+SetMacro( 'EMAIL',       'ziobro.damian@gmail.com' )
 SetMacro( 'ORGANIZATION','XMementoIT Limited')
 
 SetStyle( 'C' )

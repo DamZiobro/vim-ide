@@ -32,8 +32,8 @@
 //       Revision:  none
 //       Compiler:  gcc
 //
-//         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
-//   Organization:  |ORGANIZATION|
+//         Author:  |AUTHOR|  |EMAIL|
+//        Company:  |COMPANY| |COMPANY_EMAIL| 
 //
 // =====================================================================================
 == Comments.file description header == map:cfdh, shortcut:h, start, noindent ==
@@ -46,10 +46,10 @@
 //        Version:  1.0
 //        Created:  |DATE| |TIME|
 //       Revision:  none
-//       Compiler:  gcc
+//       Compiler:  g++
 //
-//         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
-//   Organization:  |ORGANIZATION|
+//         Author:  |AUTHOR|  |EMAIL|
+//        Company:  |COMPANY| |COMPANY_EMAIL|
 //
 // =====================================================================================
 == ENDTEMPLATE ==

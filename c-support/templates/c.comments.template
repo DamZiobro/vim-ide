@@ -39,8 +39,8 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
- *   Organization:  |ORGANIZATION|
+ *         Author:  |AUTHOR|        (|EMAIL|)
+ *        Company:  |COMPANY|       (|COMPANY_EMAIL|)
  *
  * =====================================================================================
  */
@@ -58,8 +58,8 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  |AUTHOR| (|AUTHORREF|), |EMAIL|
- *   Organization:  |ORGANIZATION|
+ *         Author:  |AUTHOR|        (|EMAIL|)
+ *        Company:  |COMPANY|       (|COMPANY_EMAIL|)
  *
  * =====================================================================================
  */
