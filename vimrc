@@ -439,12 +439,12 @@ endfunction
 
 
 function! UpdateTags()
-    execute ":!ctags -R --file-scope=no  --sort=yes --fields=+iaS --extra=+q -f ~/.vim/tags/last_project_tags `pwd`"
+    execute ":!ctags -R --sort=yes --fields=+iaS --extra=+q --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None 
 endfunction
 
 function! UpdateAllTags()
-    execute ":!ctags -R --file-scope=no  --sort=yes --fields=+iaS --extra=+q -f ~/.vim/tags/last_project_tags `pwd`"
+    execute ":!ctags -R --sort=yes --fields=+iaS --extra=+q --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
     execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/usr_local_include /usr/local/include"
     execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/cpp ~/.vim/tags/cpp_src"
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None
@@ -452,8 +452,8 @@ endfunction
 
 " setting ctags 
 set tags+=~/.vim/tags/cpp
-set tags+=~/.vim/tags/usr_local_include
 set tags+=~/.vim/tags/last_project_tags
+set tags+=~/.vim/tags/usr_local_include
 
 
 nmap <C-F11> :call UpdateAllTags()<cr><leader>sv
