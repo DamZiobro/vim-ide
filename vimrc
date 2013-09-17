@@ -455,6 +455,7 @@ endfunction
 set tags+=~/.vim/tags/cpp
 set tags+=~/.vim/tags/last_project_tags
 set tags+=~/.vim/tags/opencv
+set tags+=~/.vim/tags/qt5
 "set tags+=~/.vim/tags/usr_local_include
 
 
