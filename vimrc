@@ -445,22 +445,24 @@ endfunction
 
 function! UpdateAllTags()
     execute ":!ctags -R --sort=yes --fields=+iaS --extra=+q --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
-    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/usr_local_include /usr/local/include"
+    "execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/usr_local_include /usr/local/include"
     execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/cpp ~/.vim/tags/cpp_src"
+    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/opencv /usr/local/include/opencv2"
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None
 endfunction
 
 " setting ctags 
 set tags+=~/.vim/tags/cpp
 set tags+=~/.vim/tags/last_project_tags
-set tags+=~/.vim/tags/usr_local_include
+set tags+=~/.vim/tags/opencv
+"set tags+=~/.vim/tags/usr_local_include
 
 
-nmap <C-F11> :call UpdateAllTags()<cr><leader>sv
-imap <C-F11> <ESC>:call UpdateAllTags()<cr><leader>svi
+nmap <C-F11> :call UpdateAllTags()<cr>
+imap <C-F11> <ESC>:call UpdateAllTags()<cr>
 
-nmap <C-F12> :silent call UpdateTags()<cr><leader>sv
-imap <C-F12> <ESC> :silent call UpdateTags()<cr> <leader>svi
+nmap <C-F12> :silent call UpdateTags()<cr>
+imap <C-F12> <ESC> :silent call UpdateTags()<cr>
 
 set autochdir
 let NERDTreeChDirMode=2
