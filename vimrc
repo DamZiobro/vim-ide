@@ -508,6 +508,9 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
 
+" <C-@> is interpreated by terminal vim as <C-Space>
+inoremap <C-@> <C-x><C-o>
+
 if v:version >= 600
     filetype plugin on
     filetype indent on
