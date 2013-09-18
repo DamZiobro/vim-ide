@@ -504,6 +504,7 @@ filetype plugin on
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
 
@@ -528,7 +529,6 @@ if v:version >= 700
     let OmniCpp_MayCompleteArrow    = 1
     let OmniCpp_MayCompleteScope    = 1
     let OmniCpp_DefaultNamespaces   = ['std','_GLIBCXX_STD']
-
 
     set completeopt=menuone,menu,longest,preview 
 endif
