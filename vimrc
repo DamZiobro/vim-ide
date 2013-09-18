@@ -639,5 +639,9 @@ nmap c0 "0yy
 map <Leader>hon :%!xxd<CR>
 map <Leader>hof :%!xxd -r<CR>
 
+" ========================================================================================
+" " USING TASKLIST
+
+map <leader>td <Plug>TaskList
 
 
