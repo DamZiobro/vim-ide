@@ -648,4 +648,6 @@ map <leader>td <Plug>TaskList
 " " USING GUNDO (revision of history saving)
 
 map <leader>gu :GundoToggle<CR>
-
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_right = 1
