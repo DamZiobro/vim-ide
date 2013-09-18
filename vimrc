@@ -644,4 +644,8 @@ map <Leader>hof :%!xxd -r<CR>
 
 map <leader>td <Plug>TaskList
 
+" ========================================================================================
+" " USING GUNDO (revision of history saving)
+
+map <leader>gu :GundoToggle<CR>
 
