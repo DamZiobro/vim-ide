@@ -2,4 +2,7 @@ sessions/vim_auto_saved_session
 tags/last_project_tags
 bundle/Omnisharp/server/Microsoft.Build.Evaluation/bin/
 bundle/Omnisharp/server/OmniSharp.Tests/bin/
-bundle/Omnisharp/server/OmniSharp/bin/
+bundle/Omnisharp/server/OmniSharp/bin/Debug/
+bundle/Omnisharp/server/OmniSharp.Tests/obj
+bundle/Omnisharp/server/OmniSharp.Tests/obj
+bundle/Omnisharp/server/OmniSharp/obj
