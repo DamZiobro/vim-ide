@@ -1,0 +1,9 @@
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp/bin/Debug/OmniSharp.exe.config
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp/bin/Debug/OmniSharp.exe.mdb
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp/bin/Debug/OmniSharp.exe
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp/obj/Debug/OmniSharp.exe
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp/obj/Debug/OmniSharp.exe.mdb
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharp/bin/Debug/OmniSharp.exe.mdb
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharp/bin/Debug/OmniSharp.exe
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharp/obj/Debug/OmniSharp.exe
+/home/damian/.vim/bundle/Omnisharp/server/OmniSharp/obj/Debug/OmniSharp.exe.mdb
