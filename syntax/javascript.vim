@@ -177,6 +177,9 @@ syntax match   javaScriptFuncArg         "\(([^()]*)\)" contains=javaScriptParen
 syntax match   javaScriptFuncComma       /,/ contained
 syntax match   javascriptFuncEq          /=/ contained
 syntax region  javaScriptFuncDef         start="function" end="\([^)]*\)" contains=javaScriptFuncKeyword,javaScriptFuncArg keepend
+
+hi javascriptFuncDef gui=bold guifg=yellowgreen cterm=bold ctermfg=39
+
 "}}}
 " Braces, Parens, symbols, colons {{{
 syn match javaScriptBraces       "[{}\[\]]"
@@ -314,7 +317,4 @@ syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
  hi cCustomFunc  guifg=yellowgreen ctermfg=34 
  hi cCustomClass guifg=#00FF00 ctermfg=98
  hi cCustomDotClass guifg=#00FF00 ctermfg=87 "
-
-syn match cCustomFunctionDefinition "\~\?\zs\h\w*\s*\ze([^)]*\()\s*\(const\)\?\){\?$"
-hi cCustomFunctionDefinition gui=bold guifg=yellowgreen cterm=bold ctermfg=39
 
