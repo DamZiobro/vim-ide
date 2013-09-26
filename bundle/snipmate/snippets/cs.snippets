@@ -72,15 +72,15 @@ snippet simc
 # if condition
 snippet if
 	if (${1}) {
-		${0}
+		${2}
 	}
 snippet el
 	else {
-		${0}
+		${2}
 	}
 snippet ifs
 	if (${1})
-		${0}
+		${2}
 # ternary conditional
 snippet t
 	${1} ? ${2} : ${0}
@@ -89,72 +89,73 @@ snippet ?
 # do while loop
 snippet do
 	do {
-		${0}
+		${2}
 	} while (${1});
 # while loop
 snippet wh
 	while (${1}) {
-		${0}
+		${2}
 	}
 # for loop
 snippet for
 	for (int ${1:i} = 0; $1 < ${2:count}; $1${3:++}) {
-		${0}
+		${4}
 	}
 # foreach
 snippet fore
 	foreach (var ${1:entry} in ${2}) {
-		${0}
+		${4}
 	}
 snippet foreach
 	foreach (var ${1:entry} in ${2}) {
-		${0}
+		${4}
 	}
 snippet each
 	foreach (var ${1:entry} in ${2}) {
-		${0}
+		${4}
 	}
 # interfaces
 snippet interface
 	public interface ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet if+
 	public interface ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 # class bodies
 snippet class
 	public class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls
 	${2:public} class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls+
 	public class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
+
 snippet cls+^
 	public static class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls&
 	internal class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls&^
 	internal static class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls|
 	protected class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 snippet cls|%
 	protected abstract class ${1:`vim_snippets#Filename()`} {
-		${0}
+		${2}
 	}
 # constructor
 snippet ctor
@@ -257,6 +258,13 @@ snippet ps|-
 snippet ps-
 	private string ${1} { get; set; }
 # members - void
+snippet fun
+	///<summary>
+	///
+	///</summary>
+	${1:public} ${2:void} ${3:}(${4:}) {
+		${5:}
+	}
 snippet m
 	${1:public} ${2:void} ${3:}(${4:}) {
 		${5:}
