@@ -336,8 +336,8 @@ imap <C-a><C-a> <ESC>:A<cr>i
 
 
 function! BuildAndInstallCppApp()
-    set makeprg=make\ -C\ ./build
-    make --no-print-directory
+    ""set makeprg=make\ -C\ ./build
+    ""make --no-print-directory
     execute "!cd build; sudo make install;"
     TagbarClose
     cw 
@@ -357,11 +357,11 @@ endfunction
 
 " Make 
 nmap <F8> <C-s> :call BuildAndInstallCppApp()<cr>
-imap <F8> <ESC> <C-s> :call BuildAndInstallCppApp()<cr>i
+imap <F8> <ESC> <C-s> :call BuildAndInstallCppApp()<cr>
 
 " CSharp make 
 nmap <C-F5> <C-s> :call BuildAndInstallCSharpApp()<cr>
-imap <C-F8> <ESC> <C-s> :call BuildAndInstallCSharpApp()<cr>i
+imap <C-F5> <ESC> <C-s> :call BuildAndInstallCSharpApp()<cr>
 
 
 " Normal make 
