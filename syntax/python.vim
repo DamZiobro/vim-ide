@@ -150,7 +150,8 @@ syn keyword pythonStatement     pass raise
 syn keyword pythonStatement     global assert
 syn keyword pythonStatement     lambda yield
 syn keyword pythonStatement     with
-syn keyword pythonStatement     def class nextgroup=pythonFunction skipwhite
+syn keyword pythonStatement     def nextgroup=pythonFunction skipwhite
+syn keyword pythonStatement     class nextgroup=pythonClass skipwhite
 syn keyword pythonRepeat        for while
 syn keyword pythonConditional   if elif else
 syn keyword pythonImport        import from
@@ -163,10 +164,12 @@ if s:Python2Syntax()
   endif
   syn keyword pythonImport      as
   syn match   pythonFunction    "[a-zA-Z_][a-zA-Z0-9_]*" display contained
+  syn match   pythonClass    "[a-zA-Z_][a-zA-Z0-9_]*" display contained
 else
   syn keyword pythonStatement   as nonlocal None
   syn keyword pythonBoolean     True False
   syn match   pythonFunction    "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+  syn match   pythonClass    "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 endif
 
 "
@@ -552,7 +555,10 @@ syn match    cCustomDotClass "\w\+\s*\."
 " hi def link cCustomFunc  Special
 " hi def link cCustomClass Function
 
- hi cCustomFunc  guifg=yellowgreen ctermfg=34 
- hi cCustomClass guifg=#00FF00 ctermfg=98
- hi cCustomDotClass guifg=#00FF00 ctermfg=87
+ hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
+ hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
+ hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
+
+ hi pythonFunction ctermfg=39 cterm=bold
+ hi pythonClass    ctermfg=10 cterm=bold
 

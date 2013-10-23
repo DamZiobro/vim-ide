@@ -433,14 +433,16 @@ syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
 " hi def link cCustomFunc  Special
 " hi def link cCustomClass Function
 
- hi cCustomFunc  guifg=yellowgreen ctermfg=34 
- hi cCustomClass guifg=#00FF00 ctermfg=98
- hi cCustomArrowClass guifg=#00FF00 ctermfg=87
- hi cCustomDotClass guifg=#00FF00 ctermfg=87 
+ hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
+ hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
+ hi cCustomArrowClass guifg=#00FF00 ctermfg=87 cterm=bold
+ hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
 
 syn match cCustomFunctionDefinition "\~\?\zs\h\w*\s*\ze([^)]*\()\s*\(const\)\?\){\?$"
 hi cCustomFunctionDefinition gui=bold guifg=yellowgreen cterm=bold ctermfg=39
 
+syn match cppClass "^\s*class\s*[a-zA-Z][a-zA-Z0-9_]*"
+hi  cppClass ctermfg=3 cterm=bold 
 
 let b:current_syntax = "c"
 
