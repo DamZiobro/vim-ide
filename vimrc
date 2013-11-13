@@ -336,28 +336,28 @@ imap <C-a><C-a> <ESC>:A<cr>i
 
 
 function! BuildAndInstallCppApp()
-    ""set makeprg=make\ -C\ ./build
-    ""make --no-print-directory
     execute "!cd build; sudo make install;"
-    TagbarClose
-    cw 
-    TagbarOpen
 endfunction
 
 function! BuildAndInstallCSharpApp()
     execute "!xbuild;"
-    TagbarClose
-    cw 
-    TagbarOpen
+endfunction
+
+function! BuildAndInstallQtApp()
+    execute "!make;"
 endfunction
 
 
 " Quickfix open
 " :copen 
 
-" Make 
+" CMake 
 nmap <F8> <C-s> :call BuildAndInstallCppApp()<cr>
 imap <F8> <ESC> <C-s> :call BuildAndInstallCppApp()<cr>
+
+" Make 
+nmap <C-F8> <C-s> :call BuildAndInstallQtApp()<cr>
+imap <C-F8> <ESC> <C-s> :call BuildAndInstallQtApp()<cr>
 
 " CSharp make 
 nmap <C-F5> <C-s> :call BuildAndInstallCSharpApp()<cr>
