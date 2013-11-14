@@ -1,0 +1,25 @@
+/*
+ * =====================================================================================
+ *       Filename:  %FFILE%
+ *    Description:  
+ *        Created:  14/11/13 18:20:27
+ *         Author:  Damian Ziobro        (ziobro.damian@gmail.com)
+ *        Company:  XMementoIT Limited       (info@xmementoit.com)
+ * =====================================================================================
+ */
+
+#include <iostream>
+
+using namespace std;
+
+/* ======= Function ==================================================
+ *   Name: main
+ *   Description: main entry Function
+ * =================================================================== 
+ */
+int main(inc argc, const char **argv)
+{
+    %HERE%    
+    return 0;
+}
+

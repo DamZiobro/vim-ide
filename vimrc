@@ -465,6 +465,25 @@ function! UpdateAllTags()
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None
 endfunction
 
+function! IsFileAlreadyExists(filename)
+   if filereadable(a:filename)
+        return 1
+    else 
+        return 0
+   endif
+endfunction
+
+"Invoke this function if we are opening main.cpp or main.c file"
+function! CheckIfMain()
+    if !IsFileAlreadyExists(expand("%:t")) && expand("%:t:r") == "main" && expand("%:e") == "cpp"
+        execute 'normal! 1G 1000dd'
+        execute ':Template maincpp'
+    elseif !IsFileAlreadyExists(expand("%:t")) && expand("%:t:r") == "main" && expand("%:e") == "c"
+        execute 'normal! 1G 1000dd' 
+        execute ':Template mainc'
+    endif
+endfunction
+
 " setting ctags 
 set tags+=~/.vim/tags/cpp
 set tags+=~/.vim/tags/last_project_tags
@@ -502,10 +521,12 @@ map <leader>sd :SessionOpen vim_auto_saved_session<cr>:NERDTree .<cr>
 
 " =========== Startup commands =========="
 
+
 autocmd VimEnter * NERDTree .
 autocmd VimEnter * helptags ~/.vim/doc
 autocmd VimEnter * TagbarOpen
 autocmd VimEnter * exe 2 . "wincmd w"
+autocmd VimEnter * call CheckIfMain()
 
 " =========== Leaving commands =========="
 
