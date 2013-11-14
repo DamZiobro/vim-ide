@@ -1,0 +1,6 @@
+#
+# The Web Robots Pages (http://www.robotstxt.org/)
+#
+
+User-agent: *
+Disallow:

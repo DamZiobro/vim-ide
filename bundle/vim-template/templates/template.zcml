@@ -1,0 +1,8 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:i18n="http://namespaces.zope.org/i18n">
+
+  %HERE%
+
+</configure>
