@@ -72,7 +72,6 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set gdefault
 set incsearch
 set showmatch
 set hlsearch
@@ -238,8 +237,8 @@ function! PasteAndIndent()
 endfunction 
 
 " Saving file
-nmap <C-s> :update<cr>
-imap <C-s> <ESC>:update<cr>i
+nmap <C-s> :w<cr>
+imap <C-s> <ESC>:w<cr>i
 
 " Quit without saving
 nmap <C-A-q> :qa!<cr>
@@ -470,7 +469,7 @@ function! IsFileAlreadyExists(filename)
         return 1
     else 
         return 0
-   endif
+    endif
 endfunction
 
 "Invoke this function if we are opening main.cpp or main.c file"
@@ -478,11 +477,40 @@ function! CheckIfMain()
     if !IsFileAlreadyExists(expand("%:t")) && expand("%:t:r") == "main" && expand("%:e") == "cpp"
         execute 'normal! 1G 1000dd'
         execute ':Template maincpp'
+        execute ':w'
     elseif !IsFileAlreadyExists(expand("%:t")) && expand("%:t:r") == "main" && expand("%:e") == "c"
         execute 'normal! 1G 1000dd' 
         execute ':Template mainc'
+        execute ':w'
     endif
 endfunction
+
+"Invoke this function when you would like to create new C++ class files (.cpp
+"and .h file)"
+
+function! CreateCppClassFiles(className)
+    "create cpp file
+    if !IsFileAlreadyExists(a:className.'.cpp')
+        execute ':n '.a:className.'.cpp'
+        execute 'normal! 1G 1000dd'
+        execute ':Template cppclass'
+        execute ':w'
+    else
+        execute ':n '.a:className.'.cpp'
+    endif 
+    "create h file
+    if !IsFileAlreadyExists(a:className.'.h')
+        execute ':n '.a:className.'.h'
+        execute 'normal! 1G 1000dd'
+        execute ':Template cppclassh'
+        execute ':w'
+    else
+        execute ':n '.a:className.'.h'
+    endif
+endfunction
+
+"create new command for creating cpp class"
+command -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 
 " setting ctags 
 set tags+=~/.vim/tags/cpp
@@ -495,8 +523,8 @@ set tags+=~/.vim/tags/qt5
 nmap <C-F11> :call UpdateAllTags()<cr>
 imap <C-F11> <ESC>:call UpdateAllTags()<cr>
 
-nmap <C-F12> :silent call UpdateTags()<cr>
-imap <C-F12> <ESC> :silent call UpdateTags()<cr>
+nmap <C-F12> :silent call UpdateTags()<cr>:w<cr>
+imap <C-F12> <ESC> :silent call UpdateTags()<cr>:w<cr>i
 
 set autochdir
 let NERDTreeChDirMode=2

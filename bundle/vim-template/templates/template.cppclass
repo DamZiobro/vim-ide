@@ -1,25 +1,31 @@
 /*
  * =====================================================================================
- *       Filename:  %FFILE%
- *    Description:  
- *        Created:  %FDATE% 
+ *       Filename:  %FILE%.cpp
+ *        Created:  %FDATE%
  *         Author:  Damian Ziobro        (ziobro.damian@gmail.com)
  *        Company:  XMementoIT Limited       (info@xmementoit.com)
  * =====================================================================================
  */
 
-#include <iostream>
+#include "%FILE%.h"
 
-using namespace std;
 
 /* ======= Function ==================================================
- *   Name: main
- *   Description: main entry Function
+ *   Name: %FILE%::%FILE%
+ *   Description: Default contructor of class %FILE% 
  * =================================================================== 
  */
-int main(int argc, const char **argv)
+%FILE%::%FILE%()
 {
-    %HERE%    
-    return 0;
+    %HERE%//TODO
 }
 
+/* ======= Function ==================================================
+ *   Name: %FILE%::~%FILE%
+ *   Description: Destructor of class %FILE%
+ * =================================================================== 
+ */
+%FILE%::~%FILE%()
+{
+    //TODO
+}

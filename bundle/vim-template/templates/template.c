@@ -2,12 +2,12 @@
  * =====================================================================================
  *       Filename:  %FFILE%
  *    Description:  
- *        Created:  14/11/13 18:20:27
+ *        Created:  %FDATE%
  *         Author:  Damian Ziobro        (ziobro.damian@gmail.com)
  *        Company:  XMementoIT Limited       (info@xmementoit.com)
  * =====================================================================================
  */
 
-#include <%FILE%.h>
+#include "%FILE%.h"
 
 %HERE%
