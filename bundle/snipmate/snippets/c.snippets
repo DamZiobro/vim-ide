@@ -144,3 +144,7 @@ snippet .
 #print ref_count of selected GStreaner GObject
 snippet refpr
 	GST_ERROR("${1:gobject} refcount: %d", G_OBJECT($1)->ref_count);
+#insert DEAD code (will generate segmentation fault)
+snippet dead
+	int* deadPtr = NULL;
+	*deadPtr = 0xDEAD;
