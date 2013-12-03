@@ -241,8 +241,8 @@ nmap <C-s> :w<cr>
 imap <C-s> <ESC>:w<cr>i
 
 " Quit without saving
-nmap <C-A-q> :qa!<cr>
-imap <C-A-q> <ESC>:qa!<cr>
+nmap <Esc><C-q> :qa!<cr>
+imap <Esc><C-q> <ESC>:qa!<cr>
 
 " Quit with saving
 nmap <C-q> :xa!<cr>
@@ -510,7 +510,7 @@ function! CreateCppClassFiles(className)
 endfunction
 
 "create new command for creating cpp class"
-command -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
+command! -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 
 " setting ctags 
 set tags+=~/.vim/tags/cpp
@@ -700,6 +700,10 @@ nmap c0 "0yy
 " " USING MARKERS
 " Create marker: m<markerSign> ex. ma 
 " Goto marker:   '<markerSign> ex. 'a 
+"
+" ========================================================================================
+" " INSERT C++ GETTER NAD SETTER
+map <Leader>igs :InsertBothGetterSetter<CR>
 
 " ========================================================================================
 " " USING VIM AS HEX EDITOR
