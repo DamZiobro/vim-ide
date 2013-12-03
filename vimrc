@@ -241,8 +241,8 @@ nmap <C-s> :w<cr>
 imap <C-s> <ESC>:w<cr>i
 
 " Quit without saving
-nmap <Esc><C-q> :qa!<cr>
-imap <Esc><C-q> <ESC>:qa!<cr>
+"nmap <Esc><C-q> :qa!<cr>
+"imap <Esc><C-q> <ESC>:qa!<cr>
 
 " Quit with saving
 nmap <C-q> :xa!<cr>
