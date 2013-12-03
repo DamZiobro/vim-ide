@@ -253,8 +253,8 @@ nmap <C-n><C-n> :split <cr>
 imap <C-n><C-n> <ESC> :split <cr>i
 
 "Close splitted window 
-nmap <C-w><C-w> :q! <cr>
-imap <C-w><C-w> <ESC>:q! <cr>i
+nmap <C-d><C-d> :q! <cr>
+imap <C-d><C-d> <ESC>:q! <cr>i
 
 " Undo redo
 nmap <C-z> u
@@ -314,8 +314,8 @@ imap <C-a> <ESC>ggvG <End>
 
 " Close Tab
 
-nmap <C-w> :BD<cr>
-imap <C-w> <ESC>:BD><cr>i
+nmap <C-d> :BD<cr>
+imap <C-d> <ESC>:BD><cr>i
 
 " Map copy and paste in visual moderuntime
 
@@ -635,6 +635,7 @@ vmap <C-S-PageUp> <Home><C-u>
 
 "word deletion
 imap <C-BS> <C-w>
+nmap <C-w> i<C-w><Esc>
 imap <C-Del> _<Esc>mzew<BS>i<Del><Esc>v`z"_c
 
 vmap <Del> d<Esc>i
