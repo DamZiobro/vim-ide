@@ -26,7 +26,7 @@ snippet cl
 		virtual ~$1 ();
 
 	private:
-		${3:/* data */}
+
 	};
 snippet fori
 	for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) {
@@ -37,3 +37,9 @@ snippet del
 	$1 = NULL;
 snippet cout
 	cout << "${1}" << endl;
+snippet new
+	${1:ObjectClass} *${2:objectName} = new $1();
+snippet foreach
+	for(auto ${2:item} : ${1:vectorObject}){
+		${3:/* code */}
+	}
