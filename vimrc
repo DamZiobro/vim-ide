@@ -332,10 +332,21 @@ imap <C-v> <ESC>:call PasteAndIndent()<cr> i<End>
 nmap <C-a><C-a> :A <cr>
 imap <C-a><C-a> <ESC>:A<cr>i
 
-
+function! FindProjectRoot(lookFor)
+    let pathMaker='%:p'
+    while(len(expand(pathMaker))>len(expand(pathMaker.':h')))
+        let pathMaker=pathMaker.':h'
+        let fileToCheck=expand(pathMaker).'/'.a:lookFor
+        if filereadable(fileToCheck)||isdirectory(fileToCheck)
+            return expand(pathMaker)
+        endif
+    endwhile
+    return 0
+endfunction
 
 function! BuildAndInstallCppApp()
-    execute "!cd build; sudo make install;"
+    let projectRoot = FindProjectRoot("main.cpp")
+    execute "!cd ".projectRoot."/build; sudo make install;"
 endfunction
 
 function! BuildAndInstallCSharpApp()
