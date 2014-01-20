@@ -319,6 +319,8 @@ imap <C-d> <ESC>:BD><cr>i
 
 " Map copy and paste in visual moderuntime
 
+nmap <C-c> yiw
+imap <C-c> <ESC>yiwi
 vmap <C-x> "+d
 vmap <C-c> "+yi
 nmap <C-v> :call PasteAndIndent()<cr><End>
