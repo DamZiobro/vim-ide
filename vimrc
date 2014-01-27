@@ -238,7 +238,7 @@ endfunction
 
 " Saving file
 nmap <C-s> :w<cr>
-imap <C-s> <ESC>:w<cr>i
+imap <C-s> <ESC>l:w<cr>i
 
 " Quit without saving
 "nmap <Esc><C-q> :qa!<cr>
@@ -250,44 +250,44 @@ imap <C-q> <ESC>:xa!<cr>
 
 "Split window
 nmap <C-n><C-n> :split <cr>
-imap <C-n><C-n> <ESC> :split <cr>i
+imap <C-n><C-n> <ESC>l:split <cr>i
 
 "Close splitted window 
 nmap <C-d><C-d> :q! <cr>
-imap <C-d><C-d> <ESC>:q! <cr>i
+imap <C-d><C-d> <ESC>l:q! <cr>i
 
 " Undo redo
 nmap <C-z> u
-imap <C-z> <ESC>ui
+imap <C-z> <ESC>lui
 
 nmap <C-y> <C-r>
-imap <C-y> <ESC><C-r>i
+imap <C-y> <ESC>l<C-r>i
 
 " Replace command 
 nmap <C-h> :execute "call MyReplaceText()"<cr>
-imap <C-h> <ESC>:execute "call MyReplaceText()"<cr>
+imap <C-h> <ESC>l:execute "call MyReplaceText()"<cr>
 
 nmap <C-h><C-h> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
-imap <C-h><C-h> <ESC>:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
+imap <C-h><C-h> <ESC>l:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
 
 
 " Indentation (got to opening bracket and indent section) 
 
 "vmap =
 nmap <C-s><C-i> [{=%
-imap <C-s><C-i> <ESC>[{=%<cr>i
+imap <C-s><C-i> <ESC>l[{=%<cr>i
 
 "Highlight section between brackets (do to opening bracket and highlight)
 nmap <C-s><C-h> [{%v%<Home>
-imap <C-s><C-h> <ESC>[{%v%<Home>
+imap <C-s><C-h> <ESC>l[{%v%<Home>
 
 "Find command
 
 nmap <C-f> /
-imap <C-f> <ESC>/
+imap <C-f> <ESC>l/
 
 nmap <C-f><C-f> :execute "/" .  expand('<cword>') <cr>
-imap <C-f><C-f> <ESC>:execute "/" .  expand('<cword>') <cr>i
+imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
 
 "Find in many files and navigate between search results 
 "
@@ -320,7 +320,7 @@ imap <C-d> <ESC>:BD><cr>i
 " Map copy and paste in visual moderuntime
 
 nmap <C-c> yiw
-imap <C-c> <ESC>yiwi
+imap <C-c> <ESC>lyiwi
 vmap <C-x> "+d
 vmap <C-c> "+yi
 nmap <C-v> :call PasteAndIndent()<cr><End>
@@ -348,6 +348,9 @@ endfunction
 
 function! BuildAndInstallCppApp()
     let projectRoot = FindProjectRoot("main.cpp")
+    if projectRoot == 0
+        let projectRoot = "."
+    endif
     execute "!cd ".projectRoot."/build; sudo make install;"
 endfunction
 
@@ -534,10 +537,10 @@ set tags+=~/.vim/tags/qt5
 
 
 nmap <C-F11> :call UpdateAllTags()<cr>
-imap <C-F11> <ESC>:call UpdateAllTags()<cr>
+imap <C-F11> <ESC>l:call UpdateAllTags()<cr>
 
 nmap <C-F12> :silent call UpdateTags()<cr>:w<cr>
-imap <C-F12> <ESC> :silent call UpdateTags()<cr>:w<cr>i
+imap <C-F12> <ESC>l:silent call UpdateTags()<cr>:w<cr>i
 
 set autochdir
 let NERDTreeChDirMode=2
@@ -617,41 +620,39 @@ endif
 ""place in vimrc file
 
 "word selection
-nmap <C-S-Left> vbge<Space>
+nmap <C-S-Left> vbge<Space>l
 nmap <C-S-Right> vew<BS>
-imap <C-S-Left> _<Esc>mz"_xv`z<BS>obge<Space>
-imap <C-S-Right> _<Esc>my"_xi<S-Right><C-o><BS>_<Esc>mz"_xv`yo`z
-vmap <C-S-Left> bge<Space>
-vmap <C-S-Right> ew<BS>
+imap <C-S-Left> <Esc>lvbge<Space>l
+imap <C-S-Right> <Esc>vew<Esc>h
 
 "down/up selection
 nmap <C-S-Down> v<Down>
 nmap <C-S-Up> v<Up>
-imap <C-S-Down> _<Esc>mz"_xv`zo`z<Down><Right><BS><BS>
-imap <C-S-Up> _<Esc>mz"_xv`z<Up>o`z<BS>o
+imap <C-S-Down> _<Esc>lmz"_xv`zo`z<Down><Right><BS><BS>
+imap <C-S-Up> _<Esc>lmz"_xv`z<Up>o`z<BS>o
 vmap <C-S-Down> <Down>
 vmap <C-S-Up> <Up>
 
 "home/end selection
 nmap <C-S-Home> v<Home>
 nmap <C-S-End> v<End>
-imap <C-S-Home> _<Esc>mz"_s<C-o><Left><C-o>`z<Esc>v<Home>
-imap <C-S-End> _<Esc>mz"_xv`zo<End>
+imap <C-S-Home> _<Esc>lmz"_s<C-o><Left><C-o>`z<Esc>v<Home>
+imap <C-S-End> _<Esc>lmz"_xv`zo<End>
 
 "half page down/up selection
 nmap <C-S-PageDown> v<End><C-d><End>
 nmap <C-S-PageUp> v<Home><C-u>
-imap <C-S-PageDown> _<Esc>mz"_xv`zo<End><C-d><End>
-imap <C-S-PageUp> _<Esc>mz"_xv`z<BS>o<Home><C-u>
+imap <C-S-PageDown> _<Esc>lmz"_xv`zo<End><C-d><End>
+imap <C-S-PageUp> _<Esc>lmz"_xv`z<BS>o<Home><C-u>
 vmap <C-S-PageDown> <End><C-d><End>
 vmap <C-S-PageUp> <Home><C-u>
 
 "word deletion
 imap <C-BS> <C-w>
 nmap <C-w> i<C-w><Esc>
-imap <C-Del> _<Esc>mzew<BS>i<Del><Esc>v`z"_c
+imap <C-Del> _<Esc>lmzew<BS>i<Del><Esc>v`z"_c
 
-vmap <Del> d<Esc>i
+vmap <Del> d<Esc>li
 
 "===================================================================================================
 " Commenting blocks of code.
@@ -679,7 +680,7 @@ autocmd FileType c,cpp let b:surround_99  = "/*\n\r*/"
 " warning: to refresh NERDTree just type 'r' being in NERD window
 
 nmap <F5> :e<cr>
-imap <F5> <ESC>:e<cr>i
+imap <F5> <ESC>l:e<cr>i
 
 " ========================================================================================
 " MULTIPLE CLIPBOARD
