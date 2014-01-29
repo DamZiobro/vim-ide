@@ -231,10 +231,10 @@ endfunction
 
 
 function! PasteAndIndent()
-  normal! "+P`]
-  let lineNumber = line('.')
-  normal! [{%v%=
-  :execute lineNumber
+  normal! l"+P
+  "let lineNumber = line('.')
+  "normal! [{%v%=
+  ":execute lineNumber
 endfunction 
 
 " Saving file
@@ -321,11 +321,11 @@ imap <C-d> <ESC>:BD><cr>i
 " Map copy and paste in visual moderuntime
 
 nmap <C-c> yiw
-imap <C-c> <ESC>lyiwi
+imap <C-c> <ESC>yiwi
 vmap <C-x> "+d
 vmap <C-c> "+yi
-nmap <C-v> :call PasteAndIndent()<cr><End>
-imap <C-v> <ESC>:call PasteAndIndent()<cr> i<End>
+"nmap <C-v> :call PasteAndIndent()<cr>i<Right>
+imap <C-v> <ESC>:call PasteAndIndent()<cr>i<Right>
 
 "Cmake
 ":cmake 
@@ -613,7 +613,7 @@ if v:version >= 700
     let OmniCpp_MayCompleteScope    = 1
     let OmniCpp_DefaultNamespaces   = ['std','_GLIBCXX_STD']
 
-    set completeopt=menuone,menu,longest,preview 
+    set completeopt=menuone,menu,longest,preview
 endif
 
 "================ Ctrl+Shift+Arrows selection ======================================                      
@@ -621,10 +621,12 @@ endif
 ""place in vimrc file
 
 "word selection
-nmap <C-S-Left> vbge<Space>l
-nmap <C-S-Right> vew<BS>
-imap <C-S-Left> <Esc>lvbge<Space>l
-imap <C-S-Right> <Esc>vew<Esc>h
+nmap <C-S-Left> vb
+nmap <C-S-Right> ve
+imap <C-S-Left> <Esc><Right>vb
+imap <C-S-Right> <Esc><Right>ve
+vmap <C-S-Left> b
+vmap <C-S-Right> e
 
 "down/up selection
 nmap <C-S-Down> v<Down>
