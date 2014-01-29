@@ -53,6 +53,7 @@ set matchtime=3
 let mapleader = ","
 
 nnoremap ; :
+vmap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 
 " Set title to window
