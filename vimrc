@@ -739,6 +739,14 @@ let g:gundo_preview_height = 40
 let g:gundo_right = 1
 
 " ========================================================================================
+" " Resize split window horizontally 
+" Shortcuts to Shift-Alt-Up - Alt is mapped as M in vim
+nmap <S-M-Up> :2winc+<cr>
+imap <S-M-Up> <Esc>:2winc+<cr>i
+nmap <S-M-Down> :2winc-<cr>
+imap <S-M-Down> <Esc>:2winc-<cr>i
+
+" ========================================================================================
 " " Using Omni completion for C#
 
 let g:OmniSharp_host = "http://localhost:2000"
