@@ -568,7 +568,7 @@ nnoremap <leader>r :NERDTreeFind<cr>
 " Save and load session
 "
 map <leader>ss :SessionSaveAs user_auto_saved_session<cr>:NERDTree .<cr>
-map <leader>so :SessionOpen user_auto_saved_session<cr>
+map <leader>so :SessionOpen user_auto_saved_session<cr><C-d><C-d>,n:NERDTree .<cr>
 
 ""Open default session (session saved during closing vim)
 map <leader>sd :SessionOpen vim_auto_saved_session<cr>:NERDTree .<cr> 
