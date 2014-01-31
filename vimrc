@@ -245,7 +245,7 @@ imap <C-Down> <Esc><C-Down>i
 
 " Saving file
 nmap <C-s> :w<cr>
-imap <C-s> <ESC>l:w<cr>i
+imap <C-s> <ESC>:w<cr>i
 
 " Quit without saving
 "nmap <Esc><C-q> :qa!<cr>
