@@ -237,6 +237,12 @@ function! PasteAndIndent()
   ":execute lineNumber
 endfunction 
 
+" Allow using C-Up and C-Down in insert mode 
+" to move between splitted buffers easly
+imap <C-Up> <Esc><C-Up>i
+imap <C-Down> <Esc><C-Down>i
+
+
 " Saving file
 nmap <C-s> :w<cr>
 imap <C-s> <ESC>l:w<cr>i
