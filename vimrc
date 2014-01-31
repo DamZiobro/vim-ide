@@ -255,9 +255,9 @@ imap <C-n><C-n> <ESC>:split <cr>i
 nmap <C-b><C-b> :vsplit <cr>
 imap <C-b><C-b> <ESC>:vsplit <cr>i
 
-"Create window mosaic 
-nmap <leader>cm :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up>
-imap <leader>cm <ESC>:split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up>i
+"Make window mosaic 
+nmap <leader>mon :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>l
+imap <leader>mon <ESC>:split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>li
 
 "Close splitted window 
 nmap <C-d><C-d> :q! <cr>
