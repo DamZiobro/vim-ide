@@ -252,8 +252,8 @@ imap <C-q> <ESC>:xa!<cr>
 "Split window
 nmap <C-n><C-n> :split <cr>
 imap <C-n><C-n> <ESC>:split <cr>i
-nmap <C-m><C-m> :vsplit <cr>
-imap <C-m><C-m> <ESC>:vsplit <cr>i
+nmap <C-b><C-b> :vsplit <cr>
+imap <C-b><C-b> <ESC>:vsplit <cr>i
 
 "Close splitted window 
 nmap <C-d><C-d> :q! <cr>
