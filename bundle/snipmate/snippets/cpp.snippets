@@ -43,3 +43,9 @@ snippet foreach
 	for(auto ${2:item} : ${1:vectorObject}){
 		${3:/* code */}
 	}
+snippet log
+	Logger::getInstance().LOG(Logger::${1:DEBUG},true,"${2:text}");
+snippet shptr
+	shared_ptr<${1:ObjectClass}> ${2:objectName};
+snippet shptrn
+	shared_ptr<${1:ObjectClass}> ${2:objectName}(new $1());

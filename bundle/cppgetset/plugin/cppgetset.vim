@@ -274,7 +274,7 @@ if exists("b:cppgetset_getterTemplate")
   let s:cppgetset_getterTemplate = b:cppgetset_getterTemplate
 else  
   let s:cppgetset_getterTemplate = 
-    \ "%modifiers%: %type% %funcname%(){ return %varname%; }" 
+    \ "%modifiers%: inline %type% %funcname%(){ return %varname%; }" 
 endif
 
 
@@ -283,7 +283,7 @@ if exists("b:cppgetset_setterTemplate")
   let s:cppgetset_setterTemplate = b:cppgetset_setterTemplate
 else  
   let s:cppgetset_setterTemplate = 
-  \ "%modifiers%: void %funcname%(%type% %varname%){ this->%varname% = %varname%;}" 
+  \ "%modifiers%: inline void %funcname%(%type% %varname%){ this->%varname% = %varname%;}" 
 endif
 
 " Position where methods are inserted.  The possible values are: 
