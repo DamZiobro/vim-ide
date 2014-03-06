@@ -284,6 +284,11 @@ nmap <C-h><C-h> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")"
 imap <C-h><C-h> <ESC>l:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
 
 
+" Make check spelling on or off 
+nmap <leader>cson   :set spell<CR>
+nmap <leader>csoff  :set nospell<CR>
+
+
 " Indentation (got to opening bracket and indent section) 
 
 "vmap =
