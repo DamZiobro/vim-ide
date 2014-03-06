@@ -704,26 +704,22 @@ imap <F5> <ESC>l:e<cr>i
 " <Ctrl-R><registername>
 " ex. <Ctrl-R>1
 
-vmap c1 "1yy<ESC>i
-nmap c1 "1yy
-vmap c2 "2yy<ESC>i
-nmap c2 "2yy
-vmap c3 "3yy<ESC>i
-nmap c3 "3yy
-vmap c4 "4yy<ESC>i
-nmap c4 "4yy
-vmap c5 "5yy<ESC>i
-nmap c5 "5yy
-vmap c6 "6yy<ESC>i
-nmap c6 "6yy
-vmap c7 "7yy<ESC>i
-nmap c7 "7yy
-vmap c8 "8yy<ESC>i
-nmap c8 "8yy
-vmap c9 "9yy<ESC>i
-nmap c9 "9yy
-vmap c0 "0yy<ESC>i
-nmap c0 "0yy
+vmap ca "ayy<ESC>i
+nmap ca "ayy
+vmap cb "byy<ESC>i
+nmap cb "byy
+vmap cc "cyy<ESC>i
+nmap cc "cyy
+vmap cd "dyy<ESC>i
+nmap cd "dyy
+vmap ce "eyy<ESC>i
+nmap ce "eyy
+vmap cf "fyy<ESC>i
+nmap cf "fyy
+vmap cg "gyy<ESC>i
+nmap cg "gyy
+vmap ch "hyy<ESC>i
+nmap ch "hyy
 
 " ========================================================================================
 " " USING MARKERS
