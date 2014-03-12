@@ -692,6 +692,7 @@ noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<
 autocmd FileType c,cpp let b:surround_105  = "if (condition) {\n \r } \n"
 autocmd FileType c,cpp let b:surround_102  = "for (int i=0; i<condition;i++) {\n\r}\n"
 autocmd FileType c,cpp let b:surround_119  = "while (condition) {\n\r}\n"
+autocmd FileType c,cpp let b:surround_112  = "printf(\"\r\");"
 autocmd FileType c,cpp let b:surround_99  = "/*\n\r*/"
 
 " ========================================================================================
