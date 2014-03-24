@@ -804,3 +804,8 @@ let g:OmniSharp_typeLookupInPreview = 1
 "" "Don't ask to save when changing buffers (i.e. when jumping to a type
 "" definition)
  "set hidden
+ 
+
+" ========================================================================================
+" " ProtoDef 
+let g:protodefprotogetter="$HOME/.vim/bundle/vim-protodef/pullproto.pl"

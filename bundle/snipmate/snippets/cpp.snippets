@@ -37,6 +37,8 @@ snippet del
 	$1 = NULL;
 snippet cout
 	cout << "${1}" << endl;
+snippet coutv
+	cout << "${1:var}=" << $1 << endl;
 snippet new
 	${1:ObjectClass} *${2:objectName} = new $1();
 snippet foreach

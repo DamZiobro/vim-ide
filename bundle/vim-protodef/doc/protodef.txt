@@ -1,0 +1,225 @@
+*protodef.txt*	For Vim version 7.2 and above	Last change: 2009 May 01
+
+			      -----------------
+			      Prototype Definer
+			      -----------------
+
+Author:  Derek Wyatt (derek at myfirstnamemylastname dot org)
+
+							*protodef-copyright*
+Copyright: The VIM LICENSE applies to protodef.vim, and protodef.txt
+	   (see |copyright|) except use "protodef" instead of "Vim".
+	   No warranty, express or implied.
+	   Use At-Your-Own-Risk!
+
+==============================================================================
+						*protodef* *protodef-contents*
+1. Contents~
+
+ 1. Contents .......................................:|protodef-contents|
+ 2. About ..........................................:|protodef-about|
+ 3. Features .......................................:|protodef-features|
+ 4. Usage ..........................................:|protodef-usage|
+ 5. Limitations ....................................:|protodef-limitations|
+ 6. Dependencies ...................................:|protodef-dependencies|
+ 7. Setup ..........................................:|protodef-setup|
+ 8. Configuration ..................................:|protodef-configuration|
+ 9. ReturnSkeletonsFromPrototypesForCurrentBuffer().:|protodef-publicfunc|
+ A. Change History .................................:|protodef-changes|
+
+==============================================================================
+							*protodef-about*
+2. About~
+
+ProtoDef is designed to make the "manual" process of copying function 
+prototypes from a C++ header file to a C++ implementation file automatic.
+After you've defined the prototype in the header file, you can just hit a key
+and all of the undefined prototypes will be defined for you at the current
+cursor position.
+
+==============================================================================
+							*protodef-features*
+3. Features~
+
+ProtoDef has the following features:
+
+  - Copies the prototypes to be as close to the header file declaration as
+    possible
+  - Will not make definitions for prototypes that are pure virtual or
+    already have definitions in the header file
+  - Always brings your implementation up to date with the header file
+    by including all definitions that don't yet exist
+  - Resilient to formatting changes.  If you change the format of your
+    function definition or declaration, ProtoDef does not lose the
+    relationship between them and will not bring in duplicate definitions
+  - Removes default values that may be declared in the prototype that do
+    not belong in the implementation
+
+==============================================================================
+							*protodef-usage*
+4. Usage~
+
+A mapping is made for you that is local to the buffer in the C++
+implementation file called:
+>
+	nmap <buffer> <silent> <leader> ,PP
+<
+So all you have to do is simply hit {<leader>PP} on a line in the
+implementation file and you will get the definitions put in at that spot.
+
+Another mapping is included to generate prototypes without the namespace
+definition as well:
+>
+	nmap <buffer> <silent> <leader> ,PN
+<
+
+==============================================================================
+							*protodef-limitations*
+5. Limitations~
+
+C++ isn't a simple language to parse.  There are a ton of bits an pieces
+that could be declared in extremely odd ways.  I wrote this to deal with the
+C++ code that I write personally, and extended it to handle some of the stuff
+that I noticed other people do.  It may not work 100% for you.
+
+If you don't like the way things are formatted then you might consider passing
+the results through a code formatter such as astyle
+(http://astyle.sourceforge.net/).
+
+==============================================================================
+							*protodef-dependencies*
+6. Dependencies~
+
+ProtoDef has dependencies on the following:
+
+  - Exuberant CTAGS 5.7 or better (http://ctags.sourceforge.net)
+  - FSwitch plugin for Vim
+    (http://www.vim.org/scripts/script.php?script_id=2590)
+  - PERL (probably any current version would be fine).  You don't need to
+    have Vim compiled with PERL support - we just need PERL to run a script
+    that came with this plugin.
+
+==============================================================================
+							*protodef-setup*
+7. Setup~
+
+In order to get ProtoDef working you'll need to do the following:
+
+  - Drop the {protodef.vim} file into the $VIM/plugin directory.
+  - Drop the {protodef.txt} file into the $VIM/doc directory.
+  - Run :helptags $VIM/doc
+  - Put the pullproto.pl script somewhere.  The default expected location is
+    inside the |$VIM| directory
+  - Optionally tell ProtoDef where ctags and pullproto.pl are
+
+==============================================================================
+							*protodef-configure*
+8. Configuration~
+
+							*'protodefctagsexe'*
+'protodefctagsexe'   string	(default is "ctags")
+                     global
+
+        This is the location and/or name of the ctags executable.  If ctags
+	is in your PATH then the default will probably work just fine.  If
+	it's not then you should put the full path to the executable in
+	this variable.
+>
+             :let g:protodefctagsexe = '/mylocation/ctags/ctags.exe'
+<
+
+						       *'protodefprotogetter'*
+'protodefprotogetter'   string	(default is $VIM . "/pullproto.pl")
+                        global
+	
+	This is the location and/or name of the {pullproto.pl} script.  The
+	default location is under the |$VIM| directory.
+
+				                     *'protodefvaluedefaults'*
+'protodefvaluedefaults' string	(default is big)
+			global
+
+	This variable is a dictionary that maps types to default values.
+	You can customize this and if you wish to do so, you should probably
+	just look in the code to see what you should make it look like.
+	
+				                  *'disable_protodef_sorting'*
+'disable_protodef_sorting' whatever (default is not defined)
+			   global
+
+	Protodef will perform a sort on the functions placed in the
+	implementation file.  If you don't want to do this then set this
+	variable and the order of the functions will be the same as in the
+	header file.
+
+				                  *'disable_protodef_mapping'*
+'disable_protodef_mapping' whatever (default is not defined)
+			   global
+
+	If you want to disable the creation of the the <leader>PP and
+        <leader>PN mappings, just define this - it doesn't matter what you
+	define it to be.
+
+==============================================================================
+   	*protodef-publicfunc* *ReturnSkeletonsFromPrototypesForCurrentBuffer()*
+
+9. protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer()~
+
+This is the publicly accessible function that you can call if you want to take
+the current buffer (a C++ implementation file) and pull the prototypes into
+definitions within it.
+
+This function takes a dictionary parameter to hold options.  The only option
+that's supported at the moment is {includeNS}.  Here are some examples of
+calling the function:
+>
+  " Get the prototypes and keep the namespaces, so that you'll get things
+  " like 'ns1::ns2::ns3::Constructor()'
+  let protos = protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer({})
+
+  " Get the prototypes without the namespaces, so that you'll get things
+  " like 'Constructor()'
+  let protos = protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer({
+                                 'includeNS' : 0})
+<
+
+==============================================================================
+							*protodef-changes*
+A. Change History~
+
+0.9.5
+	- Fixed up a regular expression so it matches pointers and references
+	  better (pointers and references attached to the name instead of the
+	  type, which is hideous).  (Paolo Capriotti)
+0.9.4
+	- Made sure that we need at least 7.0 (Timon Kelter)
+	- Introduced the disable_protodef_sorting variable.
+	- Added a fix to deal with default parameters that were class
+	  instances (e.g. MyClass()) (Matt Spear)
+	- Fixed function prototype parsing in pullproto.pl such that regex
+	  special characters are deal with nicely (Matt Spear)
+	- Handle template specializations properly (Matt Spear)
+	- Ensure that implementations in the header file but outside the class
+	  definition are not brought in to the implementation (Dmitry Bashkatov)
+0.9.3
+	- Fixed bug in autocmd mapping to change the ",C" to ".C"
+0.9.2
+	- Added the option to eliminate the namespaces from the definitions
+	- Added the <Leader>PN mapping to generate prototypes without
+	  namespaces.
+0.9.1
+	- Fix for nested classes
+0.9.0
+	- Initial release
+
+==============================================================================
+							*protodef-bugs*
+B. Known Bugs~
+
+- If you change the variable name of a parameter in the implementation file
+  (e.g. delete the variable name because you don't actually need it in the
+  function - say it's a test stub function or something) then it looks to
+  protodef like you haven't actually defined it yet in the implementation file
+  and it will pull in a new one if you hit <leader>PP or <leader>PN
+
+vim:tw=78:sts=8:ts=8:sw=8:noet:ft=help:
