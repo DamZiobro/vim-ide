@@ -693,8 +693,9 @@ autocmd FileType c,cpp let b:surround_105  = "if (condition) {\n \r } \n"
 autocmd FileType c,cpp let b:surround_102  = "for (int i=0; i<condition;i++) {\n\r}\n"
 autocmd FileType c,cpp let b:surround_119  = "while (condition) {\n\r}\n"
 autocmd FileType c,cpp let b:surround_112  = "printf(\"\r\\n\");"
-autocmd FileType c,cpp let b:surround_99  = "/*\n\r*/"
+autocmd FileType c,cpp let b:surround_99   = "/*\n\r*/"
 
+autocmd FileType html  let b:surround_102  = "<font face=\"courier\">/r</font>"
 " ========================================================================================
 " REFRESH COMMANDS
 
