@@ -154,3 +154,7 @@ snippet nl
 	"\n"
 snippet fp 
 	fprintf(stderr, "${1}\n"); fsync(stderr);
+snippet refas
+	if(G_OBJECT(${1:gobject})->ref_count != 1){
+		GST_ERROR("!!!!!!!!!!!!!!!!!! $1->ref_count != 1 (== %u)", G_OBJECT($1)->ref_count);
+	}
