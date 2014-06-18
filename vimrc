@@ -44,7 +44,9 @@ set pastetoggle=<F2>
 set number
 set norelativenumber
 
-"set undofile
+set undofile
+set undodir=/tmp
+
 set shell=/bin/bash
 set lazyredraw
 set matchtime=3
