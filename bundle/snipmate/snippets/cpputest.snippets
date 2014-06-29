@@ -1,0 +1,37 @@
+# CppUTest.org snippets
+
+# Test Macros
+snippet ig
+	IGNORE_TEST(${1:group}, ${2:name})
+	{
+		${3}
+	}
+snippet tg
+	TEST_GROUP(${1:group})
+	{
+		${2}
+	}
+snippet te
+	TEST(${1:group}, ${2:testname})
+	{
+		${3:/* arrange, act, assert */};
+	}
+
+# Assertions
+
+snippet c 
+	CHECK(${1:boolean}, ${2:condition});
+snippet ce
+	CHECK_EQUAL(${1:expected}, ${2:actual});
+snippet ste
+	STRCMP_EQUAL(${1:expected}, ${2:actual});
+snippet le
+	LONGS_EQUAL(${1:expected}, ${2:actual});
+snippet be
+	BYTES_EQUAL(${1:expected}, ${2:actual});
+snippet pe
+	POINTERS_EQUAL(${1:expected}, ${2:actual});
+snippet de
+	DOUBLES_EQUAL(${1:expected}, ${2:actual}, ${3:tolerance});
+snippet f
+	FAIL(${1:text});

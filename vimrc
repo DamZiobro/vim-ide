@@ -698,6 +698,12 @@ autocmd FileType c,cpp let b:surround_112  = "printf(\"\r\\n\");"
 autocmd FileType c,cpp let b:surround_99   = "/*\n\r*/"
 
 autocmd FileType html  let b:surround_102  = "<font face=\"courier\">/r</font>"
+
+" ========================================================================================
+"Enable snippets for cpputest 
+autocmd FileType cpp :set filetype=cpp.cpputest
+autocmd FileType c   :set filetype=c.cpputest
+
 " ========================================================================================
 " REFRESH COMMANDS
 
