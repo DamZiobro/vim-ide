@@ -549,12 +549,14 @@ endfunction
 command! -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 
 " setting ctags 
-set tags+=~/.vim/tags/cpp
 set tags+=~/.vim/tags/last_project_tags
+set tags+=~/.vim/tags/direcTV_project
+set tags+=~/.vim/tags/cpp
 set tags+=~/.vim/tags/opencv
 set tags+=~/.vim/tags/qt5
-"set tags+=~/.vim/tags/usr_local_include
+set tags+=~/.vim/tags/usr_local_include
 
+nmap <C-g>   :split<cr><C-]>   
 
 nmap <C-F11> :call UpdateAllTags()<cr>
 imap <C-F11> <ESC>l:call UpdateAllTags()<cr>
