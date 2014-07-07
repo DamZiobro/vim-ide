@@ -152,7 +152,7 @@ call HL('Folded', 'mediumgravel', 'bg', 'none')
 
 call HL('VertSplit', 'lightgravel', 'bg', 'none')
 
-call HL('CursorLine',   '', 'darkgravel', 'none')
+call HL('CursorLine',   '', 'darkgravel', 'underline')
 call HL('CursorColumn', '', 'darkgravel')
 call HL('ColorColumn',  '', 'darkgravel')
 
