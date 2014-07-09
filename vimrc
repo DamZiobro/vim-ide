@@ -306,13 +306,14 @@ imap <C-s><C-h> <ESC>l[{%v%<Home>
 nmap <C-f> /
 imap <C-f> <ESC>l/
 
+
 nmap <C-f><C-f> :execute "/" .  expand('<cword>') <cr>
 imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
 
 "Find in many files and navigate between search results 
 "
 map <F3> :call MySearchText() <Bar> cw<cr>
-map <F3><F3> :execute "call MySearchSelectedText (\"".expand("<cword>") . "\")" <Bar> cw<cr>
+map <F3><F3> :execute "call MySearchSelectedText (\"".expand("<cword>") . "\")" <Bar> botright cw<cr>
 nmap <A-Right> :cnext<cr>
 nmap <A-Left> :cprevious<cr>
 
@@ -818,5 +819,19 @@ let g:OmniSharp_typeLookupInPreview = 1
  
 
 " ========================================================================================
-" " ProtoDef 
-let g:protodefprotogetter="$HOME/.vim/bundle/vim-protodef/pullproto.pl"
+" " ProtoDef plugin 
+" ========================================================================================
+" Allows pulling C++ function prototypes into implementation files 
+" https://github.com/derekwyatt/vim-protodef 
+"
+let g:protodefprotogetter="$HOME/.vim/bundle/vim-protodef/pullproto.pl" 
+
+
+" ========================================================================================
+" " localvimrc plugin 
+" This plugin searches for local vimrc files in the file system tree of the
+" currently opened file.
+" https://github.com/embear/vim-localvimrc
+" ========================================================================================
+" 
+let g:localvimrc_persistent=2
