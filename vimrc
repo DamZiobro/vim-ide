@@ -97,6 +97,26 @@ set listchars=tab:▸\ ,eol:¬
 set clipboard=unnamedplus
 
 
+"==========================================================================="
+" Different search patterns 
+let g:cpp_pattern = "*.{cpp,c,h,hpp}"
+let g:java_pattern = "*.{java}"
+let g:makefile_pattern = "Makefile*"
+let g:text_pattern = "*.{txt,text}"
+let g:python_pattern = "*.{py}"
+let g:cpp_java_pattern = "*.{cpp,c,h.hpp,java}"
+
+"==========================================================================="
+" C\C++ projects settings
+"==========================================================================="
+"Global project settings 
+let g:project_root = "."
+
+let g:search_root = g:project_root
+let g:search_pattern = "*.*"
+"==========================================================================="
+
+
 " Rope settings."
 inoremap <leader>j <ESC>:RopeGotoDefinition<cr>
 
@@ -211,11 +231,11 @@ let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
 
 function! MySearchText()
     let text = input("Text to find: ")
-    :execute "vimgrep /" . text . "/jg **/*.* "
+    :call MySearchSelectedText(text)
 endfunction
 
 function! MySearchSelectedText(text)
-    :execute "vimgrep /" . a:text . "/jg **/*.* "
+    :execute "vimgrep /" . a:text . "/jg ".g:search_root."/**/".g:search_pattern
 endfunction
 
 
@@ -312,7 +332,7 @@ imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
 
 "Find in many files and navigate between search results 
 "
-map <F3> :call MySearchText() <Bar> cw<cr>
+map <F3> :call MySearchText() <Bar> botright cw<cr>
 map <F3><F3> :execute "call MySearchSelectedText (\"".expand("<cword>") . "\")" <Bar> botright cw<cr>
 nmap <A-Right> :cnext<cr>
 nmap <A-Left> :cprevious<cr>
@@ -368,11 +388,11 @@ function! FindProjectRoot(lookFor)
 endfunction
 
 function! BuildAndInstallCppApp()
-    let projectRoot = FindProjectRoot("main.cpp")
-    if projectRoot == 0
-        let projectRoot = "."
+    let project_root = FindProjectRoot("main.cpp")
+    if project_root == 0
+        let project_root = "."
     endif
-    execute "!cd ".projectRoot."/build; sudo make install;"
+    execute "!cd ".project_root."/build; sudo make install;"
 endfunction
 
 function! BuildAndInstallCSharpApp()
