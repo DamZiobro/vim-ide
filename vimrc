@@ -854,4 +854,15 @@ let g:protodefprotogetter="$HOME/.vim/bundle/vim-protodef/pullproto.pl"
 " https://github.com/embear/vim-localvimrc
 " ========================================================================================
 " 
-let g:localvimrc_persistent=2
+let g:localvimrc_persistent=2 
+
+
+" ========================================================================================
+" " gototagwithlinenumber 
+" This plugin allows going to file and line_number stored in tag (using ctags)
+" It is useful ex. when we are working with project and have logs for project. 
+" Then we can easly switch between logs and real source code using tags + functions
+" ========================================================================================
+" 
+nmap <leader>gt :GotoFileWithLineNumTag <cr>
+
