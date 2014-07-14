@@ -1,0 +1,43 @@
+#!/usr/bin/python
+
+import os
+import sys
+import re
+
+VIM_EXEC="/usr/bin/vim.default"
+
+def split_match_result_and_get_vimcommand(match_result, split_separator):
+    filename = match_result.group().split(split_separator)[0]
+    line_number = match_result.group().split(split_separator)[1]
+    vimcommand = VIM_EXEC + " -t " + filename + " +" + str(line_number)
+    print "vimcommand: " + vimcommand 
+    return vimcommand
+
+if __name__ == "__main__":
+    #Make string from all script arguments
+    args_string=""
+    for arg in sys.argv:
+        if arg != sys.argv[0]:
+          args_string+=arg+" ";
+
+    #print args_string
+
+    #trying to open pattern: 'filename:line_number'
+    match_file_colon_line = re.search(r".*\.(\w+):(\d+)", args_string) 
+    if(match_file_colon_line):
+        vimcommand = split_match_result_and_get_vimcommand (match_file_colon_line, ":");
+        os.system(vimcommand)
+        exit(0)
+
+    #trying to open pattern from logsense: 'filename Line line_number'
+    match_filename_line_from_logsense = re.search(r".*\.(\w+) Line (\d+)",args_string)
+    if(match_filename_line_from_logsense):
+        vimcommand = split_match_result_and_get_vimcommand (match_filename_line_from_logsense, " Line ")
+        print vimcommand 
+        os.system(vimcommand)
+        exit(0)
+        
+    #not other patter matched - open normal file 
+    vimcommand = VIM_EXEC + " " + args_string
+    print vimcommand
+    os.system(vimcommand)
