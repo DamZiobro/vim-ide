@@ -509,15 +509,15 @@ endfunction
 
 
 function! UpdateTags()
-    execute ":!ctags -R --sort=yes --fields=+iaS --extra=+q --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
+    execute ":!ctags -R --sort=yes --fields=+iaSnkt --extra=+q+f --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None 
 endfunction
 
 function! UpdateAllTags()
-    execute ":!ctags -R --sort=yes --fields=+iaS --extra=+q --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
-    "execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/usr_local_include /usr/local/include"
-    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/cpp ~/.vim/tags/cpp_src"
-    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaS --extra=+q -f ~/.vim/tags/opencv /usr/local/include/opencv2"
+    execute ":!ctags -R --sort=yes --fields=+iaSnkt --extra=+q+f --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
+    "execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSnkt --extra=+q+f -f ~/.vim/tags/usr_local_include /usr/local/include"
+    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSnkt --extra=+q+f -f ~/.vim/tags/cpp ~/.vim/tags/cpp_src"
+    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSkt --extra=+q+f -f ~/.vim/tags/opencv /usr/local/include/opencv2"
     echohl StatusLine | echo "C\\C++ tags updated" | echohl None
 endfunction
 
