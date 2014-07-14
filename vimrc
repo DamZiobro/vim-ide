@@ -866,3 +866,8 @@ let g:localvimrc_persistent=2
 " 
 nmap <leader>gt :GotoFileWithLineNumTag <cr>
 
+
+" ========================================================================================
+" " Set up folding configuration 
+"
+nnoremap <leader>fo :setlocal foldexpr=(getline(v:lnum)=~@/)?0:1 foldmethod=expr fml=0 foldlevelstart=0 foldcolumn=1<CR>
