@@ -870,4 +870,7 @@ nmap <leader>gt :GotoFileWithLineNumTag <cr>
 " ========================================================================================
 " " Set up folding configuration 
 "
-nnoremap <leader>fo :setlocal foldexpr=(getline(v:lnum)=~@/)?0:1 foldmethod=expr fml=0 foldlevelstart=0 foldcolumn=1<CR>
+nnoremap <leader>fo :setlocal foldexpr=(getline(v:lnum)=~@/)?0:1 foldmethod=expr fml=0 foldlevelstart=0 foldcolumn=1<CR> 
+
+nnoremap <S-Up> <C-E>
+nnoremap <S-Down> <C-Y>
