@@ -707,8 +707,8 @@ autocmd FileType conf,fstab       let b:comment_leader = '# '
 autocmd FileType tex              let b:comment_leader = '% '
 autocmd FileType mail             let b:comment_leader = '> '
 autocmd FileType vim              let b:comment_leader = '" '
-noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>'"'"
+noremap <silent> <leader>cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> <leader>cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>'"'"
 
 
 " ========================================================================================
@@ -872,5 +872,13 @@ nmap <leader>gt :GotoFileWithLineNumTag <cr>
 "
 nnoremap <leader>fo :setlocal foldexpr=(getline(v:lnum)=~@/)?0:1 foldmethod=expr fml=0 foldlevelstart=0 foldcolumn=1<CR> 
 
+" ========================================================================================
+" " Set up scrolling winding one line up and down  
 nnoremap <S-Up> <C-E>
-nnoremap <S-Down> <C-Y>
+nnoremap <S-Down> <C-Y> 
+
+" ========================================================================================
+" " Quickly put ; at the end of current line   
+imap <C-j> <end>;
+nmap <C-j> i<end>;<Esc>
+
