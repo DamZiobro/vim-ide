@@ -199,3 +199,11 @@ snippet epydoc
 	"""
 snippet nl
 	"\n"
+snippet tfail
+	self.assertEqual(True, False);
+snippet tpass
+	self.assertEqual(True,True);
+snippet tf 
+	def ${1:testFunction}(self):
+		self.assertEqual(True, False);
+	
