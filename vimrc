@@ -878,6 +878,12 @@ nnoremap <S-Up> <C-E>
 nnoremap <S-Down> <C-Y> 
 
 " ========================================================================================
+" " Automatically go to the end of pasted text 
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+" ========================================================================================
 " " Quickly put ; at the end of current line   
 imap <C-j> <end>;
 nmap <C-j> i<end>;<Esc>
