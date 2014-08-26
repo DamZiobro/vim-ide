@@ -52,7 +52,7 @@ set lazyredraw
 set matchtime=3
 
 "Changing Leader Key
-let mapleader = "\<Space>"
+let mapleader = ","
 
 nnoremap ; :
 vmap ; :
@@ -882,6 +882,10 @@ nnoremap <S-Down> <C-Y>
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
+ 
+" ========================================================================================
+" " Quickly select text which I just pasted  
+noremap gV `[v`]
 
 " ========================================================================================
 " " Quickly put ; at the end of current line   
