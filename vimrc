@@ -52,7 +52,7 @@ set lazyredraw
 set matchtime=3
 
 "Changing Leader Key
-let mapleader = ","
+let mapleader = "\<Space>"
 
 nnoremap ; :
 vmap ; :
@@ -882,3 +882,11 @@ nnoremap <S-Down> <C-Y>
 imap <C-j> <end>;
 nmap <C-j> i<end>;<Esc>
 
+nmap <Leader><Leader> V 
+
+" ========================================================================================
+" VIM-expand-region  plugin 
+" https://github.com/terryma/vim-expand-region   
+" 
+vmap v <Plug>(expand_region_expand)
+vmap r <Plug>(expand_region_shrink)
