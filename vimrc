@@ -899,4 +899,27 @@ nmap <Leader><Leader> V
 " https://github.com/terryma/vim-expand-region   
 " 
 vmap v <Plug>(expand_region_expand)
-vmap r <Plug>(expand_region_shrink)
+vmap r <Plug>(expand_region_shrink) 
+
+" ========================================================================================
+" VIM-airline  plugin 
+" https://github.com/bling/vim-airline   
+let g:airline#extensions#tabline#enabled = 1 
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|' 
+
+function! AirlineInit()
+  let g:airline_section_a = airline#section#create(['mode'])
+  let g:airline_section_c = airline#section#create(['%F'])
+endfunction
+autocmd VimEnter * call AirlineInit() 
+
+  let g:airline_theme_patch_func = 'AirlineThemePatch'
+  function! AirlineThemePatch(palette)
+    if g:airline_theme == 'badwolf'
+      for colors in values(a:palette.inactive)
+        let colors[3] = 245
+      endfor
+    endif
+  endfunction
+
