@@ -23,6 +23,11 @@ sudo apt-get install vim
 echo -e "Installing ctags"
 sudo apt-get install ctags
 
+echo -e "Initializing and checking out plugins submodules: "
+cd $VIM_ROOT 
+git submodule init 
+git submodule update 
+
 echo -e "Installing vi_overlay" 
 while true; do
     read -p "Do you wish to install vi_overlay (sudo priviledges are required)? [y/n]: " yn
