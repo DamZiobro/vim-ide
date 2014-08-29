@@ -1,0 +1,509 @@
+*lawrencium.txt*  Mercurial wrapper for VIM
+
+
+            LLLLLLLLLLL                                                      ~
+            L:::::::::L                                                      ~
+            L:::::::::L                                                      ~
+            LL:::::::LL                                                      ~
+              L:::::L              rrrrr   rrrrrrrrr                         ~
+              L:::::L              r::::rrr:::::::::r                        ~
+              L:::::L              r:::::::::::::::::r                       ~
+              L:::::L              rr::::::rrrrr::::::r                      ~
+              L:::::L               r:::::r     r:::::r                      ~
+              L:::::L               r:::::r     rrrrrrr                      ~
+              L:::::L               r:::::r                                  ~
+              L:::::L         LLLLLLr:::::r                                  ~
+            LL:::::::LLLLLLLLL:::::Lr:::::r                                  ~
+            L::::::::::::::::::::::Lr:::::r                                  ~
+            L::::::::::::::::::::::Lr:::::r                                  ~
+            LLLLLLLLLLLLLLLLLLLLLLLLrrrrrrr                                  ~
+
+                LAWRENCIUM REFERENCE MANUAL
+                    by Ludovic Chabant
+
+
+                                                *lawrencium*
+
+1.  Introduction            |lawrencium-intro|
+2.  Commands                |lawrencium-commands|
+3.  Status Window           |lawrencium-status-window|
+4.  Log Window              |lawrencium-log-window|
+5.  Annotate Window         |lawrencium-annotate-window|
+6.  MQ Series Window        |lawrencium-mqseries-window|
+7.  Global Settings         |lawrencium-global-settings|
+
+
+=============================================================================
+1.  Introduction                                *lawrencium-intro*
+
+When a file from a Mercurial repository is open in a buffer, that buffer gets
+new commands defined.
+
+This plugin is only available if 'compatible' is not set.
+
+Grab the latest version or report a bug on BitBucket:
+
+http://bitbucket.org/ludovicchabant/vim-lawrencium
+
+
+
+=============================================================================
+2.  Commands                                    *lawrencium-commands*
+
+All commands defined by |lawrencium| are local to each buffer.
+
+                                                *:Hg*
+:Hg {args}              Run an arbitrary Mercurial command. Similar to :!hg
+                        [args] but the '--repository' is automatically
+                        specified with the root of the repository the current
+                        file belongs to, and it will auto-complete any
+                        standard command or option.
+                        
+                        Also, unless the |lawrencium_auto_cd| global is set to
+                        `0`, it will temporarily set the current directory to be
+                        the root of the repository so that auto-completed
+                        filenames work out of the box.
+
+                                                *:Hg!*
+:Hg! {args}             Like |:Hg|, but the output of the command is placed in
+                        a temp file and edited in a split window.
+
+                        Once the output is open in a buffer, Lawrencium will
+                        try to set the file type according to the Mercurial
+                        command that was run. See |lawrencium_hg_commands_file_types|.
+
+                                                *:Hgcd*
+:Hgcd[!] {path}         |:cd| relative to the root of the repository.
+
+                                                *:Hglcd*
+:Hglcd[!] {path}        |:lcd| relative to the root of the repository.
+
+                                                *:Hgedit*
+:Hgedit {file}          |:edit| {file} relative to the root of the repository.
+
+                                                *:Hgedit!*
+:Hgedit! {file}         |:edit!| {file} relative to the root of the repository.
+
+                                                *:Hgstatus*
+:Hgstatus               Shows the output of 'hg status' in a split window.
+                        Some extra-commands, along with some default mappings,
+                        are available in this window. See
+                        |lawrencium-status-window|.
+
+                                                *:Hgdiff*
+:Hgdiff                 Diffs the current file against its parent revision.
+                        This splits the current window to show both the
+                        current file and the parent revision file, using Vim's
+                        |diff| abilities.
+
+                                                *:Hgdiff_f*
+:Hgdiff {revspec}       Same as |:Hgdiff| but shows a diff of the current file
+                        with the specified revision. Any revision number, hash
+                        or spec that can be passed to `hg cat` is valid.
+
+                                                *:Hgvdiff*
+:Hgvdiff                Same as |:Hgdiff| but uses a vertical split instead of
+                        a horizontal split.
+
+                                                *:Hgvdiff_f*
+:Hgvdiff {revspec}      Same as |:Hgdiff_f| but uses a vertical split.
+
+                                                *:Hgtabdiff*
+:Hgtabdiff              Same as |:Hgdiff| but opens the diff with a vertical
+                        split in a new tab page.
+
+                                                *:Hgtabdiff_f*
+:Hgtabdiff {revspec}    Same as |:Hgdiff_f| but opens the diff with a vertical
+                        split in a new tab page.
+
+                                                *:Hgdiffsum*
+:Hgdiffsum              Shows the "diff summary" (the output of `hg diff`)
+                        of the current file against its parent revision.
+
+                                                *:Hgdiffsum_f*
+:Hgdiffsum {revspec}    Same as |:Hgdiffsum| but shows a "diff summary" of the
+                        current file with the specified revision. Any revision
+                        number, hash or spec that can be passed to `hg diff`
+                        is valid.
+
+                                                *:Hgdiffsumsplit*
+                                                *:Hgdiffsumsplit_f*
+:Hgdiffsumsplit
+:Hgdiffsumsplit {revspec}
+                        Same as |:Hgdiffsum| and |:Hgdiffsum_f| respectively, 
+                        but opens the diff summary in a split window instead
+                        of the current window.
+
+                                                *:Hgvdiffsumsplit*
+                                                *:Hgvdiffsumsplit_f*
+:Hgvdiffsumsplit
+:Hgvdiffsumsplit {revspec}
+                        Same as |:Hgdiffsumsplit| and |:Hgdiffsumsplit_f|
+                        respectively, but uses a vertical split window instead
+                        of a horizontal split window.
+
+                                                *:Hgtabdiffsumsplit*
+                                                *:Hgtabdiffsumsplit_f*
+:Hgtabdiffsumsplit
+:Hgtabdiffsumsplit {revspec}
+                        Same as |:Hgdiffsumsplit| and |:Hgdiffsumsplit_f|
+                        respectively, but opens the diff summary with a
+                        vertical split in a new tab page.
+
+                                                *:Hgcommit*
+:Hgcommit               Opens a new window to edit a commit message into a
+                        temporary file and, upon quitting the buffer, if that
+                        file has been written to, commit the current changes
+                        to the repository.
+
+                                                *:Hgvcommit*
+:Hgvcommit              Same as |:Hgcommit| but uses a vertical split to edit
+                        the commit message.
+
+:Hgrevert {files}                               *:Hgrevert*
+                        Reverts the given files (in repo-relative paths). If no
+                        file are given, reverts the current file.
+
+:Hgrevert! {files}                              *:Hgrevert!*
+                        Same as |:Hgrevert| but with the --no-backup option
+                        given to prevent a .orig backup file from being
+                        created.
+
+                                                *:Hglog*
+:Hglog
+                        Opens the history (log) for the current repository
+                        in the |preview-window|. Some extra-commands, along with 
+                        some default mappings, are available in this window.
+                        See |lawrencium-log-window|. In addition, you can pass
+                        the usual hg log arguments like -u username, -l limit, etc.
+
+                                                *:Hglog_f*
+:Hglog {file}           Same as |:Hglog|, but opens the log for the specified
+                        file or direcotry instead of the whole repository.
+
+                                                *:Hglogthis*
+:Hglogthis              Same as |:Hglog| but opens the history (log) for the
+                        currently edited file instead of the whole repository.
+
+                                                *:Hglogexport*
+:Hglogexport            Exports the commit under cursor to directory specified by
+                        env variable HG_EXPORT_PATCH_DIR. If this variable is not
+                        set, then it is exported to the current working directory
+                        of vim. On Unix, if the user specified an absolute path,
+                        then the env variable is ignored.
+
+                                                *:Hgannotate*
+:Hgannotate             Splits the current window to show annotations in the
+                        left window. These annotation are retrieved with `hg
+                        annotate`.
+                        If the current file has local edits, the full output
+                        of `hg annotate` will be opened instead, which is the
+                        annotated parent revision.
+                        Some extra-commands, along with some default mappings,
+                        are available in this window.
+                        See |lawrencium-annotate-window|.
+
+                                                *:Hgannotate_f*
+:Hgannotate {file}      Same as |:Hgannotate|, but opens {file} first with
+                        |:Hgedit|.
+
+                                                *:Hgannotate!_f*
+:Hgannotate! {file}     Same as |:Hgannotate_f|, but opens {file} with
+                        |:Hgedit!|.
+
+                                                *:Hgwannotate*
+:Hgwannotate            Same as |:Hgannotate|, but runs the command in
+                        `verbose` mode to get full user names and time of day.
+                        This results in a wider annotation column next to the
+                        file (hence the command name: "Hg wide annotate").
+
+                                                *:Hgwannotate_f*
+:Hgwannotate {file}     Same as |:Hgwannotate|, but opens {file} first with
+                        |:Hgedit|.
+
+                                                *:Hgwannotate!_f*
+:Hgwannotate! {file}    Same as |:Hgwannotate_f|, but opens {file} with
+                        |:Hgedit!|.
+
+                                                *:Hgvimgrep*
+:Hgvimgrep              Runs a |:vimgrep| command inside the current
+                        repository. The files in which to search can be
+                        provided with repository-relative names. If no file is
+                        given, the search will be run in the whole repository.
+
+                                                *:Hgqseries*
+:Hgqseries              If you have the 'mq' extension enabled, show the
+                        current patch series, with indicators about which
+                        patches are applied, and which ones are not.
+
+
+=============================================================================
+3.  Status Window                               *lawrencium-status-window*
+
+The `hg status` window opened by Lawrencium has a few special commands 
+defined in it. Also, unless the global |lawrencium_define_mappings| is set to
+`0`, some commands are mapped to keyboard shortcuts, as detailed in the
+following descriptions.
+
+
+                                                *:Hgstatusedit*
+:Hgstatusedit           Open the file mentioned on the current line.
+                        Mapped to <CR>.
+
+                                                *:Hgstatusaddremove*
+:Hgstatusaddremove      Run `hg addremove` on the file mentioned on the
+                        current line, or on the lines currently selected in
+                        visual selection mode (see |visual-start|).
+                        Mapped to <CTRL-A>.
+
+                                                *:Hgstatusdiff*
+:Hgstatusdiff           Open a diff window on the file mentioned on the
+                        current line, between the working directory version
+                        and the parent revision version. Similar to running
+                        |:Hgdiff| on that file.
+
+                                                *:Hgstatusvdiff*
+:Hgstatusvdiff          Similar to |:Hgstatusdiff|, but use a vertical split.
+                        Similar to running |:Hgvdiff| on that file.
+                        Mapped to <CTRL-V>.
+
+                                                *:Hgstatustabdiff*
+:Hgstatustabdiff        Similar to |:Hgstatusdiff|, but opens the split with a
+                        vertical split in a new tab page.
+                        Similar to running |:Hgtabdiff| on that file.
+                        Mapped to <CTRL-D>.
+
+                                                *:Hgstatusdiffsum*
+:Hgstatusdiffsum        Similar to |:Hgstatusdiff|, but show a diff summary,
+                        like the one shown with |:Hgdiffsum|, instead of
+                        running a full Vim diff.
+                        Mapped to <CTRL-U>.
+
+                                                *:Hgstatusvdiffsum*
+:Hgstatusvdiffsum       Similar to |:Hgstatusdiffsum|, but use a vertical
+                        split.
+                        Mapped to <CTRL-H>.
+
+                                                *:Hgstatustabdiffsum*
+:Hgstatustabdiffsum     Similar to |:Hgstatusdiffsum|, but opens the diff
+                        summary with a vertical split in a new tab page.
+
+                                                *:Hgstatuscommit*
+:Hgstatuscommit         Runs |:Hgcommit| on the files currently mentioned in
+                        the buffer, or in the current selection. The first 
+                        option means you can delete lines from the buffer
+                        until the remaining filenames are those you want to
+                        commit.
+                        Mapped to <CTRL-S>.
+
+                                                *:Hgstatusvcommit*
+:Hgstatusvcommit        Similar to |:Hgstatuscommit|, but use a vertical
+                        split, as with |:Hgvcommit|.
+
+                                                *:Hgstatusrefresh*
+:Hgstatusrefresh        Refreshes the status window by running `hg status`
+                        again.
+                        Mapped to <CTRL-R>.
+
+                                                *:Hgstatusqnew*
+:Hgstatusqnew {patch} {message}.
+                        If you have the 'mq' extension enabled, creates a new
+                        patch with the file currently mentioned in the buffer,
+                        or in the current selection. You must give a patch name,
+                        and may optionally write a commit message for the patch
+                        (without surrounding quotes).
+
+                                                *:Hgstatusqrefresh*
+:Hgstatusqrefresh       If you have the 'mq' extension enabled, refreshes the
+                        current patch with the files currently mentioned in the
+                        buffer, or in the current selection.
+
+                                                *lawrencium-status-mappings*
+A few other mappings are available in the status window:
+
+   <C-N>                Jump to the next filename.
+   <C-P>                Jump to the previous filename.
+   q                    Quit the status window.
+
+
+
+=============================================================================
+4.  Log Window                                  *lawrencium-log-window*
+                        
+The `hg log` window opened by Lawrencium has a few special commands 
+defined in it. Also, unless the global |lawrencium_define_mappings| is set to
+`0`, some commands are mapped to keyboard shortcuts, as detailed in the
+following descriptions.
+
+                                                *:Hglogdiffsum*
+:Hglogdiffsum           Splits the previous window to show a diff summary (as
+                        returned by `hg diff`) of the change specified on
+                        the current line.
+                        Mapped to |<C-U>|.
+
+                                                *:Hglogdiffsum_r*
+:Hglogdiffsum {rev1} {rev2}
+                        Same as |:Hglogdiffsum| but shows a diff summary of
+                        the change between the two specified revisions. If
+                        only {rev1} is specified, the change at that revision
+                        will be shown.
+
+                                                *:Hglogvdiffsum*
+:Hglogvdiffsum          Same as |:Hglogdiffsum| but opens a vertical split
+                        instead of a horizontal one.
+                        Mapped to |<C-H>| and |<CR>|.
+
+                                                *:Hglogvdiffsum_r*
+:Hglogvdiffsum {rev1} {rev2}
+                        Same as |:Hglogdiffsum_r| but opens a vertical split
+                        instead of a horizontal one.
+
+                                                *:Hglogtabdiffsum*
+                                                *:Hglogtabdiffsum_r*
+:Hglogtabdiffsum
+:Hglogtabdiffsum {rev1} {rev2}
+                        Same as |:Hglogdiffsum| and |:Hglogdiffsum_r| but
+                        opens the diff summary in a new tab page.
+
+                                                *:Hglogrevedit*
+:Hglogrevedit           Looks at the revision specified on the current line,
+                        and opens that revision for edit in the previous
+                        window (although as a read-only buffer).
+                        This is only valid if the logged path maps to a file
+                        (i.e. not a directory, and not the whole repository as
+                        with |:Hglog|).
+                        Mapped to |<C-E>|.
+
+                                                *:Hglogdiff*
+:Hglogdiff              Looks at the revision specified on the current line,
+                        and opens a Vim diff between that revision and its
+                        first parent.
+                        This is only valid if the logged path maps to a file
+                        (i.e. not a directory, and not the whole repository as
+                        with |:Hglog|).
+                        Mapped to |<C-D>|.
+
+                                                *:Hglogdiff_r*
+:Hglogdiff {rev1} {rev2}
+                        Same as |:Hglogdiff|, but opens a diff between the
+                        specified revisions. If only {rev1} is specified,
+                        opens a Vim diff between that revision and its first
+                        parent.
+
+                                                *:Hglogvdiff*
+:Hglogvdiff             Same as |:Hglogdiff|, but opens a vertical split
+                        instead of a horizontal one.
+
+                                                *:Hglogvdiff_r*
+:Hglogvdiff {rev1} {rev2}
+                        Same as |:Hglogdiff_r| but opens a vertical split
+                        instead of a horizontal one.
+
+                                                *:Hglogtabdiff*
+                                                *:Hglogtabdiff_r*
+:Hglogtabdiff
+:Hglogtabdiff {rev1} {rev2}
+                        Same as |:Hglogdiff| and |:Hglogdiff_r| but opens the
+                        diff with a vertical split in a new tab page.
+
+                                                *lawrencium-log-mappings*
+A few other mappings are available in the log window:
+
+    q                   Quit the log window.
+
+
+
+=============================================================================
+5.  Annotate Window                             *lawrencium-annotate-window*
+
+The following commands are available in a |:Hgannotate| window along with the
+specified keyboard mappings, unless the |lawrencium_define_mappings| setting
+is set to `0`.
+
+                                                *Hgannotatediffsum*
+:Hgannotatediffsum      Show a diff summary (similar to |:Hgdiffsum|) for the
+                        revision mentioned under the cursor.
+                        Mapped to |<CR>|.
+
+
+
+=============================================================================
+6.  MQ Series Window                            *lawrencium-mqseries-window*
+
+The following commands are available in a |:Hgqseries| window along with the
+specified keyboard mappings, unless the |lawrencium_define_mappings| setting
+is set to `0`.
+
+                                                *Hgqseriesgoto*
+:Hgqseriesgoto          Go to the patch under the cursor.
+                        Mapped to |<C-g>|.
+
+                                                *Hgqserieseditmessage*
+:Hgqserieseditmessage   Edit the commit message for the top patch, if any.
+                        Mapped to |<C-e>|.
+
+                                                *Hgqseriesrename*
+:Hgqseriesrename {name}
+                        Rename the patch under the cursor with the given name.
+
+                                                *lawrencium-mqseries-mappings*
+A few other mappings are available in the MQ series window:
+
+    q                   Quit the MQ series window.
+
+
+
+=============================================================================
+7.  Global Settings                             *lawrencium-global-settings*
+
+The following global settings can be defined in your |vimrc| to change the
+default behaviour of Lawrencium.
+
+                                                *lawrencium_hg_executable*
+g:lawrencium_hg_executable
+                        Defines the executable to run when running Mercurial
+                        commands.
+                        Defaults to simply `hg`.
+
+                                                *lawrencium_auto_cd*
+g:lawrencium_auto_cd    Specifies whether the current working directory should 
+                        be set to the repository's root while running |:Hg|
+                        commands so that auto-completion works magically with
+                        repository relative paths.
+                        Defaults to `1`.
+
+                                                *lawrencium_define_mappings*
+g:lawrencium_define_mappings
+                        Specifies whether Lawrencium should define default
+                        keyboard shortcuts.
+                        Defaults to `1`.
+
+                                                *lawrencium_hg_commands_file_types*
+g:lawrencium_hg_commands_file_types
+                        Defines the |file-types| that Lawrencium should use
+                        when editing the output of |:Hg!| based on the
+                        Mercurial command that was used.
+                        
+                        By default, unless overridden, the following commands
+                        map to the following file types:
+
+                        diff                diff
+                        graphlog            graphlog
+
+                                                *lawrencium_annotate_width_offset*
+g:lawrencium_annotate_width_offset
+                        Specifies the offset to use when computing the width
+                        of the annotations window (opened with |:Hgannotate|).
+                        Defaults to 0.
+                        This is useful for example if you have |'listchars'|
+                        set to display characters at the window border when
+                        unwrapped lines are extending outside.
+
+                                                *lawrencium_auto_close_buffers*
+g:lawrencium_auto_close_buffers
+                        Specifies whether to auto-close buffers opened by
+                        Lawrencium. For instance, any diff summary buffer open
+                        by `Hglog` will be deleted when the log window
+                        disappears.
+
+ vim:tw=78:et:ft=help:norl:

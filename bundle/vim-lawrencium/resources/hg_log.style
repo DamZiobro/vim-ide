@@ -1,0 +1,8 @@
+changeset = '{rev}:{node|short}{bookmarks}{tags} {desc|firstline} (by {author|user}, {date|localdate|age})\n'
+
+start_bookmarks = ' '
+bookmark = '+{bookmark}'
+
+start_tags = ' '
+tag = '#{tag}'
+
