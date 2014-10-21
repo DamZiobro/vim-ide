@@ -239,6 +239,8 @@ snippet ru
 snippet unless
 	(unless=${1:param}); 
 
-#DirecTV snippets
+#Java logging snippets
 snippet mlog
-	mLog.log(Log.LOG_CRITICAL,"DAMIAN - ${1} ");
+	mLog.log(Log.LOG_CRITICAL,"DAMIAN_LOG - ${1} ");
+snippet printlog
+	Print.out(Print.FATAL, "DAMIAN_LOG - ${1}");
