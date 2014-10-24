@@ -206,4 +206,9 @@ snippet tpass
 snippet tf 
 	def ${1:testFunction}(self):
 		self.assertEqual(True, False);
-	
+snippet main 
+	if __name__ == "__main__":	
+		print "${1:main}"
+snippet foreachfile
+	for filename in os.listdir("${1:dirname}"):
+		print filename
