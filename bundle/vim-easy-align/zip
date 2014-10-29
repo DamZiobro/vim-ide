@@ -1,0 +1,2 @@
+#!/bin/sh
+git archive -o vim-easy-align.zip HEAD

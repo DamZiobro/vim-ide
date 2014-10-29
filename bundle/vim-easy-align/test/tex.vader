@@ -1,0 +1,158 @@
+# http://en.wikibooks.org/wiki/LaTeX/Tables
+
+Include: include/setup.vader
+
+Given tex (table with escaped &):
+  \begin{tabular}{ l c r }
+    1&2&3\\
+    44&55&66\\
+    777&8\&8&999\\
+  \end{tabular}
+
+# FIXME vip doesn't work if folded
+Do (Align around all &s and \\s):
+  VG\<Enter>*&
+
+Expect tex:
+  \begin{tabular}{ l c r }
+    1   & 2    & 3   \\
+    44  & 55   & 66  \\
+    777 & 8\&8 & 999 \\
+  \end{tabular}
+
+Do (right-align with explicit ignore_unmatched):
+  VG\<Enter>\<Enter>\<C-U>\<C-U>*&
+
+Expect tex:
+  \begin{tabular}{ l c r }
+      1 &    2 &   3 \\
+     44 &   55 &  66 \\
+    777 & 8\&8 & 999 \\
+  \end{tabular}
+
+Do (center-align with explicit ignore_unmatched):
+  VG\<Enter>\<Enter>\<Enter>\<C-U>\<C-U>*&
+
+Expect tex:
+  \begin{tabular}{ l c r }
+     1  &  2   &  3  \\
+    44  &  55  & 66  \\
+    777 & 8\&8 & 999 \\
+  \end{tabular}
+
+Given tex (simple table with \hline):
+  \begin{tabular}{ l c r }
+    1&2&3\\ \hline
+    44&55&66\\ \hline
+    777&8\&&999\\ \hline
+  \end{tabular}
+
+Do:
+  VG\<Enter>*&
+
+Expect tex:
+  \begin{tabular}{ l c r }
+    1   & 2   & 3   \\ \hline
+    44  & 55  & 66  \\ \hline
+    777 & 8\& & 999 \\ \hline
+  \end{tabular}
+
+Given tex (table with lines w/o &s):
+  \begin{tabular}{|r|l|}
+    \hline
+    7C0 & hexadecimal \\
+    3700&octal \\ \cline{2-2}
+    1111100000 & binary \\
+    \hline \hline
+    1984 & decimal \\
+    \hline
+  \end{tabular}
+
+Do (left-align*):
+  VG\<Enter>*&
+
+Expect tex:
+  \begin{tabular}{|r|l|}
+    \hline
+    7C0        & hexadecimal \\
+    3700       & octal       \\ \cline{2-2}
+    1111100000 & binary      \\
+    \hline \hline
+    1984       & decimal     \\
+    \hline
+  \end{tabular}
+
+Do(left-align* and right-align around 2nd):
+  VG\<Enter>*&
+  gv\<Enter>\<Enter>2&
+
+Expect tex:
+  \begin{tabular}{|r|l|}
+    \hline
+    7C0        & hexadecimal \\
+    3700       &       octal \\ \cline{2-2}
+    1111100000 &      binary \\
+    \hline \hline
+    1984       &     decimal \\
+    \hline
+  \end{tabular}
+
+Given tex:
+  \begin{tabular}{}
+    32&1.14\e1&&5.65\e2&&&&1.16\e1&&1.28\e1&\\
+    64&1.03\e1&0.1&4.98\e2&0.2&&&9.21\e2&0.3&1.02\e1&0.3\\
+    128&9.86\e2&0.1&4.69\e2&0.1&&&8.46\e2&0.1&9.45\e2&0.1\\
+    256&9.65\e2&0.0&4.59\e2&0.0&&&8.15\e2&0.1&9.11\e2&0.1\\
+  % 512&9.55\e2&0.0&4.56\e2&0.0&&&8.01\e2&0.0&8.96\e2&0.0\\
+    1024&9.49\e2&0.0&4.53\e2&0.0&&&7.94\e2&0.0&8.89\e2&0.0\\
+    2048&9.47\e2&0.0&4.52\e2&0.0&&&7.91\e2&0.0&8.85\e2&0.0\\
+    4096&9.46\e2&0.0&4.51\e2&0.0%&&&7.90\e2&0.0&8.83\e2&0.0\\
+    8192&9.45\e2&0.0&4.51\e2&0.0&&&&&&\\
+  \end{tabular}
+
+Execute (Alignment around &s, foldmethod should not change):
+  setlocal foldmethod=syntax
+  %EasyAlign*&
+  AssertEqual 'syntax', &l:foldmethod
+
+  setlocal foldmethod=manual
+  %EasyAlign*&
+  AssertEqual 'manual', &l:foldmethod
+
+Expect tex:
+  \begin{tabular}{}
+    32   & 1.14\e1 &     & 5.65\e2 &     &  &  & 1.16\e1 &     & 1.28\e1 &     \\
+    64   & 1.03\e1 & 0.1 & 4.98\e2 & 0.2 &  &  & 9.21\e2 & 0.3 & 1.02\e1 & 0.3 \\
+    128  & 9.86\e2 & 0.1 & 4.69\e2 & 0.1 &  &  & 8.46\e2 & 0.1 & 9.45\e2 & 0.1 \\
+    256  & 9.65\e2 & 0.0 & 4.59\e2 & 0.0 &  &  & 8.15\e2 & 0.1 & 9.11\e2 & 0.1 \\
+  % 512&9.55\e2&0.0&4.56\e2&0.0&&&8.01\e2&0.0&8.96\e2&0.0\\
+    1024 & 9.49\e2 & 0.0 & 4.53\e2 & 0.0 &  &  & 7.94\e2 & 0.0 & 8.89\e2 & 0.0 \\
+    2048 & 9.47\e2 & 0.0 & 4.52\e2 & 0.0 &  &  & 7.91\e2 & 0.0 & 8.85\e2 & 0.0 \\
+    4096 & 9.46\e2 & 0.0 & 4.51\e2 & 0.0%&&&7.90\e2&0.0&8.83\e2&0.0\\
+    8192 & 9.45\e2 & 0.0 & 4.51\e2 & 0.0 &  &  &         &     &         &     \\
+  \end{tabular}
+
+Execute (g:easy_align_bypass_fold set, foldmethod should not change):
+  let g:easy_align_bypass_fold = 1
+  setlocal foldmethod=syntax
+  %EasyAlign*&
+  AssertEqual 'syntax', &l:foldmethod
+
+  setlocal foldmethod=manual
+  %EasyAlign*&
+  AssertEqual 'manual', &l:foldmethod
+
+Expect tex:
+  \begin{tabular}{}
+    32   & 1.14\e1 &     & 5.65\e2 &     &  &  & 1.16\e1 &     & 1.28\e1 &     \\
+    64   & 1.03\e1 & 0.1 & 4.98\e2 & 0.2 &  &  & 9.21\e2 & 0.3 & 1.02\e1 & 0.3 \\
+    128  & 9.86\e2 & 0.1 & 4.69\e2 & 0.1 &  &  & 8.46\e2 & 0.1 & 9.45\e2 & 0.1 \\
+    256  & 9.65\e2 & 0.0 & 4.59\e2 & 0.0 &  &  & 8.15\e2 & 0.1 & 9.11\e2 & 0.1 \\
+  % 512&9.55\e2&0.0&4.56\e2&0.0&&&8.01\e2&0.0&8.96\e2&0.0\\
+    1024 & 9.49\e2 & 0.0 & 4.53\e2 & 0.0 &  &  & 7.94\e2 & 0.0 & 8.89\e2 & 0.0 \\
+    2048 & 9.47\e2 & 0.0 & 4.52\e2 & 0.0 &  &  & 7.91\e2 & 0.0 & 8.85\e2 & 0.0 \\
+    4096 & 9.46\e2 & 0.0 & 4.51\e2 & 0.0%&&&7.90\e2&0.0&8.83\e2&0.0\\
+    8192 & 9.45\e2 & 0.0 & 4.51\e2 & 0.0 &  &  &         &     &         &     \\
+  \end{tabular}
+
+Include: include/teardown.vader
