@@ -1,92 +1,243 @@
-# Shebang. Executing bash via /usr/bin/env makes scripts more portable.
+# #!/bin/bash
 snippet #!
-	#!/usr/bin/env bash
-
+	#!/bin/bash
+	
 snippet if
 	if [[ ${1:condition} ]]; then
-		${0:#statements}
+		${2:#statements}
+	fi
+snippet ife
+	if [[ ${1:condition} ]]; then
+		${2:#statements}
+	else
+		${3:#statements}
 	fi
 snippet elif
 	elif [[ ${1:condition} ]]; then
-		${0:#statements}
-snippet for
+		${2:#statements}
+snippet for c-style
 	for (( ${2:i} = 0; $2 < ${1:count}; $2++ )); do
-		${0:#statements}
+		${3:#statements}
 	done
-snippet fori
-	for ${1:needle} in ${2:haystack} ; do
-		${0:#statements}
+snippet for in-list
+	for ${1:var} in $${2:list}; do
+		echo "$$1"
 	done
+snippet for numargs
+	numargs=$#
+	for ((i=1 ; i <= numargs ; i++)); do
+		echo "$1"
+		shift
+	done
+snippet for times..sequence
+	for ${1:i} in {${2:1}..${3:10}}
+	do
+		echo "$$1"
+	done
+snippet for index..loop
+	for ${1:i}  in ${!${2:Array}[@]}
+	do
+		echo "${$2[$1]}"
+	done
+
 snippet wh
 	while [[ ${1:condition} ]]; do
-		${0:#statements}
+		${2:#statements}
 	done
 snippet until
 	until [[ ${1:condition} ]]; do
-		${0:#statements}
+		${2:#statements}
 	done
 snippet case
 	case ${1:word} in
 		${2:pattern})
-			${0};;
+			${3};;
+		* )
+		;;
 	esac
-snippet go
-	while getopts '${1:o}' ${2:opts}
+snippet sort plain
+	sort -t${1:delim} -k${2:1,1} ${3:file}
+snippet sort with tab
+	sort -t$'\t' -k${1:1,1} ${3:file}
+snippet cut plain
+	cut -d${1:delim} -f${2:1} ${3:file}
+snippet cut with tab
+	cut -d$'\t' -f${1:1,2} ${3:file}
+snippet cut columns
+	cut -c${2:1-80} ${3:file}
+snippet z
+	[ -z "$${1:variable} " ] && $1=${2:value}
+snippet	sed search replace
+	sed "s/${1:pattern}/${2:#text}/g"
+snippet	sed delete
+	sed ${1:1}'d' ${2:filename}
+snippet	sed delete pattern
+	sed "/${1:pattern}/d" ${2:filename}
+snippet	whiler
+	while IFS='' read -b ${1:line}
 	do
-		case $$2 in
-		${3:o0})
-			${0:#staments};;
+		echo $$1
+	done < $${2:infile}
+#
+snippet yesno simple
+	read ${1:yn}
+	if [[ $$1 =~ [Yy] ]]; then
+		echo "${2:#statement}"
+	else
+		echo "${3:#statement}"
+	fi
+snippet yesno longer with prompt
+	echo -n "Do you wish to ${1:#question}" '[y/n] ' ; read ${2:ans}
+	case "$$2" in
+		y*|Y*) ${3:#statement} ;;
+		*) ${4:#statement};;
+	esac
+
+snippet match tilde
+	if [[ ${1:string} =~ ${2:regex} ]]; then ${3:#statement}; fi
+snippet match double bracket
+	if [[ $${1:string} = *${2:text}* ]]; then
+		${3:#statement}
+	fi
+snippet match grep
+	if grep -q "${1:regex}" <<< "$${2:data}"
+	then
+	   echo "$$2 contains the substring sequence \"$1\""
+	fi
+
+snippet exc
+	ex - ${1:file}<<!
+	${2:lineno}c
+	${3:newdata}
+	.
+	x
+	!  
+	echo "Updated line $2 in $1 with \'$3\'"
+
+snippet exa
+	ex - ${1:file}<<!
+	${2:lineno}a
+	${3:text}
+	.
+	x
+	!
+
+snippet exi
+	ex - ${1:file}<<!
+	${2:lineno}i
+	${3:text}
+	.
+	x
+	!
+
+snippet getopts traditional
+	while getopts ${2:opt1}:${3:opt2}:  ${1:flag}
+	do
+		case $$1 in
+		$2 ) 
+		;;
+		$3 ) file="$OPTARG"
+		;;
+		h ) help;;
+		v ) VERBOSE_FLAG=1
+		V ) echo "Version 1.0"
+		*) usage;;
 		esac
 	done
-# Set SCRIPT_DIR variable to directory script is located.
-snippet sdir
-	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# getopt
-snippet getopt
-	__ScriptVersion="${1:version}"
-
-	#===  FUNCTION  ================================================================
-	#         NAME:  usage
-	#  DESCRIPTION:  Display usage information.
-	#===============================================================================
-	function usage ()
-	{
-			cat <<- EOT
-
-	  Usage :  $${0:0} [options] [--]
-
-	  Options:
-	  -h|help       Display this message
-	  -v|version    Display script version
-
-			EOT
-	}    # ----------  end of function usage  ----------
-
-	#-----------------------------------------------------------------------
-	#  Handle command line arguments
-	#-----------------------------------------------------------------------
-
-	while getopts ":hv" opt
-	do
-	  case $opt in
-
-		h|help     )  usage; exit 0   ;;
-
-		v|version  )  echo "$${0:0} -- Version $__ScriptVersion"; exit 0   ;;
-
-		\? )  echo -e "\n  Option does not exist : $OPTARG\n"
-			  usage; exit 1   ;;
-
-	  esac    # --- end of case ---
+	shift $(($OPTIND - 1))
+		 
+# this one doesn't work since it has $1 and $2 in it FIXME
+snippet getopts short and long
+	while [[ $${1:1} = -* ]]; do
+	case "$$1" in
+		-x|--extmode)
+			MY_EXTENDEDMODE=1
+			shift
+			;;
+		-u|--user)
+			MY_USERNAME="$${2:2}"
+			shift 2
+			;;
+		-f|--configfile)
+			MY_CONFIG="$$2"
+			shift 2
+			;;
+		-h|--help)
+			display_help # a function ;-)
+			# no shifting needed here, we'll quit!
+			exit
+			;;
+		*)
+			echo "Error: Unknown option: $$1" >&2
+			exit 1
+			;;
+	esac
 	done
-	shift $(($OPTIND-1))
-snippet root
-	if [ $(id -u) -ne 0 ]; then exec sudo $0; fi
-snippet fun
-	${1:function_name}() {
-		${0:#function_body}
-	}
-snippet ffun
-	function ${1:function_name}() {
-		${0:#function_body}
-	}
+	
+	echo "Processing files..."
+	
+	for arg in "$@"; do
+		echo "File: $arg"
+	done
+
+snippet $#
+	if [ $# -lt 1 ]; then
+		echo "${1:#missing arguments}"
+		exit 1
+	else
+		${2:#action}
+	fi
+# uppercase a variable
+snippet uc
+	${1:var}=$( echo "$$1" | tr '[:lower:]' '[:upper:]' )
+
+snippet trim
+	${1:var}=$( echo "$$1" | sed 's/^[[:space:]]*//g;s/[[:space:]]*$//g;' )
+snippet ltrim
+	${1:var}=$( echo "$$1" | sed 's/^[[:space:]]*//g;' )
+
+snippet tern
+	(( ${1:var} = ${2:var2}<${3:#expr}?${4:#expr}:${4:#expr} ))
+snippet dec
+	(( ${1:var}-- ))
+snippet inc
+	(( ${1:var}++ ))
+snippet assign integer assignment
+	${1:var}=$(( ${2:#expression} ))
+snippet assign default if not assigned
+	${1:var}=${$1:-${2:#default}}
+snippet len 
+	len$1=${#${1:var}}
+snippet split
+	OLDIFS="$IFS"; IFS=$'${1:sep}'
+	Array=( $(echo "$${2:data}" ) )
+	IFS="$OLDIFS"
+snippet join
+	DELIM=$'${1:sep}'
+	${2:new_line}=""
+	for index in "${!${3:Array}[@]}"
+	do
+		$2+="${$3[$index]}${DELIM}"
+	done
+	# remove last delim
+	$2="${$2%?}"
+
+snippet repeat repeats and string or char n time
+	line=$( jot -s "" -b ${1:string} ${2:times} )
+snippet step
+	line="$( jot ${1:howmany} ${2:start} ${3:stop} ${4:step} )"
+	# use -s " " to create a string
+snippet asc
+	c=$( jot -c 1 ${1:number} )
+snippet chr
+	n=$( jot 1 ${1:char} )
+snippet rand  using jot
+	rand=$( jot -r 1 ${1:lower} ${2:upper} )
+snippet rand  using bash
+	rand=$RANDOM
+snippet timesta
+	START=$(date +%s.%N)
+snippet timefin
+	END=$(date +%s.%N)
+	DIFF=$(echo "$END - $START" | bc)
+	echo $DIFF " seconds."
