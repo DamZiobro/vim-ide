@@ -1,0 +1,24 @@
+Include: include/setup.vader
+
+# It is currently possible that EasyAlign command incorrectly judges
+# that it was executed in block-wise visual mode
+Given:
+  a|b|c
+
+Do (FIXME invalid judgement - block-wise visual mode):
+  \<C-V>\<Esc>
+  :%EasyAlign|\<CR>
+
+Expect:
+  a | b | c
+
+Do (TODO Workaround: reset visualmode() on error):
+  \<C-V>\<Esc>
+  :%EasyAlign|\<CR>
+  :%EasyAlign|\<CR>
+
+Expect:
+  a | b | c
+
+Include: include/teardown.vader
+

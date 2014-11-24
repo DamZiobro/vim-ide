@@ -923,3 +923,10 @@ autocmd VimEnter * call AirlineInit()
     endif
   endfunction
 
+" ========================================================================================
+" VIM-easy-align  plugin 
+"
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+"nmap <Leader>b <Plug>(EasyAlign)
+
