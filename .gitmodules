@@ -4,3 +4,6 @@
 [submodule "bundle/gundo"]
 	path = bundle/gundo
 	url = https://github.com/sjl/gundo.vim.git
+[submodule "bundle/DidYouMean"]
+	path = bundle/DidYouMean
+	url = https://github.com/EinfachToll/DidYouMean
