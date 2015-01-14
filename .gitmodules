@@ -7,3 +7,6 @@
 [submodule "bundle/DidYouMean"]
 	path = bundle/DidYouMean
 	url = https://github.com/EinfachToll/DidYouMean
+[submodule "bundle/switch.vim"]
+	path = bundle/switch.vim
+	url = https://github.com/AndrewRadev/switch.vim

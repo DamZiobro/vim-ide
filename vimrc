@@ -930,3 +930,8 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 "nmap <Leader>b <Plug>(EasyAlign)
 
+
+" ========================================================================================
+" VIM-switch  plugin 
+" https://github.com/AndrewRadev/switch.vim
+nnoremap - :Switch<cr>
