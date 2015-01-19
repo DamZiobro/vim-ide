@@ -100,14 +100,16 @@ snippet forr
 	}
 # Function
 snippet fun
-	/* ======= Function ==================================================
-	 *   Name: $2
-	 *   Description: ${4}
-	 * =================================================================== 
-	 */
+	/******** Function ************************************************//**
+	 *   @brief		${4:brief description of function $2}
+	 *
+	 *   @return	${5: 0 if result is positive; -1 if result is negative}
+	 *   
+	 *********************************************************************/
+
 	${1:void} ${2:function_name}(${3})
 	{
-		${5:/* code */}
+		${6}
 	}
 # Function Declaration
 snippet fund

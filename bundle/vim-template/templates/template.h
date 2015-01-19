@@ -1,12 +1,12 @@
-/*
- * =====================================================================================
- *       Filename:  %FFILE%
- *    Description:  
- *        Created:  %FDATE%
- *         Author:  Damian Ziobro        (ziobro.damian@gmail.com)
- *        Company:  XMementoIT Limited       (info@xmementoit.com)
- * =====================================================================================
- */
+/*************************************************************************************//**
+ *  @file       %FFILE%
+ *
+ *  @brief      Brief description of %FFILE%
+ *
+ *  @date       %FDATE%
+ *  @author     Damian Ziobro - XMementoIT Limited (damian@xmementoit.com)
+ *         
+ **************************************************************************************/
 
 
 #ifndef %GUARD%

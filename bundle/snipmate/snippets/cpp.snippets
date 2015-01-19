@@ -20,10 +20,16 @@ snippet ns
 	} /* $1 */
 # Class
 snippet cl
+	/******************************************************************//**
+	 *   @class		$1
+	 *
+	 *   @brief		${4:brief description of class $1}
+	 *********************************************************************/
+
 	class ${1:`Filename('$1', 'name')`} {
 	public:
-		$1 (${2});
-		virtual ~$1 ();
+		$1 (${2}); ///<Default constructor of class $1
+		virtual ~$1 (); ///<Destructor of class $1
 
 	private:
 

@@ -1,22 +1,28 @@
-/*
- * =====================================================================================
- *       Filename:  %FFILE%
- *    Description:  
- *        Created:  %FDATE% 
- *         Author:  Damian Ziobro        (ziobro.damian@gmail.com)
- *        Company:  XMementoIT Limited       (info@xmementoit.com)
- * =====================================================================================
- */
+/*************************************************************************************//**
+ *  @file       %FFILE%
+ *
+ *  @brief      Main entry to C-based application  
+ *
+ *  @date       %FDATE%
+ *  @author     Damian Ziobro - XMementoIT Limited (damian@xmementoit.com)
+ *         
+ **************************************************************************************/
 
 #include <iostream>
 
 using namespace std;
 
-/* ======= Function ==================================================
- *   Name: main
- *   Description: main entry Function
- * =================================================================== 
- */
+/******** Function ************************************************//**
+ *   @brief     main entry Function
+ *
+ *   @param     argc - number of parameters pass to the application from 
+ *                 command line input (stdin)
+ *   @param     argv - array of parameters pass to the application from 
+ *                 command line input (stdin)
+ *
+ *   @return    exit code of the application
+ *********************************************************************/
+
 int main(int argc, const char **argv)
 {
     %HERE%    
