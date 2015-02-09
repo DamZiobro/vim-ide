@@ -5,6 +5,7 @@ filetype off
 call pathogen#runtime_append_all_bundles()
 execute pathogen#infect()
 filetype plugin indent on
+syntax on
 
 " Make vim incompatbile to vi.
 set nocompatible
