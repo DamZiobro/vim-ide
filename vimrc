@@ -275,36 +275,36 @@ imap <C-s> <ESC>:w<cr>i
 "imap <Esc><C-q> <ESC>:qa!<cr>
 
 " Quit with saving
-nmap <C-q> :xa!<cr>
-imap <C-q> <ESC>:xa!<cr>
+"nmap <C-q> :xa!<cr>
+"imap <C-q> <ESC>:xa!<cr>
 
-"Split window
-nmap <C-n><C-n> :split <cr>
-imap <C-n><C-n> <ESC>:split <cr>i
-nmap <C-b><C-b> :vsplit <cr>
-imap <C-b><C-b> <ESC>:vsplit <cr>i
+""Split window
+"nmap <C-n><C-n> :split <cr>
+"imap <C-n><C-n> <ESC>:split <cr>i
+"nmap <C-b><C-b> :vsplit <cr>
+"imap <C-b><C-b> <ESC>:vsplit <cr>i
 
 "Make window mosaic 
 nmap <leader>mon :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>l
 imap <leader>mon <ESC>:split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>li
 
 "Close splitted window 
-nmap <C-d><C-d> :q! <cr>
-imap <C-d><C-d> <ESC>l:q! <cr>i
+"nmap <C-d><C-d> :q! <cr>
+"imap <C-d><C-d> <ESC>l:q! <cr>i
 
 " Undo redo
-nmap <C-z> u
-imap <C-z> <ESC>lui
+"nmap <C-z> u
+"imap <C-z> <ESC>lui
 
-nmap <C-y> <C-r>
-imap <C-y> <ESC>l<C-r>i
+"nmap <C-y> <C-r>
+"imap <C-y> <ESC>l<C-r>i
 
 " Replace command 
-nmap <C-h> :execute "call MyReplaceText()"<cr>
-imap <C-h> <ESC>l:execute "call MyReplaceText()"<cr>
+nmap <F6> :execute "call MyReplaceText()"<cr>
+imap <F6> <ESC>l:execute "call MyReplaceText()"<cr>
 
-nmap <C-h><C-h> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
-imap <C-h><C-h> <ESC>l:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
+nmap <F7> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
+imap <F7> <ESC>l:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
 
 
 " Make check spelling on or off 
@@ -315,21 +315,21 @@ nmap <leader>csoff  :set nospell<CR>
 " Indentation (got to opening bracket and indent section) 
 
 "vmap =
-nmap <C-s><C-i> [{=%
-imap <C-s><C-i> <ESC>l[{=%<cr>i
+nmap <leader>ip [{=%
+"imap <C-s><C-i> <ESC>l[{=%<cr>i
 
 "Highlight section between brackets (do to opening bracket and highlight)
-nmap <C-s><C-h> [{%v%<Home>
-imap <C-s><C-h> <ESC>l[{%v%<Home>
+nmap <leader>hp [{%v%<Home>
+"imap <C-s><C-h> <ESC>l[{%v%<Home>
 
-"Find command
+"Find commad
 
-nmap <C-f> /
-imap <C-f> <ESC>l/
+"nmap <C-f> /
+"imap <C-f> <ESC>l/
 
 
-nmap <C-f><C-f> :execute "/" .  expand('<cword>') <cr>
-imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
+"nmap <C-f><C-f> :execute "/" .  expand('<cword>') <cr>
+"imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
 
 "Find in many files and navigate between search results 
 "
@@ -342,39 +342,39 @@ nmap <A-Left> :cprevious<cr>
 
 " Go Home/End of document
 
-nmap <C-b><C-b> gg
-imap <C-b><C-b> <ESC>ggi
+"nmap <C-b><C-b> gg
+"imap <C-b><C-b> <ESC>ggi
 
-nmap <C-e><C-e> G
-imap <C-e><C-e> <ESC>Gi
+"nmap <C-e><C-e> G
+"imap <C-e><C-e> <ESC>Gi
 
 "Select all text 
 
-vmap <C-a> <ESC>ggvG <End>
-nmap <C-a> ggvG <End>
-imap <C-a> <ESC>ggvG <End>
+"vmap <C-a> <ESC>ggvG <End>
+"nmap <C-a> ggvG <End>
+"imap <C-a> <ESC>ggvG <End>
 
 " Close Tab
 
-nmap <C-d> :BD<cr>
-imap <C-d> <ESC>:BD><cr>i
+"nmap <C-d> :BD<cr>
+"imap <C-d> <ESC>:BD><cr>i
 
 " Map copy and paste in visual moderuntime
 
-nmap <C-c> yiw
-imap <C-c> <ESC>yiwi
-vmap <C-x> "+d
-vmap <C-c> "+yi
+"nmap <C-c> yiw
+"imap <C-c> <ESC>yiwi
+"vmap <C-x> "+d
+"vmap <C-c> "+yi
 "nmap <C-v> :call PasteAndIndent()<cr>i<Right>
-imap <C-v> <ESC>:call PasteAndIndent()<cr>i<Right>
+imap <leader>pi <ESC>:call PasteAndIndent()<cr>i<Right>
 
 "Cmake
 ":cmake 
 
 "Switch between .h and .cpp Files
 
-nmap <C-a><C-a> :A <cr>
-imap <C-a><C-a> <ESC>:A<cr>i
+nmap <leader>th :A <cr>
+"imap <C-a><C-a> <ESC>:A<cr>i
 
 function! FindProjectRoot(lookFor)
     let pathMaker='%:p'
@@ -422,8 +422,8 @@ imap <C-F5> <ESC> <C-s> :call BuildAndInstallCSharpApp()<cr>
 
 
 " Normal make 
-nmap <F7> :set makeprg=make\ -C\ .<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>
-imap <F7> <ESC> set makeprg=make\ -C\ ./build<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>i
+nmap <F9>> :set makeprg=make\ -C\ .<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>
+imap <F9> <ESC> set makeprg=make\ -C\ ./build<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>i
 
 " Go to function definition 
 " <C-]> - go to defintion 
@@ -490,8 +490,8 @@ noremap <buffer> <silent> K :exe "Man" expand('<cword>') <CR>
 
 " Map SyntasticCheck to F6 
 "
-noremap <silent> <F6> :SyntasticCheck<CR>
-noremap! <silent> <F6> <ESC>:SyntasticCheck<CR>
+noremap <silent> <F4> :SyntasticCheck<CR>
+noremap! <silent> <F4> <ESC>:SyntasticCheck<CR>
 
 au BufNewFile,BufRead *.c,*.cc,*.cpp,*.h call SetupCandCPPenviron()
 function! SetupCandCPPenviron()
@@ -578,7 +578,7 @@ set tags+=~/.vim/tags/opencv
 set tags+=~/.vim/tags/qt5
 set tags+=~/.vim/tags/usr_local_include
 
-nmap <C-g>   :split<cr><C-]>   
+nmap <leader>go   :split<cr><C-]>   
 
 nmap <C-F11> :call UpdateAllTags()<cr>
 imap <C-F11> <ESC>l:call UpdateAllTags()<cr>
@@ -664,41 +664,41 @@ endif
 ""place in vimrc file
 
 "word selection
-nmap <C-S-Left> vb
-nmap <C-S-Right> ve
-imap <C-S-Left> <Esc><Right>vb
-imap <C-S-Right> <Esc><Right>ve
-vmap <C-S-Left> b
-vmap <C-S-Right> e
+"nmap <C-S-Left> vb
+"nmap <C-S-Right> ve
+"imap <C-S-Left> <Esc><Right>vb
+"imap <C-S-Right> <Esc><Right>ve
+"vmap <C-S-Left> b
+"vmap <C-S-Right> e
 
-"down/up selection
-nmap <C-S-Down> v<Down>
-nmap <C-S-Up> v<Up>
-imap <C-S-Down> _<Esc>lmz"_xv`zo`z<Down><Right><BS><BS>
-imap <C-S-Up> _<Esc>lmz"_xv`z<Up>o`z<BS>o
-vmap <C-S-Down> <Down>
-vmap <C-S-Up> <Up>
+""down/up selection
+"nmap <C-S-Down> v<Down>
+"nmap <C-S-Up> v<Up>
+"imap <C-S-Down> _<Esc>lmz"_xv`zo`z<Down><Right><BS><BS>
+"imap <C-S-Up> _<Esc>lmz"_xv`z<Up>o`z<BS>o
+"vmap <C-S-Down> <Down>
+"vmap <C-S-Up> <Up>
 
-"home/end selection
-nmap <C-S-Home> v<Home>
-nmap <C-S-End> v<End>
-imap <C-S-Home> _<Esc>lmz"_s<C-o><Left><C-o>`z<Esc>v<Home>
-imap <C-S-End> _<Esc>lmz"_xv`zo<End>
+""home/end selection
+"nmap <C-S-Home> v<Home>
+"nmap <C-S-End> v<End>
+"imap <C-S-Home> _<Esc>lmz"_s<C-o><Left><C-o>`z<Esc>v<Home>
+"imap <C-S-End> _<Esc>lmz"_xv`zo<End>
 
-"half page down/up selection
-nmap <C-S-PageDown> v<End><C-d><End>
-nmap <C-S-PageUp> v<Home><C-u>
-imap <C-S-PageDown> _<Esc>lmz"_xv`zo<End><C-d><End>
-imap <C-S-PageUp> _<Esc>lmz"_xv`z<BS>o<Home><C-u>
-vmap <C-S-PageDown> <End><C-d><End>
-vmap <C-S-PageUp> <Home><C-u>
+""half page down/up selection
+"nmap <C-S-PageDown> v<End><C-d><End>
+"nmap <C-S-PageUp> v<Home><C-u>
+"imap <C-S-PageDown> _<Esc>lmz"_xv`zo<End><C-d><End>
+"imap <C-S-PageUp> _<Esc>lmz"_xv`z<BS>o<Home><C-u>
+"vmap <C-S-PageDown> <End><C-d><End>
+"vmap <C-S-PageUp> <Home><C-u>
 
-"word deletion
-imap <C-BS> <C-w>
-nmap <C-w> i<C-w><Esc>
-imap <C-Del> _<Esc>lmzew<BS>i<Del><Esc>v`z"_c
+""word deletion
+"imap <C-BS> <C-w>
+"nmap <C-w> i<C-w><Esc>
+"imap <C-Del> _<Esc>lmzew<BS>i<Del><Esc>v`z"_c
 
-vmap <Del> d<Esc>li
+"vmap <Del> d<Esc>li
 
 "===================================================================================================
 " Commenting blocks of code.
