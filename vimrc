@@ -609,7 +609,7 @@ map <leader>sd :SessionOpen vim_auto_saved_session<cr>:NERDTree .<cr>
 
 " =========== Startup commands =========="
 
-
+autocmd VimEnter * SignatureToggleSigns
 autocmd VimEnter * NERDTree .
 autocmd VimEnter * helptags ~/.vim/doc
 autocmd VimEnter * TagbarOpen
