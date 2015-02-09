@@ -936,3 +936,9 @@ vmap <Enter> <Plug>(EasyAlign)
 " VIM-switch  plugin 
 " https://github.com/AndrewRadev/switch.vim
 nnoremap - :Switch<cr>
+
+
+" ========================================================================================
+" VIM-signature plugin 
+" https://github.com/kshenoy/vim-signature 
+nnoremap <leader>st :SignatureToggleSigns<cr>
