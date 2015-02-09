@@ -10,3 +10,6 @@
 [submodule "bundle/switch.vim"]
 	path = bundle/switch.vim
 	url = https://github.com/AndrewRadev/switch.vim
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
