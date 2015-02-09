@@ -18,7 +18,7 @@ fi
 ln -s $VIM_ROOT/vimrc $HOME/.vimrc
 
 echo -e "Installing vim (Vi Improved) package from repository"
-sudo apt-get install vim
+sudo apt-get install vim vim-gnome
 
 echo -e "Installing ctags"
 sudo apt-get install ctags
