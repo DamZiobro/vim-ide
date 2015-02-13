@@ -366,7 +366,7 @@ nmap <A-Left> :cprevious<cr>
 "vmap <C-x> "+d
 "vmap <C-c> "+yi
 "nmap <C-v> :call PasteAndIndent()<cr>i<Right>
-imap <leader>pi <ESC>:call PasteAndIndent()<cr>i<Right>
+nmap <leader>pi <ESC>:call PasteAndIndent()<cr>i<Right>
 
 "Cmake
 ":cmake 
@@ -890,8 +890,8 @@ noremap gV `[v`]
 
 " ========================================================================================
 " " Quickly put ; at the end of current line   
-imap <C-j> <end>;
-nmap <C-j> i<end>;<Esc>
+"imap <C-j> <end>;
+"nmap <C-j> i<end>;<Esc>
 
 nmap <Leader><Leader> V 
 

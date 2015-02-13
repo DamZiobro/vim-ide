@@ -1,5 +1,6 @@
 #!/bin/bash 
 
+
 VIM_ROOT=$HOME/.vim
 RANDOM_NR=`shuf -i 1000-90000 -n 1`
 INSTALL_ROOT=`pwd`
