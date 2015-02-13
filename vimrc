@@ -80,8 +80,8 @@ set incsearch
 set showmatch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
-nnoremap <tab> %
-vnoremap <tab> %
+"nnoremap <tab> %
+"vnoremap <tab> %
 
 
 " Make Vim to handle long lines nicely.
@@ -262,13 +262,13 @@ endfunction
 
 " Allow using C-Up and C-Down in insert mode 
 " to move between splitted buffers easly
-imap <C-Up> <Esc><C-Up>i
-imap <C-Down> <Esc><C-Down>i
+"imap <C-Up> <Esc><C-Up>i
+"imap <C-Down> <Esc><C-Down>i
 
 
 " Saving file
-nmap <C-s> :w<cr>
-imap <C-s> <ESC>:w<cr>i
+"nmap <C-s> :w<cr>
+"imap <C-s> <ESC>:w<cr>i
 
 " Quit without saving
 "nmap <Esc><C-q> :qa!<cr>
@@ -615,6 +615,11 @@ autocmd VimEnter * helptags ~/.vim/doc
 autocmd VimEnter * TagbarOpen
 autocmd VimEnter * exe 2 . "wincmd w"
 autocmd VimEnter * call CheckIfMain()
+
+" Map Tab to Esc in order to switch between Modesto
+nnoremap <C-o> i
+inoremap <C-o> <Esc>
+vnoremap <C-o> <Esc>
 
 " =========== Leaving commands =========="
 
