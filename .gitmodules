@@ -19,3 +19,6 @@
 [submodule "bundle/vim-signature"]
 	path = bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature
+[submodule "bundle/vim-randomtag"]
+	path = bundle/vim-randomtag
+	url = https://github.com/mhinz/vim-randomtag
