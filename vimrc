@@ -947,3 +947,8 @@ nnoremap - :Switch<cr>
 " VIM-signature plugin 
 " https://github.com/kshenoy/vim-signature 
 nnoremap <leader>st :SignatureToggleSigns<cr>
+
+" ========================================================================================
+" map ctrl+j to ctrl+m (for INSERT mode)in order to be more consistent with bash terminal 
+let g:BASH_Ctrl_j='off'
+inoremap <C-j> <C-m>
