@@ -241,3 +241,6 @@ snippet timefin
 	END=$(date +%s.%N)
 	DIFF=$(echo "$END - $START" | bc)
 	echo $DIFF " seconds."
+
+snippet prex
+	{ echo -e "${1:message}"; exit -1; }
