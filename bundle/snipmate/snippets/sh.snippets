@@ -73,11 +73,12 @@ snippet	sed delete
 	sed ${1:1}'d' ${2:filename}
 snippet	sed delete pattern
 	sed "/${1:pattern}/d" ${2:filename}
-snippet	whiler
-	while IFS='' read -b ${1:line}
+snippet	readfile
+	infile=${1:file}
+	while read ${2:line}
 	do
-		echo $$1
-	done < $${2:infile}
+		echo $$2
+	done < $infile
 #
 snippet yesno simple
 	read ${1:yn}
@@ -244,3 +245,11 @@ snippet timefin
 
 snippet prex
 	{ echo -e "${1:message}"; exit -1; }
+snippet usage 
+	E_BADARGS=65
+	if [ $# -ne ${1:1} ];
+	then 
+		echo "ERROR: wrong number of arguments..."
+		echo "Usage: \`basename $0\` ${2:argument}"
+		exit $E_BADARGS
+	fi
