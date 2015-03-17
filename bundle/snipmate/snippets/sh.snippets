@@ -140,8 +140,8 @@ snippet getopts traditional
 		$3 ) file="$OPTARG"
 		;;
 		h ) E_BADARGS=65;;
-			echo "Usage: `basename $0` argument"
-			exit $E_BADARGS
+			echo "Usage: \`basename ${4:script_name} \` argument";
+			exit $E_BADARGS;
 		*) usage;;
 		esac
 	done
