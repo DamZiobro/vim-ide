@@ -139,9 +139,9 @@ snippet getopts traditional
 		;;
 		$3 ) file="$OPTARG"
 		;;
-		h ) help;;
-		v ) VERBOSE_FLAG=1
-		V ) echo "Version 1.0"
+		h ) E_BADARGS=65;;
+			echo "Usage: \`basename ${4:script_name} \` argument";
+			exit $E_BADARGS;
 		*) usage;;
 		esac
 	done
