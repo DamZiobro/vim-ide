@@ -368,6 +368,9 @@ nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
 
+" Double learder for selection whole line
+nmap <Leader><Leader> V
+
 "nmap <C-c> yiw
 "imap <C-c> <ESC>yiwi
 "vmap <C-x> "+d
