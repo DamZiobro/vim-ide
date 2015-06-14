@@ -359,7 +359,14 @@ nmap <A-Left> :cprevious<cr>
 "nmap <C-d> :BD<cr>
 "imap <C-d> <ESC>:BD><cr>i
 
-" Map copy and paste in visual moderuntime
+" Map copy delete and paste to system clipboard
+"
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 "nmap <C-c> yiw
 "imap <C-c> <ESC>yiwi
