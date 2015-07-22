@@ -24,6 +24,9 @@ sudo apt-get install vim vim-gnome
 echo -e "Installing ctags"
 sudo apt-get install ctags
 
+echo -e "Installing ctags"
+sudo apt-get install cscope
+
 echo -e "Initializing and checking out plugins submodules: "
 cd $VIM_ROOT 
 git submodule init 
