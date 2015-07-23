@@ -25,6 +25,7 @@ else
   command! -nargs=+ JavaHiLink hi def link <args>
 endif
 
+"
 " some characters that cannot be in a java program (outside a string)
 syn match javaError "[\\@`]"
 syn match javaError "<<<\|\.\.\|=>\|<>\|||=\|&&=\|[^-]->\|\*\/"
@@ -128,6 +129,8 @@ syn keyword javaLabel		default
 " The following cluster contains all java groups except the contained ones
 syn cluster javaTop add=javaExternal,javaError,javaError,javaBranch,javaLabelRegion,javaLabel,javaConditional,javaRepeat,javaBoolean,javaConstant,javaTypedef,javaOperator,javaType,javaType,javaStatement,javaStorageClass,javaAssert,javaExceptions,javaMethodDecl,javaClassDecl,javaClassDecl,javaClassDecl,javaScopeDecl,javaError,javaError2,javaUserLabel,javaLangObject,javaAnnotation,javaVarArg
 
+syntax match potionOperator "\v[\*/\+\-\=\!\<\>\|\&]"
+hi potionOperator ctermfg=117 
 
 " Comments
 syn keyword javaTodo		 contained TODO FIXME XXX
@@ -350,8 +353,33 @@ endif
 
 let b:spell_options="contained"
 
+"syn match    cCustomDotScope "\."
+"syn match    cCustomDotClass "\w\+\s*\." 
+
+"=============================================================================================== 
+" DAMIAN's CUSTOMIZATION
+"=============================================================================================== 
+"
+" this should be before comments syntax
+"highlight matching signs
+syntax match bracketsOperator "[\{\}\[\]\(\)]"
+hi bracketsOperator ctermfg=51 cterm=bold
+
+syntax match separators "[\;\,\?\:]"
+hi separators ctermfg=199 cterm=bold
+
 syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." 
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
+
+syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
+hi ConstantValue ctermfg=214 cterm=bold
+
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
+hi AfterDot ctermfg=190
+syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
+hi AfterDotFunction ctermfg=34 cterm=bold
+
+hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
 
 syn match    javaCustomParen    "?=("
 syn match    javaCustomFunc     "\w\+\s*(\@=" contains=javaCustomParen
@@ -365,6 +393,8 @@ hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
 
 hi javaFuncDef ctermfg=39 cterm=bold 
 hi javaClassDecl ctermfg=10 cterm=bold
+
+"=============================================================================================== 
 "hi pythonFunction ctermfg=39 cterm=bold
 "hi pythonClass    ctermfg=10 cterm=bold
 

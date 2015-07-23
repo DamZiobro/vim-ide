@@ -15,7 +15,6 @@ set cpo&vim
 " DAMIAN's CUSTOMIZATION
 "=============================================================================================== 
 "
-
 " this should be before comments syntax
 syntax match potionOperator "\v[\*/\+\-\=\!\<\>\|\&]"
 hi potionOperator ctermfg=117 
