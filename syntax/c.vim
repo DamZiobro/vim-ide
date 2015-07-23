@@ -11,6 +11,51 @@ endif
 let s:cpo_save = &cpo
 set cpo&vim
 
+"=============================================================================================== 
+" DAMIAN's CUSTOMIZATION
+"=============================================================================================== 
+"
+
+" this should be before comments syntax
+syntax match potionOperator "\v[\*/\+\-\=\!\<\>\|\&]"
+hi potionOperator ctermfg=117 
+
+"highlight matching signs
+syntax match bracketsOperator "[\{\}\[\]\(\)]"
+hi bracketsOperator ctermfg=51 cterm=bold
+
+syntax match separators "[\;\,\?\:]"
+hi separators ctermfg=199 cterm=bold
+
+syn match    cCustomScope    "::"
+syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope
+syn match    cCustomArrowScope "->"
+syn match    cCustomArrowClass "\w\+\s*->" contains=cCustomArrowScope
+syn match    cCustomDotScope "\."
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
+
+syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
+hi ConstantValue ctermfg=214 cterm=bold
+
+syntax match AfterArrow "\w\+\s*->[a-zA-Z\_0-9]*" contains=cCustomArrowClass
+hi AfterArrow ctermfg=190
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
+hi AfterDot ctermfg=190
+syntax match AfterArrowFunction "\w\+\s*->[a-zA-Z\_0-9]*\s*(" contains=cCustomArrowClass,bracketsOperator
+hi AfterArrowFunction ctermfg=34 cterm=bold
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
+hi AfterDot ctermfg=34 cterm=bold
+
+syn match    cCustomParen    "?=(" contains=cParen,cCppParen
+syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
+
+hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
+hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
+hi cCustomArrowClass guifg=#00FF00 ctermfg=87 cterm=bold
+hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
+
+"=============================================================================================== 
+"
 " A bunch of useful C keywords
 syn keyword	cStatement	goto break return continue asm
 syn keyword	cLabel		case default
@@ -419,24 +464,6 @@ hi def link cCppInElse2		cCppOutIf2
 hi def link cCppOutIf2		cCppOut2  " Old syntax group for #if 0 body
 hi def link cCppOut2		cCppOut  " Old syntax group for #if of #if 0
 hi def link cCppOut		Comment
-
-
-syn match    cCustomParen    "?=(" contains=cParen,cCppParen
-syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
-syn match    cCustomScope    "::"
-syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope
-syn match    cCustomArrowScope "->"
-syn match    cCustomArrowClass "\w\+\s*->" contains=cCustomArrowScope
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
-
-" hi def link cCustomFunc  Special
-" hi def link cCustomClass Function
-
- hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
- hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
- hi cCustomArrowClass guifg=#00FF00 ctermfg=87 cterm=bold
- hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
 
 syn match cCustomFunctionDefinition "\~\?\zs\h\w*\s*\ze([^)]*\()\s*\(const\)\?\){\?$"
 hi cCustomFunctionDefinition gui=bold guifg=yellowgreen cterm=bold ctermfg=39
