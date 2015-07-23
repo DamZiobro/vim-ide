@@ -23,27 +23,31 @@ hi potionOperator ctermfg=117
 syntax match bracketsOperator "[\{\}\[\]\(\)]"
 hi bracketsOperator ctermfg=51 cterm=bold
 
-syntax match separators "[\;\,\?\:]"
+syntax match separators "[\;\,\?\:\.]"
 hi separators ctermfg=199 cterm=bold
 
 syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
 hi ConstantValue ctermfg=214 cterm=bold
 
-syn match    cCustomScope    "::"
-syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope
-syn match    cCustomArrowScope "->"
-syn match    cCustomArrowClass "\w\+\s*->" contains=cCustomArrowScope
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
+syn match    cCustomScope    "::" contains=separators
+syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope,separators
+syn match    cCustomArrowScope "->" contains=potionOperator
+syn match    cCustomArrowClass "\w\+\s*->" contains=cCustomArrowScope,potionOperator
+syn match    cCustomDotScope "\." contains=separators
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope,separators
 
-syntax match AfterArrow "\w\+\s*->[a-zA-Z\_0-9]*" contains=cCustomArrowClass
+syntax match AfterArrow "\w\+\s*->[a-zA-Z\_0-9]*" contains=cCustomArrowClass,potionOperator
 hi AfterArrow ctermfg=190
-syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass,separators
 hi AfterDot ctermfg=190
-syntax match AfterArrowFunction "\w\+\s*->[a-zA-Z\_0-9]*\s*(" contains=cCustomArrowClass,bracketsOperator
+syntax match AfterScope "\w\+\s*::[a-zA-Z\_0-9]*" contains=cCustomClass,separators
+hi AfterScope ctermfg=215
+syntax match AfterArrowFunction "\w\+\s*->[a-zA-Z\_0-9]*\s*(" contains=cCustomArrowClass,bracketsOperator,potionOperator
 hi AfterArrowFunction ctermfg=34 cterm=bold
-syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
-hi AfterDot ctermfg=34 cterm=bold
+syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator,separators
+hi AfterDotFunction ctermfg=34 cterm=bold
+syntax match AfterScopeFunction "\w\+\s*::[a-zA-Z\_0-9]*\s*(" contains=cCustomClass,bracketsOperator,separators
+hi AfterScopeFunction ctermfg=34 cterm=bold
 
 syn match    cCustomParen    "?=(" contains=cParen,cCppParen
 syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen

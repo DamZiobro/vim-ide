@@ -204,7 +204,7 @@ let java_highlight_functions = "a"
 
 if exists("java_highlight_functions")
   if java_highlight_functions == "indent"
-    syn match  javaFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]]*([^-+*/()]*)" contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses
+    syn match  javaFuncDef "^\(\t\| \{8\}\)[_$a-zA-Z][_$a-zA-Z0-9_. \[\]]*([^-+*/()]*)" contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses,separators
     syn region javaFuncDef start=+^\(\t\| \{8\}\)[$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*,\s*+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses
     syn match  javaFuncDef "^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*)" contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses
     syn region javaFuncDef start=+^  [$_a-zA-Z][$_a-zA-Z0-9_. \[\]]*([^-+*/()]*,\s*+ end=+)+ contains=javaScopeDecl,javaType,javaStorageClass,@javaClasses
@@ -365,24 +365,24 @@ let b:spell_options="contained"
 syntax match bracketsOperator "[\{\}\[\]\(\)]"
 hi bracketsOperator ctermfg=51 cterm=bold
 
-syntax match separators "[\;\,\?\:]"
+syntax match separators "[\;\,\?\:\.]"
 hi separators ctermfg=199 cterm=bold
 
 syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
 hi ConstantValue ctermfg=214 cterm=bold
 
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
-
-syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
-hi AfterDot ctermfg=190
-syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
-hi AfterDotFunction ctermfg=34 cterm=bold
+syn match    cCustomDotScope "\." contains=separators
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope,separators
 
 hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
 
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass,separators
+hi AfterDot ctermfg=190
+syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator,separators
+hi AfterDotFunction ctermfg=34 cterm=bold
+
 syn match    javaCustomParen    "?=("
-syn match    javaCustomFunc     "\w\+\s*(\@=" contains=javaCustomParen
+syn match    javaCustomFunc     "\w\+\s*(\@=" contains=javaCustomParen,separators
 
 hi def link javaCustomFunc  Special
 " hi def link cCustomClass Function

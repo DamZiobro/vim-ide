@@ -566,11 +566,11 @@ hi separators ctermfg=199 cterm=bold
 syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
 hi ConstantValue ctermfg=214 cterm=bold
 
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
+syn match    cCustomDotScope "\." contains=separators
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope,separators
 
 syn match    cCustomParen    "?=(" contains=cParen,cCppParen
-syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
+syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen,separators
 
  hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
  hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
@@ -579,9 +579,9 @@ syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
  hi pythonFunction ctermfg=39 cterm=bold
  hi pythonClass    ctermfg=10 cterm=bold
 
-syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass,separators
 hi AfterDot ctermfg=190
-syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
+syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator,separators
 hi AfterDotFunction ctermfg=34 cterm=bold
 
 "=============================================================================================== 
