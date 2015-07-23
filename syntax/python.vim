@@ -549,11 +549,28 @@ endif
 
 let b:current_syntax = "python"
 
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." 
+"=============================================================================================== 
+" DAMIAN's CUSTOMIZATION
+"=============================================================================================== 
+"
+syntax match potionOperator "\v[\*/\+\-\=\!\<\>\|\&]"
+hi potionOperator ctermfg=117 
 
-" hi def link cCustomFunc  Special
-" hi def link cCustomClass Function
+"highlight matching signs
+syntax match bracketsOperator "[\{\}\[\]\(\)]"
+hi bracketsOperator ctermfg=51 cterm=bold
+
+syntax match separators "[\;\,\?\:\.]"
+hi separators ctermfg=199 cterm=bold
+
+syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
+hi ConstantValue ctermfg=214 cterm=bold
+
+syn match    cCustomDotScope "\."
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
+
+syn match    cCustomParen    "?=(" contains=cParen,cCppParen
+syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
 
  hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
  hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
@@ -562,3 +579,9 @@ syn match    cCustomDotClass "\w\+\s*\."
  hi pythonFunction ctermfg=39 cterm=bold
  hi pythonClass    ctermfg=10 cterm=bold
 
+syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
+hi AfterDot ctermfg=190
+syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator
+hi AfterDotFunction ctermfg=34 cterm=bold
+
+"=============================================================================================== 

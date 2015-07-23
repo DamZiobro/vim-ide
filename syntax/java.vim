@@ -368,11 +368,11 @@ hi bracketsOperator ctermfg=51 cterm=bold
 syntax match separators "[\;\,\?\:]"
 hi separators ctermfg=199 cterm=bold
 
-syn match    cCustomDotScope "\."
-syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
-
 syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
 hi ConstantValue ctermfg=214 cterm=bold
+
+syn match    cCustomDotScope "\."
+syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope
 
 syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass
 hi AfterDot ctermfg=190

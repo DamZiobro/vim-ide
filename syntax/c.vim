@@ -26,15 +26,15 @@ hi bracketsOperator ctermfg=51 cterm=bold
 syntax match separators "[\;\,\?\:]"
 hi separators ctermfg=199 cterm=bold
 
+syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
+hi ConstantValue ctermfg=214 cterm=bold
+
 syn match    cCustomScope    "::"
 syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope
 syn match    cCustomArrowScope "->"
 syn match    cCustomArrowClass "\w\+\s*->" contains=cCustomArrowScope
 syn match    cCustomDotScope "\."
 syn match    cCustomDotClass "\w\+\s*\." contains=cCustomArrowScope
-
-syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
-hi ConstantValue ctermfg=214 cterm=bold
 
 syntax match AfterArrow "\w\+\s*->[a-zA-Z\_0-9]*" contains=cCustomArrowClass
 hi AfterArrow ctermfg=190
