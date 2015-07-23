@@ -962,3 +962,8 @@ nnoremap <leader>st :SignatureToggleSigns<cr>
 " map ctrl+j to ctrl+m (for INSERT mode)in order to be more consistent with bash terminal 
 let g:BASH_Ctrl_j='off'
 inoremap <C-j> <C-m>
+
+" ========================================================================================
+" automatically detect messages.log files and highlight them
+au BufNewfile,BufRead messages-* set filetype=messages
+au BufNewfile,BufRead syslog-* set filetype=messages
