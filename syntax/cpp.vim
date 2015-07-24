@@ -62,6 +62,10 @@ if version >= 508 || !exists("did_cpp_syntax_inits")
   delcommand HiLink
 endif
 
+syn match cClass "class"
+syn match cppClass "^\s*class\s*[a-zA-Z][a-zA-Z0-9_]*" contains=cClass,separators
+hi  cppClass ctermfg=3 cterm=bold 
+
 let b:current_syntax = "cpp"
 
 " vim: ts=8
