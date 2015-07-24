@@ -235,6 +235,10 @@ endif
 syntax match	cCommentError	display "\*/"
 syntax match	cCommentStartError display "/\*"me=e-1 contained
 
+"GStreamer-based types
+syntax match    Space "\ "
+syntax match	cType	"Gst[A-Z][a-zA-Z]*\ " contains=Space
+
 syn keyword	cOperator	sizeof
 if exists("c_gnu")
   syn keyword	cStatement	__asm__
@@ -265,7 +269,7 @@ endif
 "G types 
 syn keyword	cType		gint guint glong gshort gchar guchar void
 syn keyword	cType		gfloat gdouble gboolean guint64 guint8 guint16 guint32
-syn keyword	cType		GObject, GValue, GParamSpec, GType, GEnumValue
+syn keyword	cType		GObject, GValue, GParamSpec, GType, GEnumValue, GMutex
 
 syn keyword	cStructure	struct union enum typedef
 syn keyword	cStorageClass	static register auto volatile extern const
