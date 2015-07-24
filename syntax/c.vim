@@ -414,7 +414,55 @@ else
   if !exists("c_no_if0")
     let b:c_minlines = 50	" #if 0 constructs can be long
   else
-    Constant		Constant
+    let b:c_minlines = 15      " mostly for () constructs
+  endif
+endif
+if exists("c_curly_error")
+  syn sync fromstart
+else
+  exec "syn sync ccomment cComment minlines=" . b:c_minlines
+endif
+
+" Define the default highlighting.
+" Only used when an item doesn't have highlighting yet
+hi def link cFormat            cSpecial
+hi def link cCppString         cString
+hi def link cCommentL          cComment
+hi def link cCommentStart      cComment
+hi def link cLabel             Label
+hi def link cUserLabel         Label
+hi def link cConditional       Conditional
+hi def link cRepeat            Repeat
+hi def link cCharacter         Character
+hi def link cSpecialCharacter  cSpecial
+hi def link cNumber            Number
+hi def link cOctal             Number
+hi def link cOctalZero         PreProc  " link this to Error if you want
+hi def link cFloat             Float
+hi def link cOctalError                cError
+hi def link cParenError                cError
+hi def link cErrInParen                cError
+hi def link cErrInBracket      cError
+hi def link cCommentError      cError
+hi def link cCommentStartError cError
+hi def link cSpaceError                cError
+hi def link cSpecialError      cError
+hi def link cCurlyError                cError
+hi def link cOperator          Operator
+hi def link cStructure         Structure
+hi def link cStorageClass      StorageClass
+hi def link cInclude           Include
+hi def link cPreProc           PreProc
+hi def link cDefine            Macro
+hi def link cIncluded          cString
+hi def link cError             Error
+hi def link cStatement         Statement
+hi def link cCppInWrapper      cCppOutWrapper
+hi def link cCppOutWrapper     cPreCondit
+hi def link cPreConditMatch    cPreCondit
+hi def link cPreCondit         PreCondit
+hi def link cType              Type
+hi def link cConstant          Constant
 hi def link cCommentString	cString
 hi def link cComment2String	cString
 hi def link cCommentSkip	cComment
