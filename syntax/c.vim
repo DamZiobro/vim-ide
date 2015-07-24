@@ -477,7 +477,7 @@ hi def link cCppOutIf2		cCppOut2  " Old syntax group for #if 0 body
 hi def link cCppOut2		cCppOut  " Old syntax group for #if of #if 0
 hi def link cCppOut		Comment
 
-syn match cCustomFunctionDefinition "\~\?\zs\h\w*\s*\ze([^)]*\()\s*\(const\)\?\){\?$"
+syn match cCustomFunctionDefinition "\~\?\zs\h\w*\s*\ze([^)]*\()\s*\(const\)\?\){\?$" contains=separators,potionOperator,bracketsOperator
 hi cCustomFunctionDefinition gui=bold guifg=yellowgreen cterm=bold ctermfg=39
 
 syn match cStruct "^\s*struct\s*[a-zA-Z][a-zA-Z0-9_]*" contains=cStructure,separators
