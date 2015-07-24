@@ -626,11 +626,6 @@ autocmd VimEnter * TagbarOpen
 autocmd VimEnter * exe 2 . "wincmd w"
 autocmd VimEnter * call CheckIfMain()
 
-" Map Tab to Esc in order to switch between Modesto
-nnoremap <C-o> i
-inoremap <C-o> <Esc>
-vnoremap <C-o> <Esc>
-
 " =========== Leaving commands =========="
 
 autocmd VimLeave * SessionSaveAs vim_auto_saved_session
