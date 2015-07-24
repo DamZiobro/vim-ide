@@ -435,6 +435,9 @@ hi cCustomFunctionDefinition gui=bold guifg=yellowgreen cterm=bold ctermfg=39
 syn match cppClass "^\s*class\s*[a-zA-Z][a-zA-Z0-9_]*"
 hi  cppClass ctermfg=3 cterm=bold 
 
+syn match cStruct "^\s*struct\s*[a-zA-Z][a-zA-Z0-9_]*" contains=cStructure,separators
+hi  cStruct ctermfg=3 cterm=bold 
+
 let b:current_syntax = "c"
 
 let &cpo = s:cpo_save
