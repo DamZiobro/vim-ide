@@ -262,6 +262,11 @@ if exists("c_gnu")
   syn keyword	cType		__label__ __complex__ __volatile__
 endif
 
+"G types 
+syn keyword	cType		gint guint glong gshort gchar guchar void
+syn keyword	cType		gfloat gdouble gboolean guint64 guint8 guint16 guint32
+syn keyword	cType		GObject, GValue, GParamSpec, GType, GEnumValue
+
 syn keyword	cStructure	struct union enum typedef
 syn keyword	cStorageClass	static register auto volatile extern const
 if exists("c_gnu")
