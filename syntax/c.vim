@@ -26,8 +26,8 @@ hi bracketsOperator ctermfg=51 cterm=bold
 syntax match separators "[\;\,\?\:\.]"
 hi separators ctermfg=199 cterm=bold
 
-syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;]" contains=separators
-hi ConstantValue ctermfg=214 cterm=bold
+syntax match ConstantValue "\v[A-Z0-9\_]+[\ \:\=\,\;\)]" contains=separators,bracketsOperator
+hi ConstantValue ctermfg=172 cterm=bold
 
 syn match    cCustomScope    "::" contains=separators
 syn match    cCustomClass    "\w\+\s*::" contains=cCustomScope,separators
@@ -37,22 +37,22 @@ syn match    cCustomDotScope "\." contains=separators
 syn match    cCustomDotClass "\w\+\s*\." contains=cCustomDotScope,separators
 
 syntax match AfterArrow "\w\+\s*->[a-zA-Z\_0-9]*" contains=cCustomArrowClass,potionOperator
-hi AfterArrow ctermfg=190
+hi AfterArrow ctermfg=193
 syntax match AfterDot "\w\+\s*\.[a-zA-Z\_0-9]*" contains=cCustomDotClass,separators
-hi AfterDot ctermfg=190
+hi AfterDot ctermfg=193
 syntax match AfterScope "\w\+\s*::[a-zA-Z\_0-9]*" contains=cCustomClass,separators
-hi AfterScope ctermfg=215
+hi AfterScope ctermfg=173
 syntax match AfterArrowFunction "\w\+\s*->[a-zA-Z\_0-9]*\s*(" contains=cCustomArrowClass,bracketsOperator,potionOperator
-hi AfterArrowFunction ctermfg=34 cterm=bold
+hi AfterArrowFunction ctermfg=119 cterm=bold
 syntax match AfterDotFunction "\w\+\s*\.[a-zA-Z\_0-9]*\s*(" contains=cCustomDotClass,bracketsOperator,separators
-hi AfterDotFunction ctermfg=34 cterm=bold
+hi AfterDotFunction ctermfg=119 cterm=bold
 syntax match AfterScopeFunction "\w\+\s*::[a-zA-Z\_0-9]*\s*(" contains=cCustomClass,bracketsOperator,separators
-hi AfterScopeFunction ctermfg=34 cterm=bold
+hi AfterScopeFunction ctermfg=119 cterm=bold
 
 syn match    cCustomParen    "?=(" contains=cParen,cCppParen
 syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
 
-hi cCustomFunc  guifg=yellowgreen ctermfg=34 cterm=bold
+hi cCustomFunc  guifg=yellowgreen ctermfg=119 cterm=bold
 hi cCustomClass guifg=#00FF00 ctermfg=98 cterm=bold
 hi cCustomArrowClass guifg=#00FF00 ctermfg=87 cterm=bold
 hi cCustomDotClass guifg=#00FF00 ctermfg=87 cterm=bold
@@ -405,55 +405,7 @@ else
   if !exists("c_no_if0")
     let b:c_minlines = 50	" #if 0 constructs can be long
   else
-    let b:c_minlines = 15	" mostly for () constructs
-  endif
-endif
-if exists("c_curly_error")
-  syn sync fromstart
-else
-  exec "syn sync ccomment cComment minlines=" . b:c_minlines
-endif
-
-" Define the default highlighting.
-" Only used when an item doesn't have highlighting yet
-hi def link cFormat		cSpecial
-hi def link cCppString		cString
-hi def link cCommentL		cComment
-hi def link cCommentStart	cComment
-hi def link cLabel		Label
-hi def link cUserLabel		Label
-hi def link cConditional	Conditional
-hi def link cRepeat		Repeat
-hi def link cCharacter		Character
-hi def link cSpecialCharacter	cSpecial
-hi def link cNumber		Number
-hi def link cOctal		Number
-hi def link cOctalZero		PreProc	 " link this to Error if you want
-hi def link cFloat		Float
-hi def link cOctalError		cError
-hi def link cParenError		cError
-hi def link cErrInParen		cError
-hi def link cErrInBracket	cError
-hi def link cCommentError	cError
-hi def link cCommentStartError	cError
-hi def link cSpaceError		cError
-hi def link cSpecialError	cError
-hi def link cCurlyError		cError
-hi def link cOperator		Operator
-hi def link cStructure		Structure
-hi def link cStorageClass	StorageClass
-hi def link cInclude		Include
-hi def link cPreProc		PreProc
-hi def link cDefine		Macro
-hi def link cIncluded		cString
-hi def link cError		Error
-hi def link cStatement		Statement
-hi def link cCppInWrapper	cCppOutWrapper
-hi def link cCppOutWrapper	cPreCondit
-hi def link cPreConditMatch	cPreCondit
-hi def link cPreCondit		PreCondit
-hi def link cType		Type
-hi def link cConstant		Constant
+    Constant		Constant
 hi def link cCommentString	cString
 hi def link cComment2String	cString
 hi def link cCommentSkip	cComment
