@@ -753,22 +753,30 @@ imap <F5> <ESC>l:e<cr>i
 " <Ctrl-R><registername>
 " ex. <Ctrl-R>1
 
-vmap ca "ayy<ESC>i
-nmap ca "ayy
-vmap cb "byy<ESC>i
-nmap cb "byy
-vmap cc "cyy<ESC>i
-nmap cc "cyy
-vmap cd "dyy<ESC>i
-nmap cd "dyy
-vmap ce "eyy<ESC>i
-nmap ce "eyy
-vmap cf "fyy<ESC>i
-nmap cf "fyy
-vmap cg "gyy<ESC>i
-nmap cg "gyy
-vmap ch "hyy<ESC>i
-nmap ch "hyy
+vmap y1 "1yy<ESC>
+nmap y1 "1yy
+nmap gp1 i<C-r><C-p>1<ESC>
+vmap y2 "2yy<ESC>
+nmap y2 "2yy
+nmap gp2 i<C-r><C-p>2<ESC>
+vmap y3 "3yy<ESC>
+nmap y3 "3yy
+nmap gp3 i<C-r><C-p>3<ESC>
+vmap y4 "4yy<ESC>
+nmap y4 "4yy
+nmap gp4 i<C-r><C-p>4<ESC>
+vmap y5 "5yy<ESC>
+nmap y5 "5yy
+nmap gp5 i<C-r><C-p>5<ESC>
+vmap y6 "6yy<ESC>
+nmap y6 "6yy
+nmap gp6 i<C-r><C-p>6<ESC>
+vmap y7 "7yy<ESC>
+nmap y7 "7yy
+nmap gp6 i<C-r><C-p>7<ESC>
+vmap y8 "8yy<ESC>
+nmap y8 "8yy
+nmap gp8 i<C-r><C-p>8<ESC>
 
 " ========================================================================================
 " " USING MARKERS
