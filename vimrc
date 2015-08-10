@@ -953,7 +953,7 @@ vmap <Enter> <Plug>(EasyAlign)
 " ========================================================================================
 " VIM-switch  plugin 
 " https://github.com/AndrewRadev/switch.vim
-nnoremap - :Switch<cr>
+nnoremap <leader>- :Switch<cr>
 
 
 " ========================================================================================
@@ -970,3 +970,8 @@ inoremap <C-j> <C-m>
 " automatically detect messages.log files and highlight them
 au BufNewfile,BufRead messages-* set filetype=messages
 au BufNewfile,BufRead syslog-* set filetype=messages
+
+" ========================================================================================
+" remap f{char} repetition keys shortcuts
+noremap _ ,
+noremap - ;
