@@ -975,3 +975,8 @@ au BufNewfile,BufRead syslog-* set filetype=messages
 " remap f{char} repetition keys shortcuts
 noremap _ ,
 noremap - ;
+
+" ========================================================================================
+" enable matchit plugin which extends usage of % operator to match 
+" more words ex. if/end def/end html tags etc.
+runtime macros/matchit.vim
