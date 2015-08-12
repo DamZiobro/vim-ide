@@ -984,3 +984,8 @@ runtime macros/matchit.vim
 " ========================================================================================
 " set F2 as shortcut for toggle INSERT (paste) mode    
 nnoremap <F2> :set invpaste paste?<CR>
+
+" ========================================================================================
+" map last substitute execution to normal mode & operator
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
