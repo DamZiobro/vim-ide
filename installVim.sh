@@ -19,6 +19,7 @@ fi
 ln -s $VIM_ROOT/vimrc $HOME/.vimrc
 
 echo -e "Installing vim (Vi Improved) package from repository"
+#installinv vim-gnome allows copy/pasting beween vim and system clipboard
 sudo apt-get install vim vim-gnome
 
 echo -e "Installing ctags"
