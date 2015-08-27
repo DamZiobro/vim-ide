@@ -27,13 +27,13 @@ ln -s $VIM_ROOT/vimrc $HOME/.vimrc
 
 echo -e "Installing vim (Vi Improved) package from repository"
 #installinv vim-gnome allows copy/pasting beween vim and system clipboard
-sudo apt-get install vim vim-gnome
+sudo apt-get --yes install vim vim-gnome
 
 echo -e "Installing ctags"
-sudo apt-get install ctags
+sudo apt-get --yes install ctags
 
 echo -e "Installing ctags"
-sudo apt-get install cscope
+sudo apt-get --yes install cscope
 
 echo -e "Initializing and checking out plugins submodules: "
 
@@ -43,7 +43,10 @@ git submodule foreach git pull origin master
 
 echo -e "Installing vi_overlay" 
 while true; do
-    read -p "Do you wish to install vi_overlay (sudo priviledges are required)? [y/n]: " yn
+    yn=y
+    if [ "$1" != "y" ]; then 
+        read -p "Do you wish to install vi_overlay (sudo priviledges are required)? [y/n]: " yn
+    fi 
     case $yn in 
         [Yy]* ) echo -e "Yes selected";
                 if [ -f /usr/bin/vi.default ]; then 
