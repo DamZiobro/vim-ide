@@ -37,6 +37,7 @@ sudo apt-get --yes install cscope
 
 echo -e "Initializing and checking out plugins submodules: "
 
+
 cd $VIM_ROOT 
 git submodule init 
 git submodule foreach git pull origin master
