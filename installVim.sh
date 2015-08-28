@@ -40,6 +40,8 @@ echo -e "Initializing and checking out plugins submodules: "
 
 cd $VIM_ROOT 
 git submodule init 
+git submodule update 
+git submodule foreach git checkout master
 git submodule foreach git pull origin master
 
 echo -e "Installing vi_overlay" 
