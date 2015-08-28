@@ -7,7 +7,6 @@ execute pathogen#infect()
 filetype plugin indent on
 syntax on
 
-
 " Make vim incompatbile to vi.
 set nocompatible
 set modelines=0
