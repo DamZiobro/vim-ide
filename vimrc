@@ -340,26 +340,6 @@ nmap <A-Right> :cnext<cr>
 nmap <A-Left> :cprevious<cr>
 
 
-
-" Go Home/End of document
-
-"nmap <C-b><C-b> gg
-"imap <C-b><C-b> <ESC>ggi
-
-"nmap <C-e><C-e> G
-"imap <C-e><C-e> <ESC>Gi
-
-"Select all text 
-
-"vmap <C-a> <ESC>ggvG <End>
-"nmap <C-a> ggvG <End>
-"imap <C-a> <ESC>ggvG <End>
-
-" Close Tab
-
-"nmap <C-d> :BD<cr>
-"imap <C-d> <ESC>:BD><cr>i
-
 " Map copy delete and paste to system clipboard
 "
 vmap <Leader>y "+y
