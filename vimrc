@@ -289,17 +289,6 @@ endfunction
 nmap <leader>mon :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>l
 imap <leader>mon <ESC>:split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>li
 
-"Close splitted window 
-"nmap <C-d><C-d> :q! <cr>
-"imap <C-d><C-d> <ESC>l:q! <cr>i
-
-" Undo redo
-"nmap <C-z> u
-"imap <C-z> <ESC>lui
-
-"nmap <C-y> <C-r>
-"imap <C-y> <ESC>l<C-r>i
-
 " Replace command 
 nmap <F6> :execute "call MyReplaceText()"<cr>
 imap <F6> <ESC>l:execute "call MyReplaceText()"<cr>
