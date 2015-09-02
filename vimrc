@@ -150,9 +150,6 @@ nnoremap <leader>v V`]
 " ,ev Shortcut to edit .vimrc file on the fly on a vertical window.
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 
-" jj For Qicker Escaping between normal and editing mode.
-"inoremap jj <ESC>
-
 
 " Working with split screen nicely
 " Resize Split When the window is resized"
@@ -205,15 +202,6 @@ else
     colorschem badwolf
 endif
 
-" Special Settings for Consoles
-"if !has("gui_running")
-"    set t_Co=256
-"    colorschem badwolf
-"endif
-
-" Source the vimrc file after saving it
-"autocmd bufwritepost .vimrc source ~/.vimrc
-
 " ========== END Gvim Settings ==========
 
 
@@ -252,38 +240,6 @@ function! MyReplaceSelectedText(oldText)
     :execute "%s/" . a:oldText . "/" . replacor. "/gI"
 endfunction
 
-
-
-function! PasteAndIndent()
-  normal! l"+P
-  "let lineNumber = line('.')
-  "normal! [{%v%=
-  ":execute lineNumber
-endfunction 
-
-" Allow using C-Up and C-Down in insert mode 
-" to move between splitted buffers easly
-"imap <C-Up> <Esc><C-Up>i
-"imap <C-Down> <Esc><C-Down>i
-
-
-" Saving file
-"nmap <C-s> :w<cr>
-"imap <C-s> <ESC>:w<cr>i
-
-" Quit without saving
-"nmap <Esc><C-q> :qa!<cr>
-"imap <Esc><C-q> <ESC>:qa!<cr>
-
-" Quit with saving
-"nmap <C-q> :xa!<cr>
-"imap <C-q> <ESC>:xa!<cr>
-
-""Split window
-"nmap <C-n><C-n> :split <cr>
-"imap <C-n><C-n> <ESC>:split <cr>i
-"nmap <C-b><C-b> :vsplit <cr>
-"imap <C-b><C-b> <ESC>:vsplit <cr>i
 
 "Make window mosaic 
 nmap <leader>mon :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>l
