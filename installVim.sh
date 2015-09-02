@@ -39,14 +39,17 @@ echo -e "Initializing and checking out plugins submodules: "
 
 
 cd $VIM_ROOT 
+
 git submodule init 
 git submodule update 
 git submodule foreach git checkout master
 git submodule foreach git pull origin master
 
 echo -e "Installing vi_overlay" 
+
 while true; do
     yn=y
+    #automatically answer 'yes' when 'y' is passed as first parameter
     if [ "$1" != "y" ]; then 
         read -p "Do you wish to install vi_overlay (sudo priviledges are required)? [y/n]: " yn
     fi 
