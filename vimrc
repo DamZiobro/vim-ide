@@ -670,47 +670,6 @@ if v:version >= 700
     set completeopt=menuone,menu,longest,preview
 endif
 
-"================ Ctrl+Shift+Arrows selection ======================================                      
-"
-""place in vimrc file
-
-"word selection
-"nmap <C-S-Left> vb
-"nmap <C-S-Right> ve
-"imap <C-S-Left> <Esc><Right>vb
-"imap <C-S-Right> <Esc><Right>ve
-"vmap <C-S-Left> b
-"vmap <C-S-Right> e
-
-""down/up selection
-"nmap <C-S-Down> v<Down>
-"nmap <C-S-Up> v<Up>
-"imap <C-S-Down> _<Esc>lmz"_xv`zo`z<Down><Right><BS><BS>
-"imap <C-S-Up> _<Esc>lmz"_xv`z<Up>o`z<BS>o
-"vmap <C-S-Down> <Down>
-"vmap <C-S-Up> <Up>
-
-""home/end selection
-"nmap <C-S-Home> v<Home>
-"nmap <C-S-End> v<End>
-"imap <C-S-Home> _<Esc>lmz"_s<C-o><Left><C-o>`z<Esc>v<Home>
-"imap <C-S-End> _<Esc>lmz"_xv`zo<End>
-
-""half page down/up selection
-"nmap <C-S-PageDown> v<End><C-d><End>
-"nmap <C-S-PageUp> v<Home><C-u>
-"imap <C-S-PageDown> _<Esc>lmz"_xv`zo<End><C-d><End>
-"imap <C-S-PageUp> _<Esc>lmz"_xv`z<BS>o<Home><C-u>
-"vmap <C-S-PageDown> <End><C-d><End>
-"vmap <C-S-PageUp> <Home><C-u>
-
-""word deletion
-"imap <C-BS> <C-w>
-"nmap <C-w> i<C-w><Esc>
-"imap <C-Del> _<Esc>lmzew<BS>i<Del><Esc>v`z"_c
-
-"vmap <Del> d<Esc>li
-
 "===================================================================================================
 " Commenting blocks of code.
 autocmd FileType c,cppva,scala let b:comment_leader = '// '
