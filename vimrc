@@ -447,16 +447,16 @@ set shortmess=at
 function! LoadCScopeDatabases()
     let databaseDir = $HOME."/.vim/cscope_databases"
     if IsFileAlreadyExists ( databaseDir."/last_project_cscope")
-        execute ":cs add ".databaseDir."/last_project_cscope"  
+        execute ":silent cs add ".databaseDir."/last_project_cscope"  
     endif
     if IsFileAlreadyExists ( databaseDir."/gstreamer_cscope")
-        execute ":cs add ".databaseDir."/gstreamer_cscope"  
+        execute ":silent cs add ".databaseDir."/gstreamer_cscope"  
     endif
     if IsFileAlreadyExists ( databaseDir."/cpp_scope")
-        execute ":cs add ".databaseDir."/cpp_scope"
+        execute ":silent cs add ".databaseDir."/cpp_scope"
     endif
     if IsFileAlreadyExists ( databaseDir."/dtv_project_cscope")
-        execute ":cs add ".databaseDir."/dtv_project_cscope"  
+        execute ":silent cs add ".databaseDir."/dtv_project_cscope"  
     endif
     echohl StatusLine | echo "CScope databases loaded successfully..." | echohl None 
 endfunction
@@ -592,10 +592,6 @@ autocmd VimEnter * TagbarOpen
 autocmd VimEnter * exe 2 . "wincmd w"
 autocmd VimEnter * call CheckIfMain()
 autocmd VimEnter * call LoadCScopeDatabases()
-
-" switch off cscope tags in order to use ctags which seems to be more intuitive
-" cscope will be used for finding function/tags refreence/usage 
-set nocscopetag
 
 " =========== Leaving commands =========="
 
