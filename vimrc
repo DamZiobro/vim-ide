@@ -879,5 +879,5 @@ let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 
 " =======================================================================================
 " contextcomplete trigger settings
-let g:contextcomplete_trigger = '\<Enter>' 
+let g:contextcomplete_trigger = '\<F7>' 
 
