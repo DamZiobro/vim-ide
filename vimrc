@@ -414,6 +414,37 @@ function! SetupCandCPPenviron()
     noremap <buffer> <silent> K :exe "Man" 3 expand('<cword>') <CR>
 endfunction
 
+
+"==========================================================================="
+" CCTree configuration
+let g:CCTreeRecursiveDepth = 1
+let g:CCTreeMinVisibleDepth = 1
+let g:CCTreeOrientation = "rightbelow"
+
+function! LoadCCTree()
+    let databaseDir = $HOME."/.vim/cscope_databases"
+    if IsFileAlreadyExists ( databaseDir."/last_project_cscope")
+        execute "silent :CCTreeLoadDB ".databaseDir."/last_project_cscope"
+    endif
+    let userDef = substitute(system("echo $USER"), "\n", '', '')
+    if userDef == "docker" && IsFileAlreadyExists( databaseDir."/dtv_project_cscope")
+        execute "silent :CCTreeAppendDB ".databaseDir."/dtv_project"
+    endif
+endfunction
+
+
+" CCTree shortucts"
+nmap <leader>ct :silent call LoadCCTree()<cr>
+noremap <buffer> <silent> <leader>cr :execute "CCTreeTraceReverse ".expand('<cword>')<cr>
+noremap <buffer> <silent> <leader>cf :execute "CCTreeTraceForward ".expand('<cword>')<cr>
+
+let g:CCTreeKeyHilightTree = '<C-l>'        " Static highlighting
+let g:CCTreeKeySaveWindow = '<C-\>y' 
+let g:CCTreeKeyToggleWindow = '<C-\>w' 
+let g:CCTreeKeyCompressTree = 'zs'     " Compress call-tree 
+let g:CCTreeKeyDepthPlus = '<C-\>=' 
+let g:CCTreeKeyDepthMinus = '<C-\>-'
+
 "==========================================================================="
 function! LoadCScopeDatabases()
     let databaseDir = $HOME."/.vim/cscope_databases"
@@ -833,3 +864,4 @@ nnoremap <F2> :set invpaste paste?<CR>
 " map last substitute execution to normal mode & operator
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
+
