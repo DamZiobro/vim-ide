@@ -865,3 +865,14 @@ nnoremap <F2> :set invpaste paste?<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
+" ========================================================================================
+" quick-scope plugin settings
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Trigger a highlight only when pressing f and F.
+let g:qs_highlight_on_keys = ['f', 'F']
+
+let g:qs_first_occurrence_highlight_color = 155       " terminal vim
+
+let g:qs_second_occurrence_highlight_color = 81         " terminal vim
