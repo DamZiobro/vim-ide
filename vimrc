@@ -8,16 +8,19 @@ filetype plugin indent on
 syntax on
 
 
+" ========================================================================================
 " Make vim incompatbile to vi.
 set nocompatible
 set modelines=0
 
+" ========================================================================================
 "TAB settings.
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 
+" ========================================================================================
 " More Common Settings.
 set encoding=utf-8
 set scrolloff=3
@@ -53,25 +56,33 @@ set shell=/bin/bash
 set lazyredraw
 set matchtime=3
 
+" ========================================================================================
 "Changing Leader Key
 let mapleader = ","
 
+" ========================================================================================
+" Map : to ; also in command mode.
 nnoremap ; :
 vmap ; :
 nmap <silent> ,/ :nohlsearch<CR>
+" ========================================================================================
 
 " Set title to window
 set title
 
 " Dictionary path, from which the words are being looked up.
+" ========================================================================================
 set dictionary=/usr/share/dict/words
 
+" ========================================================================================
 " Make Vim able to edit corntab fiels again.
 set backupskip=/tmp/*,/private/tmp/*"
 
+" ========================================================================================
 " Enable Mouse
 set mouse=a
 
+" ========================================================================================
 "Settings for Searching and Moving
 nnoremap / /\v
 vnoremap / /\v
@@ -85,16 +96,19 @@ nnoremap <leader><space> :noh<cr>
 "vnoremap <tab> %
 
 
+" ========================================================================================
 " Make Vim to handle long lines nicely.
 set wrap
 set textwidth=79
 set formatoptions=qrn1
 "set colorcolumn=79
 
+" ========================================================================================
 " To  show special characters in Vim
 "set list
 set listchars=tab:▸\ ,eol:¬
 
+" ========================================================================================
 " set unnamed clipboard
 set clipboard=unnamedplus
 
@@ -106,7 +120,7 @@ let g:java_pattern = "*.{java}"
 let g:makefile_pattern = "Makefile*"
 let g:text_pattern = "*.{txt,text}"
 let g:python_pattern = "*.{py}"
-let g:cpp_java_pattern = "*.{cpp,c,h.hpp,java}"
+let g:cpp_java_pattern = "*.{cpp,c,h.hpp,java,cc,hh}"
 
 "==========================================================================="
 " C\C++ projects settings
@@ -117,22 +131,16 @@ let g:project_root = "."
 let g:search_root = g:project_root
 let g:search_pattern = "*.*"
 "==========================================================================="
-
-
-" Rope settings."
-inoremap <leader>j <ESC>:RopeGotoDefinition<cr>
-
 " Get Rid of stupid Goddamned help keys
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-" Map : to ; also in command mode.
-nnoremap ; :
-
+"==========================================================================="
 " Set vim to save the file on focus out.
 au FocusLost * :wa
 
+"==========================================================================="
 " Adding More Shorcuts keys using leader kye.
 " Leader Kye provide separate namespace for specific commands.
 ",W Command to remove white space from a file.
@@ -151,11 +159,13 @@ nnoremap <leader>v V`]
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 
 
+"==========================================================================="
 " Working with split screen nicely
 " Resize Split When the window is resized"
 au VimResized * :wincmd =
 
 
+"==========================================================================="
 " Wildmenu completion "
 set wildmenu
 set wildmode=list:longest
@@ -169,8 +179,9 @@ set wildignore+=*.DS_Store "OSX SHIT"
 set wildignore+=*.luac "Lua byte code"
 set wildignore+=migrations "Django migrations"
 set wildignore+=*.pyc "Python Object codes"
-set wildignore+=*.orig "Merge resolution files"
+set wildignore+=*.orig,*.rej "Merge resolution files"
 
+"==========================================================================="
 " Make Sure that Vim returns to the same line when we reopen a file"
 augroup line_return
     au!
@@ -180,6 +191,7 @@ augroup line_return
                 \ endif
 augroup END
 
+"==========================================================================="
 nnoremap g; g;zz
 
 " =========== END Basic Vim Settings ===========
@@ -211,10 +223,9 @@ endif
 " ENABLE CTRL INTERPRETING FOR VIM
 silent !stty -ixon > /dev/null 2>/dev/null
 
+"==========================================================================="
 " Mapping to NERDTree
-noremap <C-n> :NERDTreeToggle<cr>
-inoremap <C-n> <ESC>:NERDTreeToggle<cr>i
-
+noremap <leader>n :NERDTreeToggle<cr>
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
 
 " ================ ReplaceText function ============================
@@ -228,63 +239,30 @@ function! MySearchSelectedText(text)
     :execute "vimgrep /" . a:text . "/jg ".g:search_root."/**/".g:search_pattern
 endfunction
 
+map <F3> :call MySearchText() <Bar> botright cw<cr>
+map <F3><F3> :execute "call MySearchSelectedText (\"".expand("<cword>") . "\")" <Bar> botright cw<cr>
 
-function! MyReplaceText()
-    let replacee = input("Old text: ")
-    let replacor = input("New text: ")
-    :execute "%s/" . replacee . "/" . replacor. "/gI"
-endfunction
-
-function! MyReplaceSelectedText(oldText)
-    let replacor = input("New text: ")
-    :execute "%s/" . a:oldText . "/" . replacor. "/gI"
-endfunction
-
-
+"==========================================================================="
 "Make window mosaic 
 nmap <leader>mon :split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>l
 imap <leader>mon <ESC>:split<cr>:vsplit<cr><C-Down>:vsplit<cr><C-Up><leader>li
 
-" Replace command 
-nmap <F6> :execute "call MyReplaceText()"<cr>
-imap <F6> <ESC>l:execute "call MyReplaceText()"<cr>
-
-nmap <F7> :execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
-imap <F7> <ESC>l:execute "call MyReplaceSelectedText(\"".expand('<cword>')."\")" <cr>
-
-
+"==========================================================================="
 " Make check spelling on or off 
 nmap <leader>cson   :set spell<CR>
 nmap <leader>csoff  :set nospell<CR>
 
 
+"==========================================================================="
 " Indentation (got to opening bracket and indent section) 
 
-"vmap =
 nmap <leader>ip [{=%
-"imap <C-s><C-i> <ESC>l[{=%<cr>i
 
+"==========================================================================="
 "Highlight section between brackets (do to opening bracket and highlight)
 nmap <leader>hp [{%v%<Home>
-"imap <C-s><C-h> <ESC>l[{%v%<Home>
-
-"Find commad
-
-"nmap <C-f> /
-"imap <C-f> <ESC>l/
-
-
-"nmap <C-f><C-f> :execute "/" .  expand('<cword>') <cr>
-"imap <C-f><C-f> <ESC>l:execute "/" .  expand('<cword>') <cr>i
-
-"Find in many files and navigate between search results 
 "
-map <F3> :call MySearchText() <Bar> botright cw<cr>
-map <F3><F3> :execute "call MySearchSelectedText (\"".expand("<cword>") . "\")" <Bar> botright cw<cr>
-nmap <A-Right> :cnext<cr>
-nmap <A-Left> :cprevious<cr>
-
-
+"==========================================================================="
 " Map copy delete and paste to system clipboard
 "
 vmap <Leader>y "+y
@@ -294,24 +272,11 @@ nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
 
+"==========================================================================="
 " Double learder for selection whole line
 nmap <Leader><Leader> V
 
-"nmap <C-c> yiw
-"imap <C-c> <ESC>yiwi
-"vmap <C-x> "+d
-"vmap <C-c> "+yi
-"nmap <C-v> :call PasteAndIndent()<cr>i<Right>
-nmap <leader>pi <ESC>:call PasteAndIndent()<cr>i<Right>
-
-"Cmake
-":cmake 
-
-"Switch between .h and .cpp Files
-
-nmap <leader>th :A <cr>
-"imap <C-a><C-a> <ESC>:A<cr>i
-
+"==========================================================================="
 function! FindProjectRoot(lookFor)
     let pathMaker='%:p'
     while(len(expand(pathMaker))>len(expand(pathMaker.':h')))
@@ -324,6 +289,7 @@ function! FindProjectRoot(lookFor)
     return 0
 endfunction
 
+"==========================================================================="
 function! BuildAndInstallCppApp()
     let project_root = FindProjectRoot("main.cpp")
     if project_root == 0
@@ -332,103 +298,97 @@ function! BuildAndInstallCppApp()
     execute "!cd ".project_root."/build; sudo make install;"
 endfunction
 
+"==========================================================================="
 function! BuildAndInstallCSharpApp()
     execute "!xbuild;"
 endfunction
 
+"==========================================================================="
 function! BuildAndInstallQtApp()
     execute "!make;"
 endfunction
 
 
+"==========================================================================="
 " Quickfix open
 " :copen 
 
+"==========================================================================="
 " CMake 
 nmap <F8> <C-s> :call BuildAndInstallCppApp()<cr>
 imap <F8> <ESC> <C-s> :call BuildAndInstallCppApp()<cr>
 
+"==========================================================================="
 " Make 
 nmap <C-F8> <C-s> :call BuildAndInstallQtApp()<cr>
 imap <C-F8> <ESC> <C-s> :call BuildAndInstallQtApp()<cr>
 
+"==========================================================================="
 " CSharp make 
 nmap <C-F5> <C-s> :call BuildAndInstallCSharpApp()<cr>
 imap <C-F5> <ESC> <C-s> :call BuildAndInstallCSharpApp()<cr>
 
-
+"==========================================================================="
 " Normal make 
 nmap <F9>> :set makeprg=make\ -C\ .<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>
 imap <F9> <ESC> set makeprg=make\ -C\ ./build<cr> :make --no-print-directory <cr> :TagbarClose<cr> :cw <cr> :TagbarOpen <cr>i
 
-" Go to function definition 
-" <C-]> - go to defintion 
-" <C-t> - return from definition 
 
-" Snipmate
-" Show list of snippets: <C-r><tab>
-" complate snippet: <tab>
-
-
-
-
+"==========================================================================="
 "Tagbar key bindings
 nmap <leader>l <ESC>:TagbarToggle<cr>
 
+"==========================================================================="
 " Mini Buffer some settigns."
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
-
-
+"==========================================================================="
 " Force Saving Files that Require Root Permission
 "
 cmap w!! %!sudo tee > /dev/null % 
 
+"==========================================================================="
 " TAB and Shift-TAB in normal mode cycle buffers
 "
 nmap <Tab> :bn<CR>
 nmap <S-Tab> :bp<CR> 
 
 
+"==========================================================================="
 " highlight current line
 set cursorline
 
+"==========================================================================="
 " Configure autocomplete tool
 let g:acp_EnableAtStartup = 1
-""let g:clang_auto_select = 1
-""let g:clang_close_preview = 1
 
+"==========================================================================="
 set laststatus=2
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
-
 
 set nowrap
 set expandtab
 
+"==========================================================================="
 " Edit .vimrc file
 nmap <silent> <leader>ov :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :w<CR> :so $MYVIMRC<CR>
 
-function! BufferIsEmpty()
-    if line('$') == 1 && getline(1) == '' 
-        return 1
-    else
-        return 0
-    endif
-endfunction
-
+"==========================================================================="
 " Manpage for word under cursor via 'K' in command moderuntime
 runtime ftplugin/man.vim
 noremap <buffer> <silent> K :exe "Man" expand('<cword>') <CR>
 
-" Map SyntasticCheck to F6 
+"==========================================================================="
+" Map SyntasticCheck to F4 
 "
 noremap <silent> <F4> :SyntasticCheck<CR>
 noremap! <silent> <F4> <ESC>:SyntasticCheck<CR>
 
+"==========================================================================="
 au BufNewFile,BufRead *.c,*.cc,*.cpp,*.h call SetupCandCPPenviron()
 function! SetupCandCPPenviron()
     "
@@ -442,8 +402,7 @@ function! SetupCandCPPenviron()
     noremap <buffer> <silent> K :exe "Man" 3 expand('<cword>') <CR>
 endfunction
 
-set shortmess=at
-
+"==========================================================================="
 function! LoadCScopeDatabases()
     let databaseDir = $HOME."/.vim/cscope_databases"
     if IsFileAlreadyExists ( databaseDir."/last_project_cscope")
@@ -507,6 +466,7 @@ function! IsFileAlreadyExists(filename)
     endif
 endfunction
 
+"==========================================================================="
 "Invoke this function if we are opening main.cpp or main.c file"
 function! CheckIfMain()
     if !IsFileAlreadyExists(expand("%:t")) && expand("%:t:r") == "main" && expand("%:e") == "cpp"
@@ -520,9 +480,9 @@ function! CheckIfMain()
     endif
 endfunction
 
+"==========================================================================="
 "Invoke this function when you would like to create new C++ class files (.cpp
 "and .h file)"
-
 function! CreateCppClassFiles(className)
     "create cpp file
     if !IsFileAlreadyExists(a:className.'.cpp')
@@ -547,6 +507,7 @@ endfunction
 "create new command for creating cpp class"
 command! -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 
+"==========================================================================="
 " setting ctags 
 set tags+=~/.vim/tags/last_project_tags
 set tags+=~/.vim/tags/dtv_project_tags
@@ -554,34 +515,30 @@ set tags+=~/.vim/tags/gstreamer_tags
 set tags+=~/.vim/tags/cpp_tags
 set tags+=~/.vim/tags/usr_local_include_tags
 
-nmap <leader>go   :split<cr><C-]>   
-
+"==========================================================================="
 nmap <leader>ud :silent call UpdateCscopeDatabase(".")<cr>:w<cr>
 imap <leader>ud <ESC>l:silent call UpdateCscopeDatabase(".")<cr>:w<cr>i
 
 nmap <leader>uad :call UpdateAllCscopeDatabases()<cr>:w<cr>
 imap <leader>uad <ESC>l:call UpdateAllCscopeDatabases()<cr>:w<cr>i
 
+"==========================================================================="
 set autochdir
 let NERDTreeChDirMode=2
-nnoremap <leader>n :NERDTree .<CR>
-nnoremap <leader>r :NERDTreeFind<cr>
 
 " =========== END Plugin Settings =========="
 "
 "
 
-
+"==========================================================================="
 " Save and load session
 "
 map <leader>ss :SessionSaveAs user_auto_saved_session<cr>:NERDTree .<cr>
 map <leader>so :SessionOpen user_auto_saved_session<cr><C-d><C-d>,n:NERDTree .<cr>
 
+"==========================================================================="
 ""Open default session (session saved during closing vim)
 map <leader>sd :SessionOpen vim_auto_saved_session<cr>:NERDTree .<cr> 
-
-""let g:session_autosave = 'no'
-
 
 " =========== Startup commands =========="
 
@@ -607,9 +564,6 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
-
-" <C-@> is interpreated by terminal vim as <C-Space>
-inoremap <C-@> <C-x><C-o>
 
 if v:version >= 600
     filetype plugin on
@@ -711,7 +665,7 @@ nmap gp8 i<C-r><C-p>8<ESC>
 "
 " ========================================================================================
 " " INSERT C++ GETTER NAD SETTER
-map <Leader>igs :InsertBothGetterSetter<CR>
+"map <Leader>igs :InsertBothGetterSetter<CR>
 
 " ========================================================================================
 " " USING VIM AS HEX EDITOR
@@ -720,7 +674,7 @@ map <Leader>hof :%!xxd -r<CR>
 
 " ========================================================================================
 " " USING TASKLIST
-
+" TODO
 map <leader>td <Plug>TaskList
 
 " ========================================================================================
@@ -743,45 +697,6 @@ nmap <S-M-Left> :2winc><cr>
 imap <S-M-Left> <Esc>:2winc><cr>i
 nmap <S-M-Right> :2winc<<cr>
 imap <S-M-Right> <Esc>:2winc<<cr>i
-
-" ========================================================================================
-" " Using Omni completion for C#
-
-let g:OmniSharp_host = "http://localhost:2000"
-let g:OmniSharp_typeLookupInPreview = 1
-
-"nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
-
-"nnoremap <F12> :OmniSharpGotoDefinition<cr>
-"nnoremap gd :OmniSharpGotoDefinition<cr>
-"nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-"nnoremap <leader>ft :OmniSharpFindType<cr>
-"nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-"nnoremap <leader>fu :OmniSharpFindUsages<cr>
-"nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-"nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-""I find contextual code actions so useful that I have it mapped to the spacebar
-"nnoremap <space> :OmniSharpGetCodeActions<cr>
-""
-""" rename with dialog
-"nnoremap <leader>nm :OmniSharpRename<cr>
-"nnoremap <F2> :OmniSharpRename<cr>      
-"" rename without dialog - with cursor on the symbol to rename... ':Rename
-"" newname'
-"command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-"" " Force OmniSharp to reload the solution. Useful when switching branches etc.
- "nnoremap <leader>rl :OmniSharpReloadSolution<cr>
- "nnoremap <leader>cf :OmniSharpCodeFormat<cr>
- "nnoremap <leader>tp :OmniSharpAddToProject<cr>
-"" " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp
-"" server for the current solution
- "nnoremap <leader>ss :OmniSharpStartServer<cr>
- "nnoremap <leader>sp :OmniSharpStopServer<cr>
- "nnoremap <leader>th :OmniSharpHighlightTypes<cr>
-"" "Don't ask to save when changing buffers (i.e. when jumping to a type
-"" definition)
- "set hidden
- 
 
 " ========================================================================================
 " " ProtoDef plugin 
@@ -833,10 +748,6 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 
 " ========================================================================================
-" " Quickly put ; at the end of current line   
-"imap <C-j> <end>;
-"nmap <C-j> i<end>;<Esc>
-
 nmap <Leader><Leader> V 
 
 " ========================================================================================
@@ -872,20 +783,13 @@ autocmd VimEnter * call AirlineInit()
 " VIM-easy-align  plugin 
 "
 vmap <Enter> <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+" Start interacptive EasyAlign for a motion/text object (e.g. <Leader>aip)
 "nmap <Leader>b <Plug>(EasyAlign)
-
-
-" ========================================================================================
-" VIM-switch  plugin 
-" https://github.com/AndrewRadev/switch.vim
-nnoremap <leader>- :Switch<cr>
-
 
 " ========================================================================================
 " VIM-signature plugin 
 " https://github.com/kshenoy/vim-signature 
-nnoremap <leader>st :SignatureToggleSigns<cr>
+nnoremap <leader>sm :SignatureToggleSigns<cr>
 
 " ========================================================================================
 " map ctrl+j to ctrl+m (for INSERT mode)in order to be more consistent with bash terminal 
