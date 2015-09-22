@@ -442,20 +442,61 @@ function! SetupCandCPPenviron()
     noremap <buffer> <silent> K :exe "Man" 3 expand('<cword>') <CR>
 endfunction
 
+set shortmess=at
 
-
-
-function! UpdateTags()
-    execute ":!ctags -R --sort=yes --fields=+iaSnkt --extra=+q+f --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
-    echohl StatusLine | echo "C\\C++ tags updated" | echohl None 
+function! LoadCScopeDatabases()
+    let databaseDir = $HOME."/.vim/cscope_databases"
+    if IsFileAlreadyExists ( databaseDir."/last_project_cscope")
+        execute ":cs add ".databaseDir."/last_project_cscope"  
+    endif
+    if IsFileAlreadyExists ( databaseDir."/gstreamer_cscope")
+        execute ":cs add ".databaseDir."/gstreamer_cscope"  
+    endif
+    if IsFileAlreadyExists ( databaseDir."/cpp_scope")
+        execute ":cs add ".databaseDir."/cpp_scope"
+    endif
+    if IsFileAlreadyExists ( databaseDir."/dtv_project_cscope")
+        execute ":cs add ".databaseDir."/dtv_project_cscope"  
+    endif
+    echohl StatusLine | echo "CScope databases loaded successfully..." | echohl None 
 endfunction
 
-function! UpdateAllTags()
-    execute ":!ctags -R --sort=yes --fields=+iaSnkt --extra=+q+f --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
-    "execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSnkt --extra=+q+f -f ~/.vim/tags/usr_local_include /usr/local/include"
-    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSnkt --extra=+q+f -f ~/.vim/tags/cpp ~/.vim/tags/cpp_src"
-    execute ":!ctags -R --sort=yes --languages=C++ --c++-kinds=+p --fields=+iaSkt --extra=+q+f -f ~/.vim/tags/opencv /usr/local/include/opencv2"
-    echohl StatusLine | echo "C\\C++ tags updated" | echohl None
+
+function! UpdateCscopeDatabase(basedir)
+    let databaseDir = $HOME."/.vim/cscope_databases"
+    let findCommand = "find `pwd` -name '*.c' -o -name '*.h' -o -name '*.java' -o -name '*.py' -o -name '*.js' -o -name '*.hpp' -o -name '*.hh' -o -name '*.cpp' -o -name '*.cc' > cscope.files"
+
+    execute ":silent !cd ".a:basedir." && ".findCommand." && cscope -b && cp cscope.out ".databaseDir."/last_project_cscope && rm cscope.files cscope.out"
+    execute ":silent cs reset"
+
+    call UpdateTags(a:basedir)
+    execute ":redraw!"
+
+endfunction
+
+function! UpdateAllCscopeDatabases()
+    let databaseDir = $HOME."/.vim/cscope_databases"
+    let tagsDir = $HOME."/.vim/tags"
+
+    call UpdateCscopeDatabase("/usr/src/gstreamerInstall")
+    execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/gstreamer_cscope"
+    execute ":silent !cp ".tagsDir."/last_project_tags ".tagsDir."/gstreamer_tags"
+
+    call UpdateCscopeDatabase($HOME."/.vim/tags/cpp_src")
+    execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/cpp_scope"
+    execute ":silent !cp ".tagsDir."/last_project_tags ".tagsDir."/cpp_tags"
+
+    call UpdateCscopeDatabase("/usr/local/include")
+    execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/usr_local_include_cscope"
+    execute ":silent !cp ".tagsDir."/last_project_tags ".tagsDir."/usr_local_include_tags"
+
+    call UpdateCscopeDatabase(".")
+    execute ":redraw!"
+endfunction
+
+function! UpdateTags(basedir)
+    execute ":silent !cd ".a:basedir." && ctags -R --sort=yes --fields=+iaSnkt --extra=+q+f --exclude=build -f ~/.vim/tags/last_project_tags `pwd`"
+    execute ":redraw!"
 endfunction
 
 function! IsFileAlreadyExists(filename)
@@ -508,20 +549,18 @@ command! -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 
 " setting ctags 
 set tags+=~/.vim/tags/last_project_tags
-set tags+=~/.vim/tags/dtv_project
+set tags+=~/.vim/tags/dtv_project_tags
 set tags+=~/.vim/tags/gstreamer_tags
-set tags+=~/.vim/tags/cpp
-set tags+=~/.vim/tags/opencv
-set tags+=~/.vim/tags/qt5
-set tags+=~/.vim/tags/usr_local_include
+set tags+=~/.vim/tags/cpp_tags
+set tags+=~/.vim/tags/usr_local_include_tags
 
 nmap <leader>go   :split<cr><C-]>   
 
-nmap <C-F11> :call UpdateAllTags()<cr>
-imap <C-F11> <ESC>l:call UpdateAllTags()<cr>
+nmap <leader>ud :silent call UpdateCscopeDatabase(".")<cr>:w<cr>
+imap <leader>ud <ESC>l:silent call UpdateCscopeDatabase(".")<cr>:w<cr>i
 
-nmap <C-F12> :silent call UpdateTags()<cr>:w<cr>
-imap <C-F12> <ESC>l:silent call UpdateTags()<cr>:w<cr>i
+nmap <leader>uad :call UpdateAllCscopeDatabases()<cr>:w<cr>
+imap <leader>uad <ESC>l:call UpdateAllCscopeDatabases()<cr>:w<cr>i
 
 set autochdir
 let NERDTreeChDirMode=2
@@ -552,6 +591,11 @@ autocmd VimEnter * helptags ~/.vim/doc
 autocmd VimEnter * TagbarOpen
 autocmd VimEnter * exe 2 . "wincmd w"
 autocmd VimEnter * call CheckIfMain()
+autocmd VimEnter * call LoadCScopeDatabases()
+
+" switch off cscope tags in order to use ctags which seems to be more intuitive
+" cscope will be used for finding function/tags refreence/usage 
+set nocscopetag
 
 " =========== Leaving commands =========="
 

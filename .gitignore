@@ -1,6 +1,7 @@
 sessions/vim_auto_saved_session
 sessions/user_auto_saved_session
 tags/last_project_tags
+tags/dtv_project_tags
 bundle/Omnisharp/server/Microsoft.Build.Evaluation/bin/
 bundle/Omnisharp/server/OmniSharp.Tests/bin/
 bundle/Omnisharp/server/OmniSharp/bin/Debug/
@@ -8,3 +9,5 @@ bundle/Omnisharp/server/OmniSharp.Tests/obj
 bundle/Omnisharp/server/OmniSharp.Tests/obj
 bundle/Omnisharp/server/OmniSharp/obj
 .netrwhist
+cscope_databases/dtv_project_cscope
+cscope_databases/last_project_cscope
