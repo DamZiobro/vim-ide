@@ -47,6 +47,7 @@ if has("cscope")
 
     " show msg when any other cscope db added
     set cscopeverbose  
+    set cscopequickfix=s-,g-,c-,t-,e-,f-,i-,d-
 
 
     """"""""""""" My cscope/vim key mappings
@@ -88,14 +89,14 @@ if has("cscope")
     " go back to where you were before the search.  
     "
 
-    nmap <C-\>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
+    nmap <C-\>s :set splitbelow<cr>:scs find s <C-R>=expand("<cword>")<CR><CR><leader>co<cr>k:set nosplitbelow<cr>
+    nmap <C-\>g :scs find g <C-R>=expand("<cword>")<CR><CR><leader>co<cr>
+    nmap <C-\>c :scs find c <C-R>=expand("<cword>")<CR><CR><leader>co<cr>	
+    nmap <C-\>t :scs find t <C-R>=expand("<cword>")<CR><CR><leader>co<cr>	
+    nmap <C-\>e :scs find e <C-R>=expand("<cword>")<CR><CR><leader>co<cr>	
+    nmap <C-\>f :scs find f <C-R>=expand("<cfile>")<CR><CR><leader>co<cr>	
+    nmap <C-\>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR><leader>co<cr>
+    nmap <C-\>d :scs find d <C-R>=expand("<cword>")<CR><CR><leader>co<cr>
 
 
     " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type

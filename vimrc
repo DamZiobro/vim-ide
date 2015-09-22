@@ -225,7 +225,7 @@ silent !stty -ixon > /dev/null 2>/dev/null
 
 "==========================================================================="
 " Mapping to NERDTree
-noremap <leader>n :NERDTreeToggle<cr>
+noremap <leader>m :NERDTreeToggle<cr>
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$']
 
 " ================ ReplaceText function ============================
@@ -308,10 +308,21 @@ function! BuildAndInstallQtApp()
     execute "!make;"
 endfunction
 
+function! OpenQuickFixInRightLocation() 
+    execute ":TagbarClose"
+    execute ":copen"
+    execute ":TagbarOpen"
+    " TODO - improve me
+    " go to window one about the quickfix window
+    execute ":normal \<C-j>G\<C-l>\<C-k>"
+endfunction
 
 "==========================================================================="
-" Quickfix open
-" :copen 
+" Quickfix navigation 
+nmap <leader>co :call OpenQuickFixInRightLocation()<cr>
+nmap <leader>cx :cclose<cr>
+nmap <leader>n :cnext<cr>
+nmap <leader>p :cprevious<cr>
 
 "==========================================================================="
 " CMake 
@@ -414,7 +425,9 @@ function! LoadCScopeDatabases()
     if IsFileAlreadyExists ( databaseDir."/cpp_scope")
         execute ":silent cs add ".databaseDir."/cpp_scope"
     endif
-    if IsFileAlreadyExists ( databaseDir."/dtv_project_cscope")
+    "load dtv_project only when we are working on docker 
+    let userDef = substitute(system("echo $USER"), "\n", '', '')
+    if userDef == "docker" && IsFileAlreadyExists( databaseDir."/dtv_project_cscope")
         execute ":silent cs add ".databaseDir."/dtv_project_cscope"  
     endif
     echohl StatusLine | echo "CScope databases loaded successfully..." | echohl None 
