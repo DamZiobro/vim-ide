@@ -313,8 +313,8 @@ function! OpenQuickFixInRightLocation()
     execute ":copen"
     execute ":TagbarOpen"
     " TODO - improve me
-    " go to window one about the quickfix window
-    execute ":normal \<C-j>G\<C-l>\<C-k>"
+    " go to window one above the quickfix window
+    execute ":normal \<C-j>\<C-l>100\<C-j>\<C-k>"
 endfunction
 
 "==========================================================================="
