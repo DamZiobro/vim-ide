@@ -164,7 +164,6 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Resize Split When the window is resized"
 au VimResized * :wincmd =
 
-
 "==========================================================================="
 " Wildmenu completion "
 set wildmenu
@@ -881,3 +880,6 @@ let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 " contextcomplete trigger settings
 let g:contextcomplete_trigger = '\<F7>' 
 
+" =======================================================================================
+" showspaces settings"
+let b:showSpaces = 1
