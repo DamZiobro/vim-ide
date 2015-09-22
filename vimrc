@@ -321,6 +321,7 @@ endfunction
 " Quickfix navigation 
 nmap <leader>co :call OpenQuickFixInRightLocation()<cr>
 nmap <leader>cx :cclose<cr>
+nmap <leader>cw :q<cr>:cclose<cr>
 nmap <leader>n :cnext<cr>
 nmap <leader>p :cprevious<cr>
 
