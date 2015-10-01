@@ -139,7 +139,9 @@ vnoremap <F1> <ESC>
 "==========================================================================="
 " Set vim to save the file on focus out.
 au FocusLost * :wa
-
+"==========================================================================="
+" Redraw screen every time when focus gained
+au FocusGained * :redraw!
 "==========================================================================="
 " Adding More Shorcuts keys using leader kye.
 " Leader Kye provide separate namespace for specific commands.
