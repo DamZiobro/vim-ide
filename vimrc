@@ -64,7 +64,7 @@ let mapleader = ","
 " Map : to ; also in command mode.
 nnoremap ; :
 vmap ; :
-nmap <silent> ,/ :nohlsearch<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>
 " ========================================================================================
 
 " Set title to window
