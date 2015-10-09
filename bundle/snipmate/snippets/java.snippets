@@ -242,10 +242,13 @@ snippet unless
 #Java logging snippets
 snippet mlog
 	mLog.log(Log.LOG_CRITICAL,"DAMIAN_LOG - ${1} ");
-	Thread.currentThread().dumpStack()
+	Thread.currentThread().dumpStack();
 snippet plog
 	Print.out(Print.FATAL, "DAMIAN_LOG - ${1}");
-	Thread.currentThread().dumpStack()
+	Thread.currentThread().dumpStack();
 snippet plogv
 	Print.out(Print.FATAL, "DAMIAN_LOG - ${1:var}: " + $1);
-	Thread.currentThread().dumpStack()
+	Thread.currentThread().dumpStack();
+snippet log
+	System.out.println("DAMIAN_LOG - ${1:var}: " + $1);
+	Thread.currentThread().dumpStack();
