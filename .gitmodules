@@ -31,3 +31,6 @@
 [submodule "bundle/vim-showspaces"]
 	path = bundle/vim-showspaces
 	url = https://github.com/guiniol/vim-showspaces
+[submodule "bundle/patchreview-vim"]
+	path = bundle/patchreview-vim
+	url = https://github.com/junkblocker/patchreview-vim
