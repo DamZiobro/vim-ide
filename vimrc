@@ -772,6 +772,13 @@ let g:localvimrc_persistent=2
 " 
 nmap <leader>gt :GotoFileWithLineNumTag <cr>
 
+" ========================================================================================
+" shortcuts for switch plugin
+" ========================================================================================
+" 
+nmap <leader>- :Switch <cr>
+nmap <leader>= :call switch#Switch(g:variable_style_switch_definitions) <cr>
+
 
 " ========================================================================================
 " " Set up folding configuration 
