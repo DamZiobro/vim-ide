@@ -25,6 +25,3 @@
 [submodule "bundle/quick-scope"]
 	path = bundle/quick-scope
 	url = https://github.com/unblevable/quick-scope
-[submodule "bundle/vim-contextcomplete"]
-	path = bundle/vim-contextcomplete
-	url = https://github.com/4Evergreen4/vim-contextcomplete
