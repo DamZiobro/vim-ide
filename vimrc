@@ -95,6 +95,11 @@ nnoremap <leader><space> :noh<cr>
 "nnoremap <tab> %
 "vnoremap <tab> %
 
+" ========================================================================================
+" go to next/previous tag
+nnoremap <leader>f :tnext<cr>
+nnoremap <leader>d :tprev<cr>
+nnoremap <leader>tj :tjump<cr>
 
 " ========================================================================================
 " Make Vim to handle long lines nicely.
