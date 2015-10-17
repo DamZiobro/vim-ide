@@ -673,38 +673,6 @@ nmap <F5> :e<cr>
 imap <F5> <ESC>l:e<cr>i
 
 " ========================================================================================
-" MULTIPLE CLIPBOARD
-
-" In order to paste test from register use:
-" <Ctrl-R><registername>
-" ex. <Ctrl-R>1
-
-vmap gy1 "1yy<ESC>
-nmap gy1 "1yy
-nmap gp1 i<C-r><C-p>1<ESC>
-vmap gy2 "2yy<ESC>
-nmap gy2 "2yy
-nmap gp2 i<C-r><C-p>2<ESC>
-vmap gy3 "3yy<ESC>
-nmap gy3 "3yy
-nmap gp3 i<C-r><C-p>3<ESC>
-vmap gy4 "4yy<ESC>
-nmap gy4 "4yy
-nmap gp4 i<C-r><C-p>4<ESC>
-vmap gy5 "5yy<ESC>
-nmap gy5 "5yy
-nmap gp5 i<C-r><C-p>5<ESC>
-vmap gy6 "6yy<ESC>
-nmap gy6 "6yy
-nmap gp6 i<C-r><C-p>6<ESC>
-vmap gy7 "7yy<ESC>
-nmap gy7 "7yy
-nmap gp6 i<C-r><C-p>7<ESC>
-vmap gy8 "8yy<ESC>
-nmap gy8 "8yy
-nmap gp8 i<C-r><C-p>8<ESC>
-
-" ========================================================================================
 " " USING MARKERS
 " Create marker: m<markerSign> ex. ma 
 " Goto marker:   '<markerSign> ex. 'a 
@@ -887,9 +855,6 @@ let g:qs_first_occurrence_highlight_color = 155       " terminal vim
 let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 
 " =======================================================================================
-" contextcomplete trigger settings
-let g:contextcomplete_trigger = '\<F7>' 
-
-" =======================================================================================
-" showspaces settings"
-let b:showSpaces = 1
+" yankring
+" 2nd and 3rd <cr> is needed only if you use DidYouMean plugin ()
+noremap <leader>yr :YRShow <cr><cr><cr>
