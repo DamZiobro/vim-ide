@@ -25,3 +25,6 @@
 [submodule "bundle/quick-scope"]
 	path = bundle/quick-scope
 	url = https://github.com/unblevable/quick-scope
+[submodule "bundle/vim-puppet"]
+	path = bundle/vim-puppet
+	url = https://github.com/rodjek/vim-puppet
