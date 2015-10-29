@@ -55,6 +55,8 @@ set undodir=/tmp
 set shell=/bin/bash
 set lazyredraw
 set matchtime=3
+" Always use vertical diffs 
+set diffopt+=vertical
 
 " ========================================================================================
 "Changing Leader Key
@@ -105,6 +107,7 @@ nnoremap <leader>tj :tjump<cr>
 " Make Vim to handle long lines nicely.
 set wrap
 set textwidth=79
+set colorcolumn=+1
 set formatoptions=qrn1
 "set colorcolumn=79
 
