@@ -369,7 +369,7 @@ let g:miniBufExplModSelTarget = 1
 "==========================================================================="
 " Force Saving Files that Require Root Permission
 "
-cmap w!! %!sudo tee > /dev/null % 
+command! Sudowrite w !sudo tee % > /dev/null
 
 "==========================================================================="
 " TAB and Shift-TAB in normal mode cycle buffers
