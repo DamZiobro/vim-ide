@@ -882,6 +882,9 @@ endif
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+nmap  <leader>ag :exe "Ack " expand('<cword>') <CR>
+
 " ========================================================================================
 " CtrlSF shortcuts
 nmap     <C-F>f :exe "CtrlSF" expand('<cword>') <CR>
