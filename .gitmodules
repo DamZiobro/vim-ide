@@ -34,3 +34,6 @@
 [submodule "bundle/ack.vim"]
 	path = bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim
+[submodule "bundle/ctrlsf.vim"]
+	path = bundle/ctrlsf.vim
+	url = https://github.com/dyng/ctrlsf.vim
