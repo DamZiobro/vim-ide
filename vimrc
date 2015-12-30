@@ -595,12 +595,16 @@ map <leader>sd :SessionOpen vim_auto_saved_session<cr>:NERDTree .<cr>
 " =========== Startup commands =========="
 
 autocmd VimEnter * SignatureToggleSigns
-autocmd VimEnter * NERDTree .
-autocmd VimEnter * helptags ~/.vim/doc
-autocmd VimEnter * TagbarOpen
-autocmd VimEnter * exe 2 . "wincmd w"
-autocmd VimEnter * call CheckIfMain()
-autocmd VimEnter * call LoadCScopeDatabases()
+if &diff 
+    "autocmd VimEnter * NERDTree .
+else 
+    autocmd VimEnter * NERDTree .
+    autocmd VimEnter * TagbarOpen
+    autocmd VimEnter * call CheckIfMain()
+    autocmd VimEnter * call LoadCScopeDatabases()
+    autocmd VimEnter * helptags ~/.vim/doc
+    autocmd VimEnter * exe 2 . "wincmd w"
+endif
 
 " =========== Leaving commands =========="
 
@@ -871,8 +875,6 @@ noremap <leader>yr :YRShow <cr><cr><cr>
 set diffopt+=vertical
 if &diff 
     colorscheme badwolf_diff
-    "execute ":TagbarClose"
-    "execute ":NERDTreeToggle"
 endif
 " ========================================================================================
 
