@@ -55,8 +55,6 @@ set undodir=/tmp
 set shell=/bin/bash
 set lazyredraw
 set matchtime=3
-" Always use vertical diffs 
-set diffopt+=vertical
 
 " ========================================================================================
 "Changing Leader Key
@@ -866,3 +864,15 @@ let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 " yankring
 " 2nd and 3rd <cr> is needed only if you use DidYouMean plugin ()
 noremap <leader>yr :YRShow <cr><cr><cr>
+
+" ========================================================================================
+" vimdiff options
+" Always use vertical diffs 
+set diffopt+=vertical
+if &diff 
+    colorscheme badwolf_diff
+    "execute ":TagbarClose"
+    "execute ":NERDTreeToggle"
+endif
+" ========================================================================================
+
