@@ -880,7 +880,7 @@ endif
 " ========================================================================================
 " ack and silversearcher-ag 
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
 nmap  <leader>ag :exe "Ack " expand('<cword>') <CR>
