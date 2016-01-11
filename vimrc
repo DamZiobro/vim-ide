@@ -899,5 +899,5 @@ inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 " remap movement for wrapped lines being the same as for non-wrapped lines
 nnoremap k gk
 nnoremap gk k
-nnoremap k gj
+nnoremap j gj
 nnoremap gj j
