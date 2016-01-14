@@ -15,10 +15,12 @@ set modelines=0
 
 " ========================================================================================
 "TAB settings.
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
+set showtabline=2
+set ruler
 
 " ========================================================================================
 " More Common Settings.
@@ -42,7 +44,6 @@ set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
-set laststatus=2
 
 set pastetoggle=<F2>
 "set relativenumber
@@ -604,6 +605,9 @@ else
     autocmd VimEnter * exe 2 . "wincmd w"
     autocmd VimEnter * call CheckIfMain()
     autocmd VimEnter * call LoadCScopeDatabases()
+
+    autocmd BufWritePost ~/.vimrc source ~/.vimrc
+    au BufNewFile,BufRead * :set relativenumber " relative line numbers
 endif
 
 " =========== Leaving commands =========="
@@ -901,3 +905,23 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+
+" ========================================================================================
+" set middle of screen for new searches
+nnoremap <silent>n nzz
+nnoremap <silent>N Nzz
+nnoremap <silent>* *zz
+nnoremap <silent># #zz
+nnoremap <silent>g* g*zz
+
+" ========================================================================================
+" toggle normal line numbers and relative line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
+nnoremap <leader>tn :call NumberToggle()<cr>
+" ========================================================================================
