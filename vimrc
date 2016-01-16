@@ -53,7 +53,7 @@ set norelativenumber
 set undofile
 set undodir=/tmp
 
-set shell=/bin/bash
+set shell=/bin/zsh
 set lazyredraw
 set matchtime=3
 
@@ -323,6 +323,18 @@ function! OpenQuickFixInRightLocation()
     " TODO - improve me
     " go to window one above the quickfix window
     execute ":normal \<C-j>\<C-l>100\<C-j>\<C-k>"
+endfunction
+
+"==========================================================================="
+" Improve detecting filetype (ex. for files starting with /bin/echo syntax
+" should be as for sh files)
+function! DetectFileType() 
+    "if did_filetype() 
+      "finish
+    "endif 
+    if getline(1) =~ '^#!.*/bin/echo.*'
+      setfiletype sh
+    endif
 endfunction
 
 "==========================================================================="
@@ -605,9 +617,11 @@ else
     autocmd VimEnter * exe 2 . "wincmd w"
     autocmd VimEnter * call CheckIfMain()
     autocmd VimEnter * call LoadCScopeDatabases()
+    autocmd VimEnter * call DetectFileType()
 
     autocmd BufWritePost ~/.vimrc source ~/.vimrc
     au BufNewFile,BufRead * :set relativenumber " relative line numbers
+
 endif
 
 " =========== Leaving commands =========="
