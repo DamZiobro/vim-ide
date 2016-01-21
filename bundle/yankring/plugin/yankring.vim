@@ -31,7 +31,7 @@ if v:version > 701 || ( v:version == 701 && has("patch205") )
 endif
 
 if !exists('g:yankring_history_dir')
-    let g:yankring_history_dir = expand('$HOME')
+    let g:yankring_history_dir = expand('$HOME/.vim')
 else
     " let g:yankring_history_dir = expand(g:yankring_history_dir)
     for dir in split(g:yankring_history_dir, ",")
