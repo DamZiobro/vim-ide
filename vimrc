@@ -474,6 +474,9 @@ function! LoadCScopeDatabases()
     if IsFileAlreadyExists ( databaseDir."/gstreamer_cscope")
         execute ":silent cs add ".databaseDir."/gstreamer_cscope"  
     endif
+    if IsFileAlreadyExists ( databaseDir."/mythtv_cscope")
+        execute ":silent cs add ".databaseDir."/mythtv_cscope"  
+    endif
     if IsFileAlreadyExists ( databaseDir."/cpp_scope")
         execute ":silent cs add ".databaseDir."/cpp_scope"
     endif
@@ -505,6 +508,10 @@ function! UpdateAllCscopeDatabases()
     call UpdateCscopeDatabase("/usr/src/gstreamerInstall")
     execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/gstreamer_cscope"
     execute ":silent !cp ".tagsDir."/last_project_tags ".tagsDir."/gstreamer_tags"
+
+    call UpdateCscopeDatabase($HOME."/projects/xmementoit/digitalTVOpenSource/mythtv")
+    execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/mythtv_cscope"
+    execute ":silent !cp ".tagsDir."/last_project_tags ".tagsDir."/mythtv_tags"
 
     call UpdateCscopeDatabase($HOME."/.vim/tags/cpp_src")
     execute ":silent !cp ".databaseDir."/last_project_cscope ".databaseDir."/cpp_scope"
@@ -577,6 +584,7 @@ command! -nargs=1 NewCppClass call CreateCppClassFiles("<args>")
 set tags+=~/.vim/tags/last_project_tags
 set tags+=~/.vim/tags/dtv_project_tags
 set tags+=~/.vim/tags/gstreamer_tags
+set tags+=~/.vim/tags/mythtv_tags
 set tags+=~/.vim/tags/cpp_tags
 set tags+=~/.vim/tags/usr_local_include_tags
 
