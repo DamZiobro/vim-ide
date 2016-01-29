@@ -958,4 +958,20 @@ vnoremap p <Esc>:let current_reg = @"<CR>gvs<C-R>=current_reg<CR><Esc>
 " ========================================================================================
 " search but say in the current search occurance
 nmap * *N
-" ========================================================================================
+" " ========================================================================================
+" " Easy motion configuration 
+" "
+" " <Leader>f{char} to move to {char}
+" map  <Leader><Leader>f <Plug>(easymotion-bd-f)
+" nmap <Leader><Leader>f <Plug>(easymotion-overwin-f)
+" 
+" " s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+" 
+" " Move to line
+" map <Leader><Leader>l <Plug>(easymotion-bd-jk)
+" nmap <Leader><Leader>l <Plug>(easymotion-overwin-line)
+" 
+" " Move to word
+" " map  <Leader><Leader>w <Plug>(easymotion-bd-w)
+" " nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
