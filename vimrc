@@ -981,3 +981,12 @@ omap / <Plug>(easymotion-tn)
 " " ========================================================================================
 " vimwiki configuration
 let g:vimwiki_list = [{'path': '/var/www/html/vimsite', 'path_html': '/var/www/html/vimhtml'}]
+"<leader>ww - iopen wiki in current tab
+"<leader>wt - iopen wiki in new tab
+
+" " ========================================================================================
+" vimwiki configuration
+"<leader>rr - browse using ranger in current tab
+"<leader>rt - browser using ranger in new tab
+"<leader>rv - browser using ranger in tab splitted vertically
+"<leader>rs - browser using ranger in tab splitted horizontally

@@ -43,3 +43,6 @@
 [submodule "bundle/vimwiki"]
 	path = bundle/vimwiki
 	url = https://github.com/vimwiki/vimwiki
+[submodule "bundle/ranger.vim"]
+	path = bundle/ranger.vim
+	url = https://github.com/rafaqz/ranger.vim
