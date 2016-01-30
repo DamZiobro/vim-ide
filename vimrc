@@ -975,3 +975,6 @@ nmap s <Plug>(easymotion-overwin-f2)
 " " Move to word
 " " map  <Leader><Leader>w <Plug>(easymotion-bd-w)
 " " nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
+"
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
