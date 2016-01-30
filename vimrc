@@ -1000,4 +1000,5 @@ let g:vim_run_command_map = {
   \'bash': 'bash',
   \}
 ":Run yourcommand - runs selected command 
-" '<,'>RunVisual - run commands from selected lines
+" '<,'>RunVisual - run commands from selected lines 
+""AutoRun - autorun commands from file on each save
