@@ -46,3 +46,6 @@
 [submodule "bundle/ranger.vim"]
 	path = bundle/ranger.vim
 	url = https://github.com/rafaqz/ranger.vim
+[submodule "bundle/vim-run"]
+	path = bundle/vim-run
+	url = https://github.com/chemzqm/vim-run

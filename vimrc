@@ -990,3 +990,14 @@ let g:vimwiki_list = [{'path': '/var/www/html/vimsite', 'path_html': '/var/www/h
 "<leader>rt - browser using ranger in new tab
 "<leader>rv - browser using ranger in tab splitted vertically
 "<leader>rs - browser using ranger in tab splitted horizontally
+
+" " ========================================================================================
+" run command conriguration
+let g:vim_run_command_map = {
+  \'javascript': 'node',
+  \'php': 'php',
+  \'python': 'python',
+  \'bash': 'bash',
+  \}
+":Run yourcommand - runs selected command 
+" '<,'>RunVisual - run commands from selected lines
