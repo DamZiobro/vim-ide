@@ -49,3 +49,6 @@
 [submodule "bundle/vim-run"]
 	path = bundle/vim-run
 	url = https://github.com/chemzqm/vim-run
+[submodule "bundle/vim-visualMarks"]
+	path = bundle/vim-visualMarks
+	url = https://github.com/iago-lito/vim-visualMarks

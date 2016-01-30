@@ -1002,3 +1002,7 @@ let g:vim_run_command_map = {
 ":Run yourcommand - runs selected command 
 " '<,'>RunVisual - run commands from selected lines 
 ""AutoRun - autorun commands from file on each save
+" " ========================================================================================
+" visualmarks configuration
+vmap <unique> m <Plug>VisualMarksVisualMark
+nmap <leader>< <Plug>VisualMarksGetVisualMark
