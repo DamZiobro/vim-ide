@@ -1005,11 +1005,14 @@ let g:vim_run_command_map = {
 " '<,'>RunVisual - run commands from selected lines 
 ""AutoRun - autorun commands from file on each save
 " " ========================================================================================
-" visualmarks configuration
-vmap <unique> m <Plug>VisualMarksVisualMark
-nmap <leader>< <Plug>VisualMarksGetVisualMark
-" " ========================================================================================
 " ctrlp configuration
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+" " ========================================================================================
+" ctrlp configuration
+nmap <leader><leader>l :CtrlPLocate<cr>
+" " ========================================================================================
+" visualmarks configuration
+vmap <unique> m <Plug>VisualMarksVisualMark
+nmap <leader>< <Plug>VisualMarksGetVisualMark
