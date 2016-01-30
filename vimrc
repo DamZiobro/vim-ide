@@ -978,3 +978,6 @@ nmap s <Plug>(easymotion-overwin-f2)
 "
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
+" " ========================================================================================
+" vimwiki configuration
+let g:vimwiki_list = [{'path': '/var/www/html/vimsite', 'path_html': '/var/www/html/vimhtml'}]
