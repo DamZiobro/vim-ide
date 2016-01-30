@@ -1,5 +1,6 @@
 " ========== Vim Basic Settings ============="
 
+
 " Pathogen settings.
 filetype off
 call pathogen#runtime_append_all_bundles()
@@ -894,6 +895,7 @@ let g:qs_second_occurrence_highlight_color = 81         " terminal vim
 " yankring
 " 2nd and 3rd <cr> is needed only if you use DidYouMean plugin ()
 noremap <leader>yr :YRShow <cr><cr><cr>
+let g:yankring_replace_n_pkey = '<leader>yp'
 
 " ========================================================================================
 " vimdiff options
@@ -1006,3 +1008,7 @@ let g:vim_run_command_map = {
 " visualmarks configuration
 vmap <unique> m <Plug>VisualMarksVisualMark
 nmap <leader>< <Plug>VisualMarksGetVisualMark
+" " ========================================================================================
+" ctrlp configuration
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
