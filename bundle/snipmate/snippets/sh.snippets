@@ -255,3 +255,5 @@ snippet usage
 	fi
 snippet ev 
 	echo -e "\$${1:HOME} = $$1"
+snippet lt
+	| logger -t $(basename ${1:$0})

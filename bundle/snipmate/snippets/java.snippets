@@ -3,8 +3,6 @@ snippet po
 	protected
 snippet pu
 	public
-snippet pr
-	private
 ##
 ## Annotations
 snippet before
@@ -252,3 +250,15 @@ snippet plogv
 snippet log
 	System.out.println("DAMIAN_LOG - ${1:var}: " + $1);
 	Thread.currentThread().dumpStack();
+snippet pr
+	System.out.println("${1}");
+snippet fun 
+	/******** Function ************************************************//**
+	 *   @brief		${4:brief description of function $2}
+	 *
+	 *   @return	${5: 0 if result is positive; -1 if result is negative}
+	 *   
+	 *********************************************************************/
+	public static ${1:void} ${2:function_name}(${3}) { 
+		${6} 
+	}
