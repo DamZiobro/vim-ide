@@ -978,8 +978,8 @@ nmap s <Plug>(easymotion-overwin-f2)
 " " map  <Leader><Leader>w <Plug>(easymotion-bd-w)
 " " nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
 "
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+map  <leader>/ <Plug>(easymotion-sn)
+omap <leader>/ <Plug>(easymotion-tn)
 " " ========================================================================================
 " vimwiki configuration
 let g:vimwiki_list = [{'path': '/var/www/html/vimsite', 'path_html': '/var/www/html/vimhtml'}]
