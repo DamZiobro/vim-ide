@@ -201,6 +201,7 @@ augroup line_return
 augroup END
 
 "==========================================================================="
+" go to place of last change
 nnoremap g; g;zz
 
 " =========== END Basic Vim Settings ===========
@@ -276,6 +277,7 @@ nmap <leader>hp [{%v%<Home>
 "
 vmap <Leader>y "+y
 vmap <Leader>d "+d
+
 nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
@@ -283,7 +285,7 @@ vmap <Leader>P "+P
 
 "==========================================================================="
 " Double learder for selection whole line
-nmap <Leader><Leader> V
+nmap <Leader>v V
 
 "==========================================================================="
 function! FindProjectRoot(lookFor)
@@ -806,9 +808,6 @@ nnoremap <silent> p p`]
 noremap gV `[v`]
 
 " ========================================================================================
-nmap <Leader><Leader> V 
-
-" ========================================================================================
 " VIM-expand-region  plugin 
 " https://github.com/terryma/vim-expand-region   
 " 
@@ -853,6 +852,7 @@ nnoremap <leader>sm :SignatureToggleSigns<cr>
 " map ctrl+j to ctrl+m (for INSERT mode)in order to be more consistent with bash terminal 
 let g:BASH_Ctrl_j='off'
 inoremap <C-j> <C-m>
+noremap  <C-j> <C-m>
 
 " ========================================================================================
 " automatically detect messages.log files and highlight them
