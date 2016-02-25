@@ -212,3 +212,7 @@ snippet main
 snippet foreachfile
 	for filename in os.listdir("${1:dirname}"):
 		print filename
+snippet pr
+	print "${1}"
+snippet prv
+	print "${1:var} = " + str($1)
