@@ -1013,3 +1013,8 @@ nmap <leader><leader>l :CtrlPLocate<cr>
 " visualmarks configuration
 vmap <unique> m <Plug>VisualMarksVisualMark
 nmap <leader>< <Plug>VisualMarksGetVisualMark
+
+
+" " ========================================================================================
+" set mutt-based variables 
+setlocal fo+=aw
