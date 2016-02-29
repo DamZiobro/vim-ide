@@ -1017,4 +1017,4 @@ nmap <leader>< <Plug>VisualMarksGetVisualMark
 
 " " ========================================================================================
 " set mutt-based variables 
-setlocal fo+=aw
+"setlocal fo+=aw
