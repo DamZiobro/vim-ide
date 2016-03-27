@@ -1018,3 +1018,55 @@ nmap <leader>< <Plug>VisualMarksGetVisualMark
 " " ========================================================================================
 " set mutt-based variables 
 "setlocal fo+=aw
+
+" " ========================================================================================
+" Make 0 go to the first character rather than the beginning
+" of the line. When we're programming, we're almost always
+" interested in working with text rather than empty space. If
+" you want the traditional beginning of line, use ^
+nnoremap 0 ^
+nnoremap ^ 0
+
+" " ========================================================================================
+" ," Surround a word with "quotes"
+map <leader>" ysiw"
+vmap <leader>" c"<C-R>""<ESC>
+
+" <leader>' Surround a word with 'single quotes'
+map <leader>' ysiw'
+vmap <leader>' c'<C-R>"'<ESC>
+" <leader>) or ,( Surround a word with (parens)
+" The difference is in whether a space is put in
+map <leader>( ysiw(
+map <leader>) ysiw)
+vmap <leader>( c( <C-R>" )<ESC>
+vmap <leader>) c(<C-R>")<ESC>
+
+" <leader>[ Surround a word with [brackets]
+map <leader>] ysiw]
+map <leader>[ ysiw[
+vmap <leader>[ c[ <C-R>" ]<ESC>
+vmap <leader>] c[<C-R>"]<ESC>
+
+" <leader>{ Surround a word with {braces}
+map <leader>} ysiw}
+map <leader>{ ysiw{
+vmap <leader>} c{ <C-R>" }<ESC>
+vmap <leader>{ c{<C-R>"}<ESC>
+
+map <leader>` ysiw`
+
+" " ========================================================================================
+"Clear current search highlight by double tapping //
+nmap <silent> // :nohlsearch<CR>
+" " ========================================================================================
+" Change inside various enclosures with Alt-" and Alt-'
+" The f makes it find the enclosure so you don't have
+" to be standing inside it
+nnoremap <leader><leader>' f'ci'
+nnoremap <leader><leader>" f"ci"
+nnoremap <leader><leader>( f(ci(
+nnoremap <leader><leader>) f)ci)
+nnoremap <leader><leader>[ f[ci[
+nnoremap <leader><leader>] f]ci]
+" " ========================================================================================
