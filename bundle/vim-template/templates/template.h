@@ -4,7 +4,6 @@
  *  @brief      Brief description of %FFILE%
  *
  *  @date       %FDATE%
- *  @author     Damian Ziobro - XMementoIT Limited (damian@xmementoit.com)
  *         
  **************************************************************************************/
 
