@@ -628,7 +628,7 @@ else
     autocmd VimEnter * call DetectFileType()
 
     autocmd BufWritePost ~/.vimrc source ~/.vimrc
-    au BufNewFile,BufRead * :set relativenumber " relative line numbers
+    "au BufNewFile,BufRead * :set relativenumber " relative line numbers
 
 endif
 
