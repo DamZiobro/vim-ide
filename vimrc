@@ -1070,3 +1070,5 @@ nnoremap <leader><leader>) f)ci)
 nnoremap <leader><leader>[ f[ci[
 nnoremap <leader><leader>] f]ci]
 " " ========================================================================================
+" assign q; to avoid shift pressing when searching last ex commands
+nmap q; q:
