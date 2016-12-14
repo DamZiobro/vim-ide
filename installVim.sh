@@ -32,7 +32,7 @@ sudo apt-get --yes install vim vim-gnome
 echo -e "Installing ctags"
 sudo apt-get --yes install ctags
 
-echo -e "Installing ctags"
+echo -e "Installing cscope"
 sudo apt-get --yes install cscope
 
 echo -e "Initializing and checking out plugins submodules: "
