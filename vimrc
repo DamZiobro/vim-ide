@@ -1073,3 +1073,12 @@ nnoremap <leader><leader>] f]ci]
 " assign q; to avoid shift pressing when searching last ex commands
 nmap q; q:
 vmap q; q:
+" " ========================================================================================
+" use ag as default grep tool if it is installed on the machine
+if executable("ag")
+  set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+map <leader>gr :grep <C-R><C-w><CR><CR><CR>
+vmap <leader>gr :grep <C-R><C-w><CR><CR><CR>
