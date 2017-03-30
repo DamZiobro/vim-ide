@@ -1,7 +1,8 @@
 VIM as IDE by Damian Ziobro
 =======
 
-Configuration of VIM which we are using as IDE in our daily work 
+Configuration of VIM + plugins - it was as fully functional Integrated
+Development Environment (IDE)
 
 ![ScreenShot](https://raw.github.com/xmementoit/vim-ide/master/images/vim-ide.png)
 
