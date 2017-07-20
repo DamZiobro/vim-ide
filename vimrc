@@ -1082,3 +1082,14 @@ endif
 
 map <leader>gr :grep <C-R><C-w><CR><CR><CR>
 vmap <leader>gr :grep <C-R><C-w><CR><CR><CR>
+
+" " ========================================================================================
+" make vim working as tailf
+function! Tailf()
+    e
+    normal G
+    redraw
+
+    sleep 1
+    call Tailf()
+endfunction
