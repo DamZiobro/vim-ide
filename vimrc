@@ -1093,3 +1093,21 @@ function! Tailf()
     sleep 1
     call Tailf()
 endfunction
+
+" ======================================================================================== 
+" function allows going to selected jump from :jumps list
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+
+nmap <leader>j :call GotoJump()<cr>
