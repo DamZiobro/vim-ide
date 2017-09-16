@@ -35,6 +35,12 @@ sudo apt-get --yes install ctags
 echo -e "Installing cscope"
 sudo apt-get --yes install cscope
 
+echo -e "Installing pip for python-based dpeendencies"
+sudo apt-get --yes install pip
+
+echo -e "Installing python dependencies"
+sudo pip install pdb pylint
+
 echo -e "Initializing and checking out plugins submodules: "
 
 

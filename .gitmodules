@@ -58,3 +58,6 @@
 [submodule "bundle/ctrlp-locate"]
 	path = bundle/ctrlp-locate
 	url = https://github.com/ompugao/ctrlp-locate
+[submodule "bundle/pylint.vim"]
+	path = bundle/pylint.vim
+	url = https://github.com/vim-scripts/pylint.vim
