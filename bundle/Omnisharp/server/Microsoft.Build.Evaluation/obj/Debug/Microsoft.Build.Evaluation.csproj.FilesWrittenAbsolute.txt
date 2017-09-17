@@ -1,8 +1,0 @@
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/Microsoft.Build.Evaluation/bin/Debug/Microsoft.Build.Evaluation.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/Microsoft.Build.Evaluation/bin/Debug/Microsoft.Build.Evaluation.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/Microsoft.Build.Evaluation/obj/Debug/Microsoft.Build.Evaluation.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/Microsoft.Build.Evaluation/obj/Debug/Microsoft.Build.Evaluation.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/Microsoft.Build.Evaluation/bin/Debug/Microsoft.Build.Evaluation.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/Microsoft.Build.Evaluation/bin/Debug/Microsoft.Build.Evaluation.dll
-/home/damian/.vim/bundle/Omnisharp/server/Microsoft.Build.Evaluation/obj/Debug/Microsoft.Build.Evaluation.dll
-/home/damian/.vim/bundle/Omnisharp/server/Microsoft.Build.Evaluation/obj/Debug/Microsoft.Build.Evaluation.dll.mdb

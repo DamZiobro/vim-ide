@@ -1,8 +1,0 @@
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp.Tests/bin/Debug/OmniSharp.Tests.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp.Tests/bin/Debug/OmniSharp.Tests.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp.Tests/obj/Debug/OmniSharp.Tests.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharpServer/OmniSharp.Tests/obj/Debug/OmniSharp.Tests.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharp.Tests/bin/Debug/OmniSharp.Tests.dll.mdb
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharp.Tests/bin/Debug/OmniSharp.Tests.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharp.Tests/obj/Debug/OmniSharp.Tests.dll
-/home/damian/.vim/bundle/Omnisharp/server/OmniSharp.Tests/obj/Debug/OmniSharp.Tests.dll.mdb
