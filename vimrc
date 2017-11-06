@@ -54,7 +54,7 @@ set norelativenumber
 set undofile
 set undodir=/tmp
 
-set shell=/bin/zsh
+set shell=/bin/bash
 set lazyredraw
 set matchtime=3
 
