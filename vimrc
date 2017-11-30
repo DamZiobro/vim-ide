@@ -1111,3 +1111,8 @@ function! GotoJump()
 endfunction
 
 nmap <leader>j :call GotoJump()<cr>
+
+" ======================================================================================== 
+" add fzf plugin to runtimepath
+""
+set rtp+=~/.fzf
