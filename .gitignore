@@ -14,3 +14,4 @@ cscope_databases/last_project_cscope
 yankring_history_v2.txt
 syntax/dtv_logs_highlights.vim
 */*.pyc
+bundle/VimPdb/plugin/VimPdb.pyc
