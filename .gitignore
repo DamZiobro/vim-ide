@@ -15,3 +15,5 @@ yankring_history_v2.txt
 syntax/dtv_logs_highlights.vim
 */*.pyc
 bundle/VimPdb/plugin/VimPdb.pyc
+cscope_databases/gstreamer_cscope
+tags/gstreamer_tags
