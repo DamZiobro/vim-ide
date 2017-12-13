@@ -48,10 +48,10 @@ cd $VIM_ROOT
 
 git submodule init 
 git submodule update 
-git submodule foreach git checkout master
-git submodule foreach git pull origin master
+#git submodule foreach git checkout master
+#git submodule foreach git pull origin master
 #restore all submodules to the commit which is approved by last master commit
-git submodule update --recursive 
+#git submodule update --recursive 
 
 echo -e "Installing vi_overlay" 
 
