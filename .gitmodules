@@ -1,63 +1,84 @@
 [submodule "bundle/tasklist"]
 	path = bundle/tasklist
 	url = https://github.com/vim-scripts/TaskList.vim.git
+  ignore = all
 [submodule "bundle/gundo"]
 	path = bundle/gundo
 	url = https://github.com/sjl/gundo.vim.git
+  ignore = all
 [submodule "bundle/DidYouMean"]
 	path = bundle/DidYouMean
 	url = https://github.com/EinfachToll/DidYouMean
+  ignore = all
 [submodule "bundle/switch.vim"]
 	path = bundle/switch.vim
 	url = https://github.com/AndrewRadev/switch.vim
+  ignore = all
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree
+  ignore = all
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
+  ignore = all
 [submodule "bundle/vim-signature"]
 	path = bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature
+  ignore = all
 [submodule "bundle/vim-randomtag"]
 	path = bundle/vim-randomtag
 	url = https://github.com/mhinz/vim-randomtag
+  ignore = all
 [submodule "bundle/quick-scope"]
 	path = bundle/quick-scope
 	url = https://github.com/unblevable/quick-scope
+  ignore = all
 [submodule "bundle/vim-puppet"]
 	path = bundle/vim-puppet
 	url = https://github.com/rodjek/vim-puppet
+  ignore = all
 [submodule "bundle/vim-fugitive"]
 	path = bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
+  ignore = all
 [submodule "bundle/ack.vim"]
 	path = bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim
+  ignore = all
 [submodule "bundle/ctrlsf.vim"]
 	path = bundle/ctrlsf.vim
 	url = https://github.com/dyng/ctrlsf.vim
+  ignore = all
 [submodule "bundle/vim-easymotion"]
 	path = bundle/vim-easymotion
 	url = https://github.com/easymotion/vim-easymotion
+  ignore = all
 [submodule "bundle/vimwiki"]
 	path = bundle/vimwiki
 	url = https://github.com/vimwiki/vimwiki
+  ignore = all
 [submodule "bundle/ranger.vim"]
 	path = bundle/ranger.vim
 	url = https://github.com/rafaqz/ranger.vim
+  ignore = all
 [submodule "bundle/vim-run"]
 	path = bundle/vim-run
 	url = https://github.com/chemzqm/vim-run
+  ignore = all
 [submodule "bundle/vim-visualMarks"]
 	path = bundle/vim-visualMarks
 	url = https://github.com/iago-lito/vim-visualMarks
+  ignore = all
 [submodule "bundle/ctrlp.vim"]
 	path = bundle/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim
+  ignore = all
 [submodule "bundle/ctrlp-locate"]
 	path = bundle/ctrlp-locate
 	url = https://github.com/ompugao/ctrlp-locate
+  ignore = all
 [submodule "bundle/pylint.vim"]
 	path = bundle/pylint.vim
 	url = https://github.com/vim-scripts/pylint.vim
+  ignore = all
