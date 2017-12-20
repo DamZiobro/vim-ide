@@ -82,3 +82,6 @@
 	path = bundle/pylint.vim
 	url = https://github.com/vim-scripts/pylint.vim
   ignore = all
+[submodule "bundle/rainbow_levels.vim"]
+	path = bundle/rainbow_levels.vim
+	url = https://github.com/thiagoalessio/rainbow_levels.vim

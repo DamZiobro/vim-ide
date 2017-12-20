@@ -1118,3 +1118,7 @@ nmap <leader>j :call GotoJump()<cr>
 set rtp+=~/.fzf
 
 nmap <C-]> g<C-]>
+
+" ======================================================================================== 
+" rainbow levels toggle
+nmap <leader>rlt :RainbowLevelsToggle<cr>
