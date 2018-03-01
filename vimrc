@@ -855,7 +855,7 @@ noremap  <C-j> <C-m>
 " automatically detect messages.log files and highlight them
 au BufNewfile,BufRead messages* set filetype=dtv_logs_highlights
 au BufNewfile,BufRead logsense*[^py] set filetype=dtv_logs_highlights
-au BufNewfile,BufRead syslog* set filetype=messages
+au BufNewfile,BufRead syslog* set filetype=gstreamer_highlight_syntax
 
 " ========================================================================================
 " remap f{char} repetition keys shortcuts
