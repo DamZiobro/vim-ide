@@ -94,7 +94,7 @@ syn match   messagesText        contained display '.*'
 
 syn match   messagesNumber      contained '0x[0-9a-fA-F]*\|\[<[0-9a-f]\+>\]\|\<\d[0-9a-fA-F]*'
 
-syn match   messagesError       contained '\c.*\<\(SERIOUS\|LOG_ERR\|ERROR\|ERRORS\|FAILED\|FAILURE\|01mERROR\).*'
+syn match   messagesError       contained '\c.*\<\(SERIOUS\|LOG_ERR\|ERROR\|ERRORS\|FAILED\|FAILURE\|01mERROR\|last_timestamp_diff\:\ \d\{1,2\}$\).*'
 
 hi def link messagesDate        Constant
 hi def link messagesHour        Type
@@ -119,7 +119,7 @@ unlet s:cpo_save
 
 syn match   srcmatch       contained '[a-z0-9]\+src[0-9]*'
 syn match   sinkmatch       contained '[a-z0-9]\+sink[0-9]*'
-syn match   splitmuxsinkmatch       contained 'splitmuxsink'
+syn match   splitmuxsinkmatch       contained '\(splitmuxsink\|gstsplitmuxsink\)'
 syn match parseMatch        contained '[a-z0-9]\+parse[0-9]*'
 syn match demuxMatch       contained '[a-z0-9]\+demux[0-8]*'
 syn match decMatch       contained '\(avdec_[a-z0-9]\+\|[a-z0-9]\+dec[0-9]*\)'
